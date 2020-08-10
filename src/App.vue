@@ -6,22 +6,17 @@
         clipped
         stateless
         width = "65%"
+        :style="{backgroundImage:`url('${bgImg}')`}" class="bg-img"
     >
-    
-      <v-container class="fill-height">
-      <v-row
-      justify="center"
-      >
-      <v-col class="shrink">
-      <div style="width:1px; height: 170px"></div>
-      <router-view></router-view>
-      </v-col>
-      </v-row>
+      <v-container class="mt-12" >
+        <v-row justify="center" align-content="center">
+        <v-col >
+          <router-view></router-view>
+        </v-col>
+        </v-row>
       </v-container>
-
-      </v-navigation-drawer>
-
-      <div class="app-bar">
+    </v-navigation-drawer>
+    <div class="app-bar">
       <v-app-bar
         app
         clipped-left
@@ -30,18 +25,16 @@
       >
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <v-icon
-          class="mx-4"
-          large
+            class="mx-4"
+            large
         >
           mdi-biohazard
         </v-icon>
         <v-toolbar-title class="mr-12 align-center">
-          <span class="title">Donante</span>
+          <span class="title">Xamaru</span>
         </v-toolbar-title>
-        <v-container>
-        </v-container>
-    </v-app-bar>
-</div>
+      </v-app-bar>
+    </div>
     <v-main>
       <div class="side-bar">
         <v-container>
@@ -54,13 +47,16 @@
               <v-col>
                 <v-btn text to="/my_profile" @click="drawer = true">MyProfile</v-btn>
               </v-col>
-            </v-row>
-            <v-row>
               <v-col>
               <v-btn text to="/items" @click="drawer = true">items</v-btn>
               </v-col>
               <v-col>
               <v-btn text to="/story" @click="drawer = true">story</v-btn>
+              </v-col>
+              <v-col>
+                <v-btn  @click="switchMusic"  v-if="isPlay == true" >BGM停止</v-btn>
+                <v-btn  @click="switchMusic"  v-else >BGM再生</v-btn>
+                <!--div >{{currentTime}}/{{duration}}</div-->
               </v-col>
             </v-row>
             <v-row>
@@ -74,18 +70,25 @@
               <v-col >
                 <v-select
                   :items="dice_face_option"
-                  value="6"
+                  v-model="dice_face"
                   outlined
+                  return-object
                 ></v-select>
               </v-col>
               <v-col >
-                面ダイスを
+                面ダイス
               </v-col>
               <v-col >
-                <el-input-number v-model="dice_num"  :min="1" :max="100"></el-input-number>
+                <el-input-number size="small" v-model="dice_num"  :min="1" :max="100"></el-input-number>
               </v-col>
               <v-col >
                 個
+              </v-col>
+              <v-col >
+              </v-col>
+              <v-col >
+                <v-switch v-model="use_dice_target"  label="目標値"></v-switch>
+                <el-input-number :disabled="!use_dice_target" size="small" v-model="dice_target"  :min="1" :max="100"></el-input-number>
               </v-col>
               <v-col >
                  <v-btn  @click="onSelectRollDice">振る</v-btn>
@@ -101,10 +104,9 @@
                 hide-details
                 @keydown.enter="onRoll"
               ></v-text-field>
-            </v-row>    
-
+            </v-row>
           </div>
-          <div class="side-bar-main">
+          <div class="chat-window">
             <v-row >
               <v-list three-line
                 min-width="500px">
@@ -114,26 +116,23 @@
                   link
                 >
                   <!--v-list-item-avatar>
-                    <v-img :src="item.twitter_users_photo" />
+                  <v-img :src="item.twitter_users_photo" />
                   </v-list-item-avatar>
                   <v-list-item-title v-text="item.twitter_users_name"></v-list-item-title-->
 
-                  <v-list-item-avatar>
-                    <v-img :src="item.character_image"></v-img>
-                  </v-list-item-avatar>
+                  <img class="character_image_s" :src="item.character_image"/>
 
                   <v-list-item-content>
                     <!--v-list-item-title v-html="item.character_name"></v-list-item-title-->
                     <!--v-list-item-subtitle v-html="item.roll_dice_command"></v-list-item-subtitle-->
                     <v-textarea
                         outlined
-                        :value="sideBarMesage(item.roll_dice_command,item.roll_dice_result_sum)"
+                        :value="chatMessage(item.roll_dice_command,item.roll_dice_result_sum,item.roll_dice_result_split,item.is_roll_daice_suees)"
                         :label="item.character_name"
                         style="white-space:pre"
                         height="70px"
                     ></v-textarea>
                   </v-list-item-content>
-
 <!--
                   <v-list-item-avatar>
                     <v-img :src="item.character_image" class="character_image_s" />
@@ -158,9 +157,7 @@
           v-model="textarea_ticekt_no"
           label="チケットNO"
        ></v-text-field>
-
       <v-btn  v-on:click="onEntry" text to="/items">Entry</v-btn>
-
     </v-container>
   </v-app>
 </template>
@@ -174,19 +171,49 @@
   export default {
     data() {
       return {
-        drawer: false,
+        drawer: true,
         messages:[],
+        sessionData:[],
         entry:false,
         twitter_user: {},  
         textarea_ticekt_no:'',
         textarea_dice_command:'',
         dice_num:1,
-        dice_face: 6,
-        dice_face_option: ['4','6','8','10','12','20','100']
+        dice_face:'6',
+        dice_face_option: ['4','6','8','10','12','20','100'],
+        dice_target:'',
+        bgImg:'',
+        audio: new Audio(),
+        isPlay: false,
+        duration: 0,
+        currentTime: 0,
+        use_dice_target:false
       };
     },
     created () {
       this.$vuetify.theme.dark = true
+    },
+    mounted() {
+      this.$store.watch(
+        (state, getters) => getters.trpgSessionImg,
+        (newValue, oldValue) => {
+          this.bgImg = this.$store.getters.trpgSessionImg
+        }
+      ),
+      this.$store.watch(
+        (state, getters) => getters.trpgSessionBgm,
+        (newValue, oldValue) => {
+          if(this.$store.getters.trpgSessionBgm == null){
+            this.audio.pause();
+            return
+          }
+
+          this.audio.src = this.$store.getters.trpgSessionBgm
+          this.audio.load();
+          this.audio.play();
+          this.isPlay = true;
+        }
+      )
     },
     methods: {
       onEntry: function(evnet){
@@ -197,11 +224,40 @@
           this.chekTicekt()
         }
       },
+      loadMusic: function(){
+        this.audio.src =this.$store.getters.trpgSessionBgm;
+        this.audio.load();
+        this.audio.play();
+        this.isPlay = true;
+        this.audio.addEventListener('canplay', () => {
+          this.duration = this.audio.duration;
+        });
+        this.audio.addEventListener('timeupdate', () => {
+          this.currentTime = this.audio.currentTime;
+        });
+        this.audio.addEventListener('ended', ()=> {
+          this.audio.currentTime = 0;
+          this.audio.play();
+        });
+      },
+      switchMusic: function () {
+         this.isPlay = !this.isPlay;
+         if(this.isPlay==true){
+           this.audio.play();
+         }else{
+           this.audio.pause();
+         }
+      },
       async chekTicekt(){
         await axios.get('/uEntry/?format=json&ticket_no='+this.textarea_ticekt_no,
         ).then(response => {
             this.entyrInfo = response.data
         })
+        await axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId
+        ).then(response => {
+          this.sessionData = response.data
+        })
+
         if(typeof this.entyrInfo[0] === 'undefined'){
             alert('存在しないチケットです')
             return
@@ -209,13 +265,17 @@
         this.$store.commit('notifyTickesNo',this.entyrInfo[0]['ticket_no'])
         this.$store.commit('notifyTrpgSessionId',this.entyrInfo[0]['trpg_session'])
         this.$store.commit('notifyTrpgSessionName',this.entyrInfo[0]['trpg_session_name'])
+        //this.$store.commit('notifyTrpgSessionImg',this.sessionData[0]['trpg_session_image'])
+        //this.$store.commit('notifyTrpgSessionBgm',this.sessionData[0]['trpg_session_bgm'])
         this.$store.commit('notifyUserName',this.entyrInfo[0]['name'])
         this.$store.commit('notifySessionUserId',this.entyrInfo[0]['session_user_id'])
         this.$store.commit('notifyTwUID',this.twitter_user.uid)
         this.$store.commit('notifyTwName',this.twitter_user.displayName)
         this.$store.commit('notifyTwPhoto',this.twitter_user.photoURL)
         this.entry = true
-        this.loadPage();
+
+        this.$router.push("/story")
+        this.loadChatlog();
 
       },
       async rollDice(){
@@ -235,24 +295,33 @@
           }
         ).then(response => {
           this.postResuolt = response.data
-          this.loadPage()  
+          this.loadChatlog()  
         })
 //      this.doFireBaseUpdate()
+        this.textarea_dice_command =""
       },
-      async loadPage(){
+      async loadChatlog(){
           await axios.get('/uDiceLog/?format=json&session_users__trpg_session='+this.$store.getters.trpgSessionId).then(response => {
             this.messages = response.data
           })
           await this.scrollToLastItem()
       },
+      loadSession:function(){
+          axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
+              this.sessionData = response.data
+          })
+      },  
       scrollToLastItem() {
           this.$vuetify.goTo(99999)
       },
-      sideBarMesage(str1,str2) {
-        if(str2 == "") 
-          return str1
+      chatMessage(msg,rollSum,rollResult,SuccessOrFailure) {
+        if(rollSum == "") 
+          return msg
 
-        return str1 +"\n"+ ">>>>>>>"+str2
+        if(SuccessOrFailure == null)
+          return msg +"\n"+ rollResult+">>"+rollSum
+          
+        return msg +"\n"+ rollResult+">>"+rollSum+">>"+ (SuccessOrFailure?"成功":"失敗")
       },
       async setTwuserInfo(){
         var csrftoken = Cookies.get('csrftoken')
@@ -280,12 +349,17 @@
           this.rollDice() 
         },
         onSelectRollDice:function(event){
-          this.textarea_dice_command = this.dice_face+"d"+this.dice_num
+          
+          if(this.dice_target==null || this.use_dice_target==false){
+            this.textarea_dice_command = this.dice_num+"d"+this.dice_face
+          }else{
+            this.textarea_dice_command = this.dice_num+"d"+this.dice_face+">="+this.dice_target
+          }
           this.rollDice() 
         },
        childAdded(snap) {
           //const message = snap.val()
-          this.loadPage()
+          this.loadChatlog()
         },
         doFireBaseUpdate() {
           if (this.tw_user.uid) {

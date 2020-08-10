@@ -1,26 +1,38 @@
 <template>
-    <div class="main-contens">
     <v-container>
-      <v-img :src="character_image" ></v-img>
-      <v-file-input
-        v-model="img_file"
-        @change="getFileName"
-        accept="image/*"
-        label="File input"
-      ></v-file-input>
-      <v-text-field
-          v-model="character_name"
-          label="キャラクター名"
-       ></v-text-field>
-       <v-textarea
-          outlined
-          v-model="character_profile"
-          label="プロフィール"
-       ></v-textarea>
-      <v-btn  v-on:click="doRegistory">Entry</v-btn>
+      <v-card color="#385F73" width="100%" height="300px">
+        <div class="d-flex flex-no-wrap justify-space-between">
+          <v-row>
+            <v-col>
+              <v-text-field
+                  class="headline"
+                  v-model="character_name"
+                  label="キャラクター名"
+              ></v-text-field>
+            </v-col>
+            <v-col>
+              <img :src="character_image"/>
+              <v-file-input
+                v-model="img_file"
+                @change="getFileName"
+                accept="image/*"
+                label="File input"
+              ></v-file-input>
+            </v-col>
+            <v-col>
+              <v-textarea
+                  outlined
+                  v-model="character_profile"
+                  label="プロフィール"
+              ></v-textarea>
+            </v-col>
+            <v-col>
+              <v-btn  v-on:click="doRegistory">登録</v-btn>
+            </v-col>
+            </v-row>
+        </div>
+      </v-card>
     </v-container>
-    </div>
-    
 </template>
 
 <script>

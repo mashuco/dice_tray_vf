@@ -8,6 +8,8 @@ export default new Vuex.Store({
     ticketNo:'',
     trpgSessionId:'',
     trpgSessionName:'',
+    trpgSessionImg:'',
+    trpgSessionBgm:'',
     userName:'',
     sessionUserId:'',
     twUID :'',
@@ -23,6 +25,12 @@ export default new Vuex.Store({
     },
     trpgSessionName(state){
       return state.trpgSessionName
+    },
+    trpgSessionImg(state){
+      return state.trpgSessionImg
+    },
+    trpgSessionBgm(state){
+      return state.trpgSessionBgm
     },
     userName(state){
       return state.userName
@@ -51,6 +59,12 @@ export default new Vuex.Store({
     notifyTrpgSessionName(state,str){
       state.trpgSessionName = str
     },
+    notifyTrpgSessionImg(state,str){
+      state.trpgSessionImg =str
+    },
+    notifyTrpgSessionBgm(state,str){
+      state.trpgSessionBgm =str
+    },
     notifyUserName(state,str){
       state.userName = str
     },
@@ -65,7 +79,7 @@ export default new Vuex.Store({
     },
     notifyTwPhoto(state,str){
       state.twPhoto =str
-    },
+    }
     
   },
   actions: {

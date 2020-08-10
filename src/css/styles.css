@@ -19,7 +19,7 @@
   margin:0;
 
 }
-.side-bar-main
+.chat-window
 {
   z-index:1700;
   background-color: rgb(0, 0, 0);
@@ -48,5 +48,13 @@
 .character_image_l{
   width: auto;
   max-height: 320px;
+}
+.item_image_s{
+  width: auto;
+  max-height: 100px;
+}
+
+.bg-img{
+  background-size: cover;
 }
 
