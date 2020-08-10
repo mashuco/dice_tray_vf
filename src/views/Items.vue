@@ -24,6 +24,7 @@
                 <v-card-title class="headline" v-text="item.item_name"/>
                 <v-card-subtitle v-text="item.item_explanation"/>
                 <v-card-subtitle v-text="item.item_count"/>
+
               </v-col>
               </v-row>
             </div>
