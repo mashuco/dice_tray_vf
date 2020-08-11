@@ -4,7 +4,6 @@ package.json
 package-lock.json
 packa
 vue.config.js
-main.js
 /dist
 
 # local env files
