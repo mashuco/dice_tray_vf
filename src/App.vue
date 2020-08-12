@@ -35,6 +35,7 @@
         </v-toolbar-title>
       </v-app-bar>
     </div>
+
     <v-main>
       <div class="side-bar">
         <v-container>
@@ -42,6 +43,8 @@
             <div style="width:1px; height: 50px"></div>
             <v-row >
               <v-col>
+                <v-btn  @click="doLogout">Logout</v-btn>
+              </v-col><v-col>
                 <v-btn txet to="/member_profile" @click="drawer = true">member_profile</v-btn>
               </v-col><v-col>
                 <v-btn text to="/my_profile" @click="drawer = true">MyProfile</v-btn>
