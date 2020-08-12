@@ -1,5 +1,5 @@
 <template>
-  <v-app  v-if="entry">
+  <v-app v-if="entry">
     <v-navigation-drawer
         v-model="drawer"
         app
@@ -43,17 +43,13 @@
             <v-row >
               <v-col>
                 <v-btn txet to="/member_profile" @click="drawer = true">member_profile</v-btn>
-              </v-col>
-              <v-col>
+              </v-col><v-col>
                 <v-btn text to="/my_profile" @click="drawer = true">MyProfile</v-btn>
-              </v-col>
-              <v-col>
-              <v-btn text to="/items" @click="drawer = true">items</v-btn>
-              </v-col>
-              <v-col>
-              <v-btn text to="/story" @click="drawer = true">story</v-btn>
-              </v-col>
-              <v-col>
+              </v-col><v-col>
+                <v-btn text to="/items" @click="drawer = true">items</v-btn>
+              </v-col><v-col>
+                <v-btn text to="/story" @click="drawer = true">story</v-btn>
+              </v-col><v-col>
                 <v-btn  @click="switchMusic"  v-if="isPlay == true" >BGM停止</v-btn>
                 <v-btn  @click="switchMusic"  v-else >BGM再生</v-btn>
                 <!--div >{{currentTime}}/{{duration}}</div-->
@@ -68,29 +64,23 @@
             </v-row>
             <v-row >
               <v-col >
-                <v-select
-                  :items="dice_face_option"
-                  v-model="dice_face"
-                  outlined
-                  return-object
-                ></v-select>
-              </v-col>
-              <v-col >
-                面ダイス
-              </v-col>
-              <v-col >
-                <el-input-number size="small" v-model="dice_num"  :min="1" :max="100"></el-input-number>
-              </v-col>
-              <v-col >
-                個
-              </v-col>
-              <v-col >
-              </v-col>
-              <v-col >
+                  <v-select
+                    :items="dice_face_option"
+                    v-model="dice_face"
+                    outlined
+                    return-object
+                  ></v-select>
+                </v-col><v-col >
+                  面ダイス
+                </v-col><v-col >
+                  <el-input-number size="small" v-model="dice_num"  :min="1" :max="100"></el-input-number>
+                </v-col><v-col >
+                  個
+                </v-col><v-col >
+              </v-col><v-col >
                 <v-switch v-model="use_dice_target"  label="目標値"></v-switch>
                 <el-input-number :disabled="!use_dice_target" size="small" v-model="dice_target"  :min="1" :max="100"></el-input-number>
-              </v-col>
-              <v-col >
+              </v-col><v-col >
                  <v-btn  @click="onSelectRollDice">振る</v-btn>
               </v-col>
             </v-row>
@@ -110,11 +100,7 @@
             <v-row >
               <v-list three-line
                 min-width="500px">
-                <v-list-item
-                  v-for="item in messages"
-                  :key="item.text"
-                  link
-                >
+                <v-list-item v-for="item in messages" :key="item.text" link >
                   <!--v-list-item-avatar>
                   <v-img :src="item.twitter_users_photo" />
                   </v-list-item-avatar>
@@ -133,14 +119,6 @@
                         height="70px"
                     ></v-textarea>
                   </v-list-item-content>
-<!--
-                  <v-list-item-avatar>
-                    <v-img :src="item.character_image" class="character_image_s" />
-                  </v-list-item-avatar>
-                  <v-list-item-title v-text="item.character_name"></v-list-item-title>
-                  <v-list-item-title v-text="item.roll_dice_command"></v-list-item-title>
-                  <v-list-item-title v-text=">>>>>item.roll_dice_result_sum"></v-list-item-title>
--->
                 </v-list-item>
               </v-list> 
             </v-row>
@@ -149,16 +127,21 @@
       </div>
     </v-main>
   </v-app>
+  <v-app v-else-if="login">
+      <v-container>
+        <h2 class = "input_title">チケット番号を入力</h2>
+        <div>(テストユーザー⇒123)</div>      
+        <v-text-field
+            v-model="textarea_ticekt_no"
+            label="チケットNO"
+        ></v-text-field>
+        <v-btn  v-on:click="onEntry" text to="/items">Entry</v-btn>
+      </v-container>
+    </v-app>
   <v-app v-else>
-    <v-container>
-      <h2 class = "input_title">チケット番号を入力</h2>
-      <div>(テストユーザー⇒123)</div>      
-       <v-text-field
-          v-model="textarea_ticekt_no"
-          label="チケットNO"
-       ></v-text-field>
-      <v-btn  v-on:click="onEntry" text to="/items">Entry</v-btn>
-    </v-container>
+        <el-button type="primary" @click="doLogin" icon="el-icon-user">
+          <div>Twitterでログイン</div>
+        </el-button>
   </v-app>
 </template>
 
@@ -166,14 +149,16 @@
   import Vue from "vue"
   import axios from 'axios'
   import firebase from 'firebase'
-  import Cookies from 'js-cookie';
-  
+  import Cookies from 'js-cookie'
+
   export default {
     data() {
       return {
+        twitter_user: {},  
         drawer: true,
         messages:[],
         sessionData:[],
+        login:true,
         entry:false,
         twitter_user: {},  
         textarea_ticekt_no:'',
@@ -190,8 +175,9 @@
         use_dice_target:false
       };
     },
-    created () {
+    created() {
       this.$vuetify.theme.dark = true
+      this.fireBaseAuth()
     },
     mounted() {
       this.$store.watch(
@@ -207,7 +193,6 @@
             this.audio.pause();
             return
           }
-
           this.audio.src = this.$store.getters.trpgSessionBgm
           this.audio.load();
           this.audio.play();
@@ -216,6 +201,27 @@
       )
     },
     methods: {
+      fireBaseAuth(){
+        if(Vue.config.debug =! true){
+          firebase.auth().onAuthStateChanged(twitter_user => {
+           this.twitter_user = twitter_user ?twitter_user : {}
+          })
+        }else{
+          this.login = true
+          this.twitter_user = {
+            uid        :'test',
+            displayName:'test',
+            photoURL   : ''
+          }
+        }
+      },
+      doLogin() {
+        const provider = new firebase.auth.TwitterAuthProvider()
+        firebase.auth().signInWithPopup(provider)
+      },
+      doLogout() {
+        firebase.auth().signOut()
+      },
       onEntry: function(evnet){
         if(this.textarea_ticekt_no===""){
           alert('チケット番号を入力してください')
@@ -273,10 +279,8 @@
         this.$store.commit('notifyTwName',this.twitter_user.displayName)
         this.$store.commit('notifyTwPhoto',this.twitter_user.photoURL)
         this.entry = true
-
         this.$router.push("/story")
         this.loadChatlog();
-
       },
       async rollDice(){
         var csrftoken = Cookies.get('csrftoken')
