@@ -206,6 +206,7 @@
     methods: {
       fireBaseAuth(){
         if(Vue.config.debug =! true){
+          console.log("FB Auth")
           firebase.auth().onAuthStateChanged(twitter_user => {
            this.twitter_user = twitter_user ?twitter_user : {}
           })
@@ -223,6 +224,7 @@
         firebase.auth().signInWithPopup(provider)
       },
       doLogout() {
+      
         firebase.auth().signOut()
       },
       onEntry: function(evnet){
@@ -281,6 +283,9 @@
         this.$store.commit('notifyTwUID',this.twitter_user.uid)
         this.$store.commit('notifyTwName',this.twitter_user.displayName)
         this.$store.commit('notifyTwPhoto',this.twitter_user.photoURL)
+        console.log("this.twitter_user.displayName")
+        console.log(this.twitter_user.displayName)
+
         this.entry = true
         this.$router.push("/story")
         this.loadChatlog();
