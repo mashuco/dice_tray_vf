@@ -207,8 +207,19 @@
     },
     methods: {
       fireBaseAuth(){
-        if(!Vue.config.debug){
+          if(!Vue.config.debug){
           console.log("FB Auth")
+          firebaseConfig = {
+            apiKey: "AIzaSyBCtkiqT0oEBhTUf0myLAda9TFnAInET1o",
+            authDomain: "dice-adab6.firebaseapp.com",
+            databaseURL: "https://dice-adab6.firebaseio.com",
+            projectId: "dice-adab6",
+            storageBucket: "dice-adab6.appspot.com",
+            messagingSenderId: "178770782401",
+            appId: "1:178770782401:web:f760e833ea5e0343f20c40"
+          };
+          firebase.initializeApp(firebaseConfig)
+  
           firebase.auth().onAuthStateChanged(twitter_user => {
            this.twitter_user = twitter_user ?twitter_user : {}
           })
@@ -230,8 +241,6 @@
         firebase.auth().signInWithPopup(provider)
         if(this.twitter_user.uid)
           this.login = true,alert('TW LOGIN')
-
-          
       },
       doLogout() {
         this.login = false,this.entry= false
