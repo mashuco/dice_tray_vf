@@ -137,11 +137,6 @@ export default {
         session_scene_id: this.sceneAllData[0]['session_scene_id']
       }
 
-      console.log("this.sceneAllData[0]['scene_name']")
-      console.log(this.sceneAllData[0]['scene_name'])
-      console.log("this.sceneAllData[0]['session_scene_id']")
-      console.log( this.sceneAllData[0]['session_scene_id'])
-
   },  
   async loadScene(){
       await axios.get('/scene/?format=json&session_scene_id='+this.sceneSelect.session_scene_id).then(response => {

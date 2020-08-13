@@ -142,9 +142,13 @@
       </v-container>
     </v-app>
   <v-app v-else>
-        <el-button type="primary" @click="doLogin" icon="el-icon-user">
-          <div>Twitterでログイン</div>
-        </el-button>
+    <v-container fluid class="pa-0">
+      <v-row align="center">
+        <v-col cols="12" >
+          <v-btn block x-large color="#009688"  @click="doLogin" >Twitterでログイン</v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
   </v-app>
 </template>
 
@@ -161,7 +165,7 @@
         drawer: true,
         messages:[],
         sessionData:[],
-        login:true,
+        login:false,
         entry:false,
         twitter_user: {},  
         textarea_ticekt_no:'',
@@ -193,25 +197,23 @@
         (state, getters) => getters.trpgSessionBgm,
         (newValue, oldValue) => {
           if(this.$store.getters.trpgSessionBgm == null){
-            this.audio.pause();
+            this.audio.pause()
             return
           }
           this.audio.src = this.$store.getters.trpgSessionBgm
-          this.audio.load();
-          this.audio.play();
-          this.isPlay = true;
+          this.audio.load(),this.audio.play(),this.isPlay=true
         }
       )
     },
     methods: {
       fireBaseAuth(){
-        if(Vue.config.debug =! true){
+        if(!Vue.config.debug){
           console.log("FB Auth")
           firebase.auth().onAuthStateChanged(twitter_user => {
            this.twitter_user = twitter_user ?twitter_user : {}
           })
         }else{
-          this.login = true
+          console.log("non FB Auth")
           this.twitter_user = {
             uid        :'test',
             displayName:'test',
@@ -220,11 +222,17 @@
         }
       },
       doLogin() {
+        if(Vue.config.debug){
+          this.login = true,alert('AUTO LOGIN')
+          return  
+        }
         const provider = new firebase.auth.TwitterAuthProvider()
         firebase.auth().signInWithPopup(provider)
       },
       doLogout() {
-      
+        this.login = false,this.entry= false
+        if(Vue.config.debug)
+            return
         firebase.auth().signOut()
       },
       onEntry: function(evnet){
@@ -236,10 +244,10 @@
         }
       },
       loadMusic: function(){
-        this.audio.src =this.$store.getters.trpgSessionBgm;
-        this.audio.load();
-        this.audio.play();
-        this.isPlay = true;
+        this.audio.src =this.$store.getters.trpgSessionBgm
+        this.audio.load()
+        this.audio.play()
+        this.isPlay = true
         this.audio.addEventListener('canplay', () => {
           this.duration = this.audio.duration;
         });
@@ -254,9 +262,9 @@
       switchMusic: function () {
          this.isPlay = !this.isPlay;
          if(this.isPlay==true){
-           this.audio.play();
+           this.audio.play()
          }else{
-           this.audio.pause();
+           this.audio.pause()
          }
       },
       async chekTicekt(){
@@ -268,7 +276,6 @@
         ).then(response => {
           this.sessionData = response.data
         })
-
         if(typeof this.entyrInfo[0] === 'undefined'){
             alert('存在しないチケットです')
             return
@@ -283,8 +290,6 @@
         this.$store.commit('notifyTwUID',this.twitter_user.uid)
         this.$store.commit('notifyTwName',this.twitter_user.displayName)
         this.$store.commit('notifyTwPhoto',this.twitter_user.photoURL)
-        console.log("this.twitter_user.displayName")
-        console.log(this.twitter_user.displayName)
 
         this.entry = true
         this.$router.push("/story")
@@ -352,38 +357,38 @@
         ).then(response => {
           this.postResuolt = response.data
         })
-       },
-        onRoll:function(event){
-          if(this.textarea_dice_command===""){
-            alert('コマンドを入力してください')
-            return
-          }
-          this.rollDice() 
-        },
-        onSelectRollDice:function(event){
-          
-          if(this.dice_target==null || this.use_dice_target==false){
-            this.textarea_dice_command = this.dice_num+"d"+this.dice_face
-          }else{
-            this.textarea_dice_command = this.dice_num+"d"+this.dice_face+">="+this.dice_target
-          }
-          this.rollDice() 
-        },
-       childAdded(snap) {
-          //const message = snap.val()
-          this.loadChatlog()
-        },
-        doFireBaseUpdate() {
-          if (this.tw_user.uid) {
-            // firebase に更新メッセージを送信。他端末で検知を期待。
-            firebase.database().ref('message').push({
-              message: 'now update'
-              }, () => {
-                this.textarea_dice_command = ""
-              }
-            )}
-          }      
-        }      
+      },
+      onRoll:function(event){
+        if(this.textarea_dice_command===""){
+          alert('コマンドを入力してください')
+          return
+        }
+        this.rollDice() 
+      },
+      onSelectRollDice:function(event){
+        if(this.dice_target==null || this.use_dice_target==false){
+          this.textarea_dice_command = this.dice_num+"d"+this.dice_face
+        }else{
+          this.textarea_dice_command = this.dice_num+"d"+this.dice_face+">="+this.dice_target
+        }
+        this.rollDice() 
+      },
+      childAdded(snap) {
+        //const message = snap.val()
+        this.loadChatlog()
+      },
+      doFireBaseUpdate() {
+        if (this.tw_user.uid) {
+          // firebase に更新メッセージを送信。他端末で検知を期待。
+          firebase.database().ref('message').push({
+            message: 'now update'
+            }, () => {
+              this.textarea_dice_command = ""
+          })
+        }
+      }      
+
+    }      
   }
 </script>
 
