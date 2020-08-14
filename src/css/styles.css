@@ -57,7 +57,7 @@
 .bg-img{
   background-size: cover;
 }
-.tw-phot img {
+.tw-phot{
   border-radius: 20px;
   vertical-align: top;
 }
