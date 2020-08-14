@@ -215,7 +215,7 @@
           };
           firebase.initializeApp(firebaseConfig);  
           firebase.auth().onAuthStateChanged(user => {
-            this.twitter_user = user ?user : {}
+            twitter_user = user ?user : {}
             const ref_message = firebase.database().ref('message')
             if (user) {
               ref_message.limitToLast(10).on('child_added', this.childAdded)
@@ -223,13 +223,14 @@
               this.$router.push("/")
               ref_message.limitToLast(10).on('child_added', this.childAdded)
             }
+            this.$store.commit('notifyTwUID',twitter_user.uid)
+            this.$store.commit('notifyTwName',twitter_user.displayName)
+            this.$store.commit('notifyTwPhoto',twitter_user.photoURL)
           })
         }else{
-            this.twitter_user = {
-            uid        :'test',
-            displayName:'test',
-            photoURL   : ''
-          }
+            this.$store.commit('notifyTwUID','test')
+            this.$store.commit('notifyTwName','test')
+            this.$store.commit('notifyTwPhoto','')
         }
       },
       async doLogin() {
@@ -239,7 +240,8 @@
         }
         const provider = new firebase.auth.TwitterAuthProvider()
         await firebase.auth().signInWithPopup(provider)
-        if(this.twitter_user.uid)
+        //if(this.twitter_user.uid)
+        if(this.$store.getters.twUID!='')
           this.login = true
       },
       doLogout() {
@@ -276,11 +278,11 @@
         //this.$store.commit('notifyTrpgSessionBgm',this.sessionData[0]['trpg_session_bgm'])
         this.$store.commit('notifyUserName',this.entyrInfo[0]['name'])
         this.$store.commit('notifySessionUserId',this.entyrInfo[0]['session_user_id'])
-        this.$store.commit('notifyTwUID',this.twitter_user.uid)
-        this.$store.commit('notifyTwName',this.twitter_user.displayName)
-        this.$store.commit('notifyTwPhoto',this.twitter_user.photoURL)
-        console.log("this.twitter_user.uid")
-        console.log(this.twitter_user.uid)
+        //this.$store.commit('notifyTwUID',this.twitter_user.uid)
+        //this.$store.commit('notifyTwName',this.twitter_user.displayName)
+        //this.$store.commit('notifyTwPhoto',this.twitter_user.photoURL)
+        //console.log("this.twitter_user.uid")
+        //console.log(this.twitter_user.uid)
         this.updateTwuserInfo(
             this.$store.getters.twUID,
             this.$store.getters.twName,
