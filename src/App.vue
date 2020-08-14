@@ -164,7 +164,6 @@
         sessionData:[],
         login:false,
         entry:false,
-        twitter_user: {},  
         textarea_ticekt_no:'',
         textarea_dice_command:'',
         dice_num:1,
@@ -206,7 +205,6 @@
       fireBaseAuth(){
         if(!Vue.config.debug){
            console.log("FB Auth")
-
         var firebaseConfig = {
             apiKey: "AIzaSyBCtkiqT0oEBhTUf0myLAda9TFnAInET1o",
             authDomain: "dice-adab6.firebaseapp.com",
@@ -216,9 +214,7 @@
             messagingSenderId: "178770782401",
             appId: "1:178770782401:web:7f6bfe1ec009964df20c40"
           };
-          // Initialize Firebase
           firebase.initializeApp(firebaseConfig);  
-        
           firebase.auth().onAuthStateChanged(user => {
             this.twitter_user = user ?user : {}
             const ref_message = firebase.database().ref('message')
@@ -229,7 +225,6 @@
               ref_message.limitToLast(10).on('child_added', this.childAdded)
             }
           })
-
         }else{
           console.log("non FB Auth")
           this.twitter_user = {
