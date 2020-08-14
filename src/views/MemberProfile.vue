@@ -24,10 +24,10 @@
                 <v-card-subtitle v-text="item.character_profile"/>
               </v-col>
               <v-col>
-                <v-img
-                class="elevation-6"
-                src="item.tw_photo"
-                ></v-img>
+                <img
+                class="tw-phot"
+                :src="item.tw_photo"
+                ></img>
                 <v-card-subtitle v-text="item.tw_name"/>
               </v-col>
 
