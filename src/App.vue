@@ -35,7 +35,6 @@
         </v-toolbar-title>
       </v-app-bar>
     </div>
-
     <v-main>
       <div class="side-bar">
         <v-container>
@@ -108,9 +107,7 @@
                   <v-img :src="item.twitter_users_photo" />
                   </v-list-item-avatar>
                   <v-list-item-title v-text="item.twitter_users_name"></v-list-item-title-->
-
                   <img class="character_image_s" :src="item.character_image"/>
-
                   <v-list-item-content>
                     <!--v-list-item-title v-html="item.character_name"></v-list-item-title-->
                     <!--v-list-item-subtitle v-html="item.roll_dice_command"></v-list-item-subtitle-->
@@ -209,7 +206,7 @@
       fireBaseAuth(){
         if(!Vue.config.debug){
            console.log("FB Auth")
-
+/*
         var firebaseConfig = {
             apiKey: "AIzaSyBCtkiqT0oEBhTUf0myLAda9TFnAInET1o",
             authDomain: "dice-adab6.firebaseapp.com",
@@ -219,6 +216,7 @@
             messagingSenderId: "178770782401",
             appId: "1:178770782401:web:7f6bfe1ec009964df20c40"
           };
+*/
           console.log("A")
           // Initialize Firebase
           firebase.initializeApp(firebaseConfig);  
