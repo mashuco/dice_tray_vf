@@ -216,15 +216,20 @@
             messagingSenderId: "178770782401",
             appId: "1:178770782401:web:7f6bfe1ec009964df20c40"
           };
-          console.log("A")
           // Initialize Firebase
           firebase.initializeApp(firebaseConfig);  
-          console.log("AA")
         
-          firebase.auth().onAuthStateChanged(twitter_user => {
-           this.twitter_user = twitter_user ?twitter_user : {}
+          firebase.auth().onAuthStateChanged(user => {
+            this.twitter_user = user ?user : {}
+            const ref_message = firebase.database().ref('message')
+            if (user) {
+              ref_message.limitToLast(10).on('child_added', this.childAdded)
+            } else {
+              this.$router.push("/")
+              ref_message.limitToLast(10).on('child_added', this.childAdded)
+            }
           })
-          console.log("AAA")
+
         }else{
           console.log("non FB Auth")
           this.twitter_user = {
@@ -353,7 +358,7 @@
           this.postResuolt = response.data
           this.loadChatlog()  
         })
-//      this.doFireBaseUpdate()
+        this.doFireBaseUpdate()
         this.textarea_dice_command =""
       },
       async loadChatlog(){
@@ -413,7 +418,6 @@
         this.rollDice() 
       },
       childAdded(snap) {
-        //const message = snap.val()
         this.loadChatlog()
       },
       doFireBaseUpdate() {
