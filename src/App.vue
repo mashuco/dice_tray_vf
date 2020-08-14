@@ -220,8 +220,8 @@
 */
           console.log("A")
           // Initialize Firebase
-          firebaseConfig = process.env.VUE_APP_FIREBASE_CONFIG
-          firebase.initializeApp(firebaseConfig);  
+//          firebaseConfig = 
+          firebase.initializeApp(process.env.VUE_APP_FIREBASE_CONFIG);  
           console.log("AA")
         
           firebase.auth().onAuthStateChanged(twitter_user => {
