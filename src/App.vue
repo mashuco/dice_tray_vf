@@ -245,7 +245,7 @@
         const provider = new firebase.auth.TwitterAuthProvider()
         firebase.auth().signInWithPopup(provider)
         if(this.twitter_user.uid)
-          this.login = true
+          this.login = true,alert('TW LOGIN')
       },
       doLogout() {
         this.login = false,this.entry= false
