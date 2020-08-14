@@ -12,7 +12,6 @@ Vue.config.productionTip = false
 Vue.config.debug = true
 
 axios.defaults.baseURL = process.env.VUE_APP_URL
-firebase.initializeApp(process.env.VUE_APP_FIREBASE_CONFIG)
 
 new Vue({
   router,
