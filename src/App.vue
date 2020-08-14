@@ -222,7 +222,7 @@
           console.log("A")
           // Initialize Firebase
           firebase.initializeApp(firebaseConfig);  
-          console.log("AA)
+          console.log("AA")
         
           firebase.auth().onAuthStateChanged(twitter_user => {
            this.twitter_user = twitter_user ?twitter_user : {}
