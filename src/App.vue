@@ -180,7 +180,7 @@
     },
     created() {
       this.$vuetify.theme.dark = true
-      this.fireBaseAuth()
+      this.fireBaseAuthState()
     },
     mounted() {
       this.$store.watch(
@@ -202,9 +202,8 @@
       )
     },
     methods: {
-      fireBaseAuth(){
+      fireBaseAuthState(){
         if(!Vue.config.debug){
-           console.log("FB Auth")
         var firebaseConfig = {
             apiKey: "AIzaSyBCtkiqT0oEBhTUf0myLAda9TFnAInET1o",
             authDomain: "dice-adab6.firebaseapp.com",
@@ -226,8 +225,7 @@
             }
           })
         }else{
-          console.log("non FB Auth")
-          this.twitter_user = {
+            this.twitter_user = {
             uid        :'test',
             displayName:'test',
             photoURL   : ''
