@@ -245,8 +245,8 @@
         const provider = new firebase.auth.TwitterAuthProvider()
         firebase.auth().signInWithPopup(provider)
         if(this.twitter_user.uid)
-          this.$set(this.login, true)
-
+          //this.login = true
+          Vue.$set('login',true)
       },
       doLogout() {
         this.login = false,this.entry= false
