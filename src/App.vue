@@ -158,7 +158,6 @@
   export default {
     data() {
       return {
-        twitter_user: {},  
         drawer: true,
         messages:[],
         sessionData:[],
@@ -240,7 +239,6 @@
         }
         const provider = new firebase.auth.TwitterAuthProvider()
         await firebase.auth().signInWithPopup(provider)
-        //if(this.twitter_user.uid)
         if(this.$store.getters.twUID!='')
           this.login = true
       },
@@ -278,11 +276,6 @@
         //this.$store.commit('notifyTrpgSessionBgm',this.sessionData[0]['trpg_session_bgm'])
         this.$store.commit('notifyUserName',this.entyrInfo[0]['name'])
         this.$store.commit('notifySessionUserId',this.entyrInfo[0]['session_user_id'])
-        //this.$store.commit('notifyTwUID',this.twitter_user.uid)
-        //this.$store.commit('notifyTwName',this.twitter_user.displayName)
-        //this.$store.commit('notifyTwPhoto',this.twitter_user.photoURL)
-        //console.log("this.twitter_user.uid")
-        //console.log(this.twitter_user.uid)
         this.updateTwuserInfo(
             this.$store.getters.twUID,
             this.$store.getters.twName,
