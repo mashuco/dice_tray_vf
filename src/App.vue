@@ -237,16 +237,16 @@
           }
         }
       },
-      doLogin() {
+      async doLogin() {
         if(Vue.config.debug){
           this.login = true,alert('AUTO LOGIN')
           return  
         }
         const provider = new firebase.auth.TwitterAuthProvider()
-        firebase.auth().signInWithPopup(provider)
+        await firebase.auth().signInWithPopup(provider)
         if(this.twitter_user.uid)
-          //this.login = true
-          Vue.$set('login',true)
+          this.login = true
+          //Vue.$set('login',true)
       },
       doLogout() {
         this.login = false,this.entry= false
