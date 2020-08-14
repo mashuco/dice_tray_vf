@@ -206,6 +206,7 @@
       fireBaseAuth(){
         if(!Vue.config.debug){
            console.log("FB Auth")
+           
 /*
         var firebaseConfig = {
             apiKey: "AIzaSyBCtkiqT0oEBhTUf0myLAda9TFnAInET1o",
@@ -219,7 +220,7 @@
 */
           console.log("A")
           // Initialize Firebase
-          firebase.initializeApp(firebaseConfig);  
+          //firebase.initializeApp(firebaseConfig);  
           console.log("AA")
         
           firebase.auth().onAuthStateChanged(twitter_user => {
