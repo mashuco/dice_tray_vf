@@ -409,14 +409,12 @@
         this.loadChatlog()
       },
       doFireBaseUpdate() {
-        if (this.tw_user.uid) {
-          // firebase に更新メッセージを送信。他端末で検知を期待。
-          firebase.database().ref('message').push({
-            message: 'now update'
-            }, () => {
-              this.textarea_dice_command = ""
-          })
-        }
+        // firebase に更新メッセージを送信。他端末で検知を期待。
+        firebase.database().ref('message').push({
+          message: 'now update'
+          }, () => {
+            this.textarea_dice_command = ""
+        })
       }      
 
     }      
