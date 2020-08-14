@@ -203,6 +203,7 @@
     },
     methods: {
       fireBaseAuthState(){
+        twitter_user: {}  
         if(!Vue.config.debug){
         var firebaseConfig = {
             apiKey: "AIzaSyBCtkiqT0oEBhTUf0myLAda9TFnAInET1o",
