@@ -261,30 +261,6 @@
           this.chekTicekt()
         }
       },
-      loadMusic: function(){
-        this.audio.src =this.$store.getters.trpgSessionBgm
-        this.audio.load()
-        this.audio.play()
-        this.isPlay = true
-        this.audio.addEventListener('canplay', () => {
-          this.duration = this.audio.duration;
-        });
-        this.audio.addEventListener('timeupdate', () => {
-          this.currentTime = this.audio.currentTime;
-        });
-        this.audio.addEventListener('ended', ()=> {
-          this.audio.currentTime = 0;
-          this.audio.play();
-        });
-      },
-      switchMusic: function () {
-         this.isPlay = !this.isPlay;
-         if(this.isPlay==true){
-           this.audio.play()
-         }else{
-           this.audio.pause()
-         }
-      },
       async chekTicekt(){
         await axios.get('/uEntry/?format=json&ticket_no='+this.textarea_ticekt_no,
         ).then(response => {
@@ -310,10 +286,56 @@
         this.$store.commit('notifyTwPhoto',this.twitter_user.photoURL)
         console.log("this.twitter_user.uid")
         console.log(this.twitter_user.uid)
-        
+        this.updateTwuserInfo(
+            this.$store.getters.twUID,
+            this.$store.getters.twName,
+            this.$store.getters.twPhoto
+        )
         this.entry = true
         this.$router.push("/story")
         this.loadChatlog();
+      },
+      async updateTwuserInfo(twUID,twName,twPhoto){
+        var csrftoken = Cookies.get('csrftoken')
+        await axios.patch(
+          '/userTwUp/'+this.$store.getters.sessionUserId+'/', 
+          { 
+            tw_UID :twUID,
+            tw_name:twName,
+            tw_photo:twPhoto
+          },
+          {
+            headers: {
+              'X-CSRFToken': csrftoken,
+            },
+          }
+        ).then(response => {
+          this.postResuolt = response.data
+        })
+      },
+      loadMusic: function(){
+        this.audio.src =this.$store.getters.trpgSessionBgm
+        this.audio.load()
+        this.audio.play()
+        this.isPlay = true
+        this.audio.addEventListener('canplay', () => {
+          this.duration = this.audio.duration;
+        });
+        this.audio.addEventListener('timeupdate', () => {
+          this.currentTime = this.audio.currentTime;
+        });
+        this.audio.addEventListener('ended', ()=> {
+          this.audio.currentTime = 0;
+          this.audio.play();
+        });
+      },
+      switchMusic: function () {
+         this.isPlay = !this.isPlay;
+         if(this.isPlay==true){
+           this.audio.play()
+         }else{
+           this.audio.pause()
+         }
       },
       async rollDice(){
         var csrftoken = Cookies.get('csrftoken')
