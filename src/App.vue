@@ -203,7 +203,6 @@
     },
     methods: {
       fireBaseAuthState(){
-        twitter_user: {}  
         if(!Vue.config.debug){
         var firebaseConfig = {
             apiKey: "AIzaSyBCtkiqT0oEBhTUf0myLAda9TFnAInET1o",
@@ -216,7 +215,7 @@
           };
           firebase.initializeApp(firebaseConfig);  
           firebase.auth().onAuthStateChanged(user => {
-            twitter_user = user ?user : {}
+            var twitter_user = user ?user : {}
             const ref_message = firebase.database().ref('message')
             if (user) {
               ref_message.limitToLast(10).on('child_added', this.childAdded)
