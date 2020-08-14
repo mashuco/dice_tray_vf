@@ -246,7 +246,6 @@
         await firebase.auth().signInWithPopup(provider)
         if(this.twitter_user.uid)
           this.login = true
-          //Vue.$set('login',true)
       },
       doLogout() {
         this.login = false,this.entry= false
@@ -309,7 +308,9 @@
         this.$store.commit('notifyTwUID',this.twitter_user.uid)
         this.$store.commit('notifyTwName',this.twitter_user.displayName)
         this.$store.commit('notifyTwPhoto',this.twitter_user.photoURL)
-
+        console.log("this.twitter_user.uid”)
+        console.log(this.twitter_user.uid)
+        
         this.entry = true
         this.$router.push("/story")
         this.loadChatlog();
