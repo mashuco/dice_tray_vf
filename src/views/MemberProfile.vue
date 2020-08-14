@@ -23,6 +23,14 @@
                 <v-card-title class="headline" v-text="item.character_name"/>
                 <v-card-subtitle v-text="item.character_profile"/>
               </v-col>
+              <v-col>
+                <v-img
+                class="elevation-6"
+                src="item.tw_photo"
+                ></v-img>
+                <v-card-subtitle v-text="item.tw_name"/>
+              </v-col>
+
               </v-row>
             </div>
           </v-card>
