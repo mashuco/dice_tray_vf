@@ -206,8 +206,7 @@
       fireBaseAuth(){
         if(!Vue.config.debug){
            console.log("FB Auth")
-           
-/*
+
         var firebaseConfig = {
             apiKey: "AIzaSyBCtkiqT0oEBhTUf0myLAda9TFnAInET1o",
             authDomain: "dice-adab6.firebaseapp.com",
@@ -217,11 +216,9 @@
             messagingSenderId: "178770782401",
             appId: "1:178770782401:web:7f6bfe1ec009964df20c40"
           };
-*/
           console.log("A")
           // Initialize Firebase
-//          firebaseConfig = 
-          firebase.initializeApp(process.env.VUE_APP_FIREBASE_CONFIG);  
+          firebase.initializeApp(firebaseConfig);  
           console.log("AA")
         
           firebase.auth().onAuthStateChanged(twitter_user => {
