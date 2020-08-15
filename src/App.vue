@@ -406,6 +406,9 @@
         this.rollDice() 
       },
       childAdded(snap) {
+        message = snap.val()
+        console.log("message")
+        console.log(message)
         this.loadChatlog()
       },
       doFireBaseUpdate() {
@@ -416,7 +419,6 @@
             this.textarea_dice_command = ""
         })
       }      
-
     }      
   }
 </script>
