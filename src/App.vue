@@ -406,10 +406,15 @@
         this.rollDice() 
       },
       firebaseMessageAdded(snap) {
+        console.log('snap.val()')
+        console.log(snap.val())
         switch(snap.val()){
           case 'chatUpdate':
            this.loadChatlog()
            break
+          case 'storyUpdate'{
+            this.
+          }
           default:
            break
         }
@@ -421,7 +426,15 @@
           }, () => {
             this.textarea_dice_command = ""
         })
+      },
+      doStoryFireBaseUpdate() {
+        firebase.database().ref('message').push({
+          message: 'storyUpdate'
+          }, () => {
+            this.textarea_dice_command = ""
+        })
       }      
+
     }      
   }
 </script>
