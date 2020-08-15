@@ -217,10 +217,10 @@
             var twitter_user = user ?user : {}
             const ref_message = firebase.database().ref('message')
             if (user) {
-              ref_message.limitToLast(10).on('child_added', this.childAdded)
+              ref_message.limitToLast(10).on('child_added', this.firebaseMessageAdded)
             } else {
               this.$router.push("/")
-              ref_message.limitToLast(10).on('child_added', this.childAdded)
+              ref_message.limitToLast(10).on('child_added', this.firebaseMessageAdded)
             }
             this.$store.commit('notifyTwUID',twitter_user.uid)
             this.$store.commit('notifyTwName',twitter_user.displayName)
@@ -346,7 +346,7 @@
           this.postResuolt = response.data
           this.loadChatlog()  
         })
-        this.doFireBaseUpdate()
+        this.doChatFireBaseUpdate()
         this.textarea_dice_command =""
       },
       async loadChatlog(){
@@ -405,16 +405,19 @@
         }
         this.rollDice() 
       },
-      childAdded(snap) {
-        var message = snap.val()
-        console.log("message")
-        console.log(message)
-        this.loadChatlog()
+      firebaseMessageAdded(snap) {
+        switch(snap.val()){
+          case 'chatUpdate':
+           this.loadChatlog()
+           break
+          default:
+           break
+        }
       },
-      doFireBaseUpdate() {
-        // firebase に更新メッセージを送信。他端末で検知を期待。
+      // firebase に更新メッセージを送信。他端末で検知を期待。
+      doChatFireBaseUpdate() {
         firebase.database().ref('message').push({
-          message: 'now update'
+          message: 'chatUpdate'
           }, () => {
             this.textarea_dice_command = ""
         })
