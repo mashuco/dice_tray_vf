@@ -406,7 +406,7 @@
         this.rollDice() 
       },
       childAdded(snap) {
-        message = snap.val()
+        var message = snap.val()
         console.log("message")
         console.log(message)
         this.loadChatlog()
