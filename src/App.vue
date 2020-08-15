@@ -412,9 +412,8 @@
           case 'chatUpdate':
            this.loadChatlog()
            break
-          case 'storyUpdate'{
+          case 'storyUpdate':
             //this.
-          }
           default:
            break
         }
