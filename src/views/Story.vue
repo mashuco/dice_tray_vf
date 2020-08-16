@@ -96,6 +96,7 @@
 import Vue from "vue";
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import firebase from 'firebase'
 
 export default {
       data() {
