@@ -148,9 +148,9 @@ export default {
 
   },  
   async loadScene(){
-      await axios.get('/scene/?format=json&session_scene_id='+this.sceneSelect.session_scene_id).then(response => {
-          this.sceneData = response.data
-      })
+      //await axios.get('/scene/?format=json&session_scene_id='+this.sceneSelect.session_scene_id).then(response => {
+      //    this.sceneData = response.data
+      //})
       //await this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
       //await this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
       //await this.$store.commit('notifySessionSceneId',this.sceneSelect.session_scene_id)
