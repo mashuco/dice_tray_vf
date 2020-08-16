@@ -408,9 +408,9 @@
         this.rollDice() 
       },
       firebaseMessageAdded(snap) {
-        var fBmessage = snap.val().message.split('|')
+        //var fBmessage = snap.val().message.split('|')
 
-        switch(fBmessage[0]){
+        switch(snap.val().message){
           case 'chatUpdate':
            this.doChatFireBaseUpdate()
            break
