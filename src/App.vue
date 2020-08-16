@@ -406,8 +406,8 @@
         this.rollDice() 
       },
       firebaseMessageAdded(snap) {
-        console.log('snap.val()[0].message')
-        console.log(snap.val()[0].message)
+        console.log('snap.val()[0]')
+        console.log(snap.val()[0])
         switch(snap.val()){
           case 'chatUpdate':
            this.loadChatlog()
