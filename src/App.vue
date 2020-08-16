@@ -198,14 +198,7 @@
           this.audio.src = this.$store.getters.trpgSessionBgm
           this.audio.load(),this.audio.play(),this.isPlay=true
         }
-      ),
-      this.$store.watch(
-        (state, getters) => getters.sessionSceneId,
-        (newValue, oldValue) => {
-
-        }
       )
-
       
       
     },
