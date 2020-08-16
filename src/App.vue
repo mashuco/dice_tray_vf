@@ -198,7 +198,16 @@
           this.audio.src = this.$store.getters.trpgSessionBgm
           this.audio.load(),this.audio.play(),this.isPlay=true
         }
+      ),
+      this.$store.watch(
+        (state, getters) => getters.sessionSceneId,
+        (newValue, oldValue) => {
+
+        }
       )
+
+      
+      
     },
     methods: {
       fireBaseAuthState(){
@@ -406,12 +415,14 @@
         this.rollDice() 
       },
       firebaseMessageAdded(snap) {
-        switch(snap.val().message){
+        var fBmessage = snap.val().message.split('|')
+
+        switch(fBmessage[0]){
           case 'chatUpdate':
            this.doChatFireBaseUpdate()
            break
           case 'storyUpdate':
-            //this.
+            doStoryFireBaseUpdate()
           default:
            break
         }
@@ -426,7 +437,7 @@
       },
       doStoryFireBaseUpdate() {
         firebase.database().ref('message').push({
-          message: 'storyUpdate|'+''
+          message: 'storyUpdate|'+this.$store.getters.sessionSceneId
           }, () => {
             this.textarea_dice_command = ""
         })

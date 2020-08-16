@@ -60,7 +60,6 @@ export default {
     this.loadProfile()
   },
   methods: {
-
     async loadProfile(){
       await axios.get('/uEntry/?format=json&session_user_id='+this.$store.getters.sessionUserId).then(response => {
             this.profileData = response.data
