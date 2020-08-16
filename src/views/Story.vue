@@ -154,11 +154,13 @@ export default {
       //await this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
       //await this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
       //await this.$store.commit('notifySessionSceneId',this.sceneSelect.session_scene_id)
-      this.doStoryFireBaseUpdate()
+      this.doStoryFireBaseUpdate(this.sceneSelect.session_scene_id)
   },
-  doStoryFireBaseUpdate() {
+  doStoryFireBaseUpdate(session_scene_id) {
+    console.log("session_scene_id")
+    console.log(session_scene_id)
     firebase.database().ref('message').push({
-    message: 'storyUpdate|'+this.$store.getters.sessionSceneId
+    message: 'storyUpdate|'+session_scene_id
     }, () => {
 
     })
