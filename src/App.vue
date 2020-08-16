@@ -431,7 +431,7 @@
         })
       },
       async loadSceneFromFireBase(sceneId){
-        await axios.get('/scene/?format=json&session_scene_id='+this.sceneSelect.session_scene_id).then(response => {
+        await axios.get('/scene/?format=json&session_scene_id='+sceneId).then(response => {
             this.sceneData = response.data
         })
         await this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
