@@ -408,14 +408,16 @@
         this.rollDice() 
       },
       firebaseMessageAdded(snap) {
-        //var fBmessage = snap.val().message.split('|')
+        var fBmessage = snap.val().message.split('|')
 
-        switch(snap.val().message){
+        switch(fBmessage[0]){
           case 'chatUpdate':
            this.loadChatlog()
            break
           case 'storyUpdate':
-            doStoryFireBaseUpdate()
+            console.log("fBmessage[1]")
+            console.log(fBmessage[1])
+            this.loadSceneFromFireBase(fBmessage[1])
           default:
            break
         }
@@ -428,13 +430,12 @@
             this.textarea_dice_command = ""
         })
       },
-      doStoryFireBaseUpdate() {
-        firebase.database().ref('message').push({
-          message: 'storyUpdate|'+this.$store.getters.sessionSceneId
-          }, () => {
-            this.textarea_dice_command = ""
-        })
-      }      
+      async loadSceneFromFireBase(sceneId){
+        //await this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
+        //await this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
+        await this.$store.commit('notifySessionSceneId',sceneId)
+      },
+      
 
     }      
   }
