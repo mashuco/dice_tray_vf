@@ -409,7 +409,7 @@
       },
       firebaseMessageAdded(snap) {
         //var fBmessage = snap.val().message.split('|')
-
+console.log("snap.val().message")
         switch(snap.val().message){
           case 'chatUpdate':
            this.doChatFireBaseUpdate()
