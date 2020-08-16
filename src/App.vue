@@ -259,7 +259,7 @@
       async chekTicekt(){
         await axios.get('/uEntry/?format=json&ticket_no='+this.textarea_ticekt_no,
         ).then(response => {
-            this.entyrInfo = response.data
+             this.entyrInfo = response.data
         })
         await axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId
         ).then(response => {
@@ -428,7 +428,7 @@
       },
       doStoryFireBaseUpdate() {
         firebase.database().ref('message').push({
-          message: 'storyUpdate'
+          message: 'storyUpdate|'+''
           }, () => {
             this.textarea_dice_command = ""
         })
