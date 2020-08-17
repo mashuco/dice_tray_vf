@@ -274,8 +274,6 @@
         this.$store.commit('notifyTickesNo',this.entyrInfo[0]['ticket_no'])
         this.$store.commit('notifyTrpgSessionId',this.entyrInfo[0]['trpg_session'])
         this.$store.commit('notifyTrpgSessionName',this.entyrInfo[0]['trpg_session_name'])
-        //this.$store.commit('notifyTrpgSessionImg',this.sessionData[0]['trpg_session_image'])
-        //this.$store.commit('notifyTrpgSessionBgm',this.sessionData[0]['trpg_session_bgm'])
         this.$store.commit('notifyUserName',this.entyrInfo[0]['name'])
         this.$store.commit('notifySessionUserId',this.entyrInfo[0]['session_user_id'])
         this.updateTwuserInfo(
@@ -286,9 +284,9 @@
         this.entry = true
         this.$router.push("/story")
         this.loadChatlog();
-        console.log("this.entyrInfo[0]['trpg_session_now_scene']")
-        console.log(this.entyrInfo[0]['trpg_session_now_scene'])
-        this.loadScene(this.entyrInfo[0]['trpg_session_now_scene'])
+        console.log("this.sessionData[0]['trpg_session_now_scene']")
+        console.log(this.sessionData[0]['trpg_session_now_scene'])
+        this.loadScene(this.sessionData[0]['trpg_session_now_scene'])
       },
       async updateTwuserInfo(twUID,twName,twPhoto){
         var csrftoken = Cookies.get('csrftoken')
