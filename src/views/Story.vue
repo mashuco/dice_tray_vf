@@ -185,11 +185,12 @@ export default {
       }
     },    
     firebaseMessageAdded(snap) {
+console.log("fBmessage[0]")
+console.log(fBmessage[0])
+
         if (this.entry!=true)
           return
         var fBmessage = snap.val().message.split('|')
-console.log("fBmessage[0]")
-console.log(fBmessage[0])
         switch(fBmessage[0]){
           case 'storyUpdate':
       console.log("storyUpdate")
