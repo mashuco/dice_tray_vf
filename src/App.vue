@@ -179,7 +179,7 @@
     },
     created() {
       this.$vuetify.theme.dark = true
-      this.fireBaseAuthState()
+      //this.fireBaseAuthState()
     },
     mounted() {
       this.$store.watch(
@@ -245,6 +245,7 @@
           this.login = true,alert('AUTO LOGIN')
           return  
         }
+        this.fireBaseAuthState()
         const provider = new firebase.auth.TwitterAuthProvider()
         await firebase.auth().signInWithPopup(provider)
         if(this.$store.getters.twUID!='')
@@ -291,7 +292,7 @@
         ).then(response => {
           this.sessionData = response.data
         })
-       this.loadScene(this.sessionData[0]['trpg_session_now_scene'])
+        this.loadScene(this.sessionData[0]['trpg_session_now_scene'])
       },
       async updateTwuserInfo(twUID,twName,twPhoto){
         var csrftoken = Cookies.get('csrftoken')
