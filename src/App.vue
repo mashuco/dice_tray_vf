@@ -432,6 +432,7 @@
             this.loadScene(fBmessage[1])
           default:
            break
+           
         }
       },
       // firebase に更新メッセージを送信。他端末で検知を期待。
