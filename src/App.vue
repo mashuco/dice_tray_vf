@@ -191,6 +191,13 @@
       this.$store.watch(
         (state, getters) => getters.trpgSessionBgm,
         (newValue, oldValue) => {
+          console.log("BGM change")  
+          console.log("newValue")  
+          console.log(newValue)  
+          console.log("oldValue")  
+          console.log(oldValue)  
+
+
           console.log("BGM change1")  
           if(this.$store.getters.trpgSessionBgm == null){
             this.audio.pause()
