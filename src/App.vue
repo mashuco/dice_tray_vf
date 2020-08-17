@@ -442,7 +442,9 @@
         await axios.get('/scene/?format=json&session_scene_id='+sceneId).then(response => {
             this.sceneData = response.data
         })
-console.log("loadScene")
+console.log("sceneId")
+console.log(sceneId)
+
         await this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
         await this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
         await this.$store.commit('notifySessionSceneId',sceneId)
