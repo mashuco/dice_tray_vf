@@ -148,11 +148,9 @@ export default {
 
   },  
   selectScene() {
-    await this.$store.commit('notifySessionSceneId',this.sceneSelect.session_scene_id)
     firebase.database().ref('message').push({
      message: 'storyUpdate|'+this.sceneSelect.session_scene_id
     })
-
   }      
   
   
