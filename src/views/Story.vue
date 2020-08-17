@@ -185,8 +185,8 @@ export default {
       }
     },    
     firebaseMessageAdded(snap) {
-console.log("fBmessage[0]")
-console.log(fBmessage[0])
+console.log("snap.val()")
+console.log(snap.val())
 
         if (this.entry!=true)
           return
