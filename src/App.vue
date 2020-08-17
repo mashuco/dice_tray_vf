@@ -286,7 +286,9 @@
         this.entry = true
         this.$router.push("/story")
         this.loadChatlog();
-        this.loadScene(this.sessionData[0]['trpg_session_now_scene'])
+        console.log("this.entyrInfo[0]['trpg_session_now_scene']")
+        console.log(this.entyrInfo[0]['trpg_session_now_scene'])
+        this.loadScene(this.entyrInfo[0]['trpg_session_now_scene'])
       },
       async updateTwuserInfo(twUID,twName,twPhoto){
         var csrftoken = Cookies.get('csrftoken')
