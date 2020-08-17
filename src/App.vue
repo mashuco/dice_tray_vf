@@ -286,6 +286,7 @@
         this.entry = true
         this.$router.push("/story")
         this.loadChatlog();
+        loadScene(this.sessionData[0]['trpg_session_now_scene'])
       },
       async updateTwuserInfo(twUID,twName,twPhoto){
         var csrftoken = Cookies.get('csrftoken')
@@ -415,9 +416,7 @@
            this.loadChatlog()
            break
           case 'storyUpdate':
-            console.log("fBmessage[1]")
-            console.log(fBmessage[1])
-            this.loadSceneFromFireBase(fBmessage[1])
+            this.loadScene(fBmessage[1])
           default:
            break
         }
@@ -430,10 +429,11 @@
             this.textarea_dice_command = ""
         })
       },
-      async loadSceneFromFireBase(sceneId){
+      async loadScene(sceneId){
         await axios.get('/scene/?format=json&session_scene_id='+sceneId).then(response => {
             this.sceneData = response.data
         })
+        
         await this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
         await this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
         await this.$store.commit('notifySessionSceneId',sceneId)

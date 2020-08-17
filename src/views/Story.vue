@@ -15,7 +15,7 @@
           return-object
           single-line
           return-object
-          @change = 'loadScene'
+          @change = 'selectScene'
 
         ></v-select>
        </v-card>
@@ -147,23 +147,12 @@ export default {
       }
 
   },  
-  async loadScene(){
-      //await axios.get('/scene/?format=json&session_scene_id='+this.sceneSelect.session_scene_id).then(response => {
-      //    this.sceneData = response.data
-      //})
-      //await this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
-      //await this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
-      //await this.$store.commit('notifySessionSceneId',this.sceneSelect.session_scene_id)
-      this.doStoryFireBaseUpdate(this.sceneSelect.session_scene_id)
-  },
-  doStoryFireBaseUpdate(session_scene_id) {
-    console.log("session_scene_id")
-    console.log(session_scene_id)
+  selectScene() {
+    await this.$store.commit('notifySessionSceneId',this.sceneSelect.session_scene_id)
     firebase.database().ref('message').push({
-    message: 'storyUpdate|'+session_scene_id
-    }, () => {
-
+     message: 'storyUpdate|'+this.sceneSelect.session_scene_id
     })
+
   }      
   
   
