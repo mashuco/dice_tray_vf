@@ -148,7 +148,7 @@ export default {
 
   },  
   selectScene() {
-    this.doRegistory()
+    this.regisScean()
     if(Vue.config.debug)
         return
 
@@ -157,7 +157,7 @@ export default {
     })
     
   },
-  async doRegistory(){
+  async regisScean(){
       var csrftoken = Cookies.get('csrftoken')
       const formData = new FormData();
       formData.append("trpg_session_now_scene", this.sceneSelect.session_scene_id);
