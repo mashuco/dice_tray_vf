@@ -148,10 +148,31 @@ export default {
 
   },  
   selectScene() {
+    this.doRegistory()
+    if(Vue.config.debug)
+        return
+
     firebase.database().ref('message').push({
      message: 'storyUpdate|'+this.sceneSelect.session_scene_id
     })
-  }      
+    
+  },
+  async doRegistory(){
+      var csrftoken = Cookies.get('csrftoken')
+      const formData = new FormData();
+      formData.append("trpg_session_now_scene", this.sceneSelect.session_scene_id);
+      await axios.patch(
+        '/session/'+this.$store.getters.trpgSessionId+'/', 
+        formData,
+        {
+          headers: {
+            'X-CSRFToken': csrftoken,
+             'content-type': 'multipart/form-data',
+          },
+        }
+      )
+    },
+
   
   
  }
