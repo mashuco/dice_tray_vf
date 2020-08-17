@@ -191,6 +191,9 @@
       this.$store.watch(
         (state, getters) => getters.trpgSessionBgm,
         (newValue, oldValue) => {
+console.log("$store.watch")          
+console.log(this.$store.getters.trpgSessionBgm)  
+        
           if(this.entry != true)
             return
 
@@ -425,8 +428,8 @@
           case 'chatUpdate':
            this.loadChatlog()
            break
-          case 'storyUpdate':
-            this.loadScene(fBmessage[1])
+          //case 'storyUpdate':
+          //  this.loadScene(fBmessage[1])
           default:
            break
 
@@ -440,6 +443,7 @@
             this.textarea_dice_command = ""
         })
       },
+      
       async loadScene(sceneId){
         await axios.get('/scene/?format=json&session_scene_id='+sceneId).then(response => {
             this.sceneData = response.data
@@ -451,7 +455,7 @@ console.log(sceneId)
         await this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
         await this.$store.commit('notifySessionSceneId',sceneId)
       },
-      
+     
 
     }      
   }

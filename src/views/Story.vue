@@ -115,6 +115,7 @@ export default {
     }
     this.loadPage()
     this.loadAllScene()
+    this.fireBaseAuthState()
     
  },
   mounted() {
@@ -174,9 +175,39 @@ export default {
           },
         }
       )
-    },
+    },  
+    fireBaseAuthState(){
+      if(!Vue.config.debug){
+        firebase.auth().onAuthStateChanged(user => {
+          const ref_message = firebase.database().ref('message')
+          ref_message.limitToLast(10).on('child_added', this.firebaseMessageAdded)
+        })
+      }
+    },    
+    firebaseMessageAdded(snap) {
+        if (this.entry!=true)
+          return
+        var fBmessage = snap.val().message.split('|')
+        switch(fBmessage[0]){
+          case 'storyUpdate':
+            this.loadScene(fBmessage[1])
+          default:
+           break
 
-  
+        }
+      },
+      async loadScene(sceneId){
+        await axios.get('/scene/?format=json&session_scene_id='+sceneId).then(response => {
+            this.sceneData = response.data
+        })
+console.log("sceneId")
+console.log(sceneId)
+
+        await this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
+        await this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
+        await this.$store.commit('notifySessionSceneId',sceneId)
+      },
+
   
  }
 }
