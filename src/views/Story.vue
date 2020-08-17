@@ -191,6 +191,7 @@ export default {
         var fBmessage = snap.val().message.split('|')
         switch(fBmessage[0]){
           case 'storyUpdate':
+      console.log("storyUpdate")
             this.loadScene(fBmessage[1])
           default:
            break
