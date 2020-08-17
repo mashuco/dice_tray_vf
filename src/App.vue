@@ -191,6 +191,9 @@
       this.$store.watch(
         (state, getters) => getters.trpgSessionBgm,
         (newValue, oldValue) => {
+console.log("$store.watch")          
+console.log(this.$store.getters.trpgSessionBgm)  
+        
           if(this.entry != true)
             return
 
@@ -417,8 +420,10 @@
         this.rollDice() 
       },
       firebaseMessageAdded(snap) {
-        var fBmessage = snap.val().message.split('|')
+        if (this.entry!=true)
+          return
 
+        var fBmessage = snap.val().message.split('|')
         switch(fBmessage[0]){
           case 'chatUpdate':
            this.loadChatlog()
