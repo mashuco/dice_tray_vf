@@ -281,7 +281,7 @@
         this.$router.push("/story")
         this.loadChatlog();
 
-        await axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId
+        await axios.get('/session/?format=json&trpg_session_id='+this.entyrInfo[0]['trpg_session']
         ).then(response => {
           this.sessionData = response.data
         })
