@@ -179,7 +179,7 @@
     },
     created() {
       this.$vuetify.theme.dark = true
-      //this.fireBaseAuthState()
+      this.fireBaseAuthState()
     },
     mounted() {
       this.$store.watch(
@@ -191,23 +191,13 @@
       this.$store.watch(
         (state, getters) => getters.trpgSessionBgm,
         (newValue, oldValue) => {
-          console.log("BGM change")  
-          console.log("newValue")  
-          console.log(newValue)  
-          console.log("oldValue")  
-          console.log(oldValue)  
+          if(this.entry != true)
+            return
 
-
-          console.log("BGM change1")  
           if(this.$store.getters.trpgSessionBgm == null){
             this.audio.pause()
             return
           }
-          console.log("BGM change2")  
-          if(this.entry != true)
-            return
-          console.log("BGM change3")  
-
           this.audio.src = this.$store.getters.trpgSessionBgm
           this.audio.load(),this.audio.play(),this.isPlay=true
         }
@@ -252,11 +242,13 @@
           this.login = true,alert('AUTO LOGIN')
           return  
         }
-        this.fireBaseAuthState()
+        if(this.$store.getters.twUID=='')
+          return
+
         const provider = new firebase.auth.TwitterAuthProvider()
         await firebase.auth().signInWithPopup(provider)
-        if(this.$store.getters.twUID!='')
-          this.login = true
+        this.login = true
+
       },
       doLogout() {
         this.login = false,this.entry= false
@@ -300,6 +292,9 @@
           this.sessionData = response.data
         })
         this.loadScene(this.sessionData[0]['trpg_session_now_scene'])
+//  this.audio.src = this.$store.getters.trpgSessionBgm
+//  this.audio.load(),this.audio.play(),this.isPlay=true
+
       },
       async updateTwuserInfo(twUID,twName,twPhoto){
         var csrftoken = Cookies.get('csrftoken')
@@ -447,7 +442,7 @@
         await axios.get('/scene/?format=json&session_scene_id='+sceneId).then(response => {
             this.sceneData = response.data
         })
-        
+console.log("loadScene")
         await this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
         await this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
         await this.$store.commit('notifySessionSceneId',sceneId)
