@@ -448,7 +448,7 @@
         })
         
         await this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
-        await this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
+        //await this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
         await this.$store.commit('notifySessionSceneId',sceneId)
       },
       
