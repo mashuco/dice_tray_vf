@@ -432,7 +432,7 @@
             this.loadScene(fBmessage[1])
           default:
            break
-           
+
         }
       },
       // firebase に更新メッセージを送信。他端末で検知を期待。
@@ -449,7 +449,7 @@
         })
         
         await this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
-        //await this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
+        await this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
         await this.$store.commit('notifySessionSceneId',sceneId)
       },
       
