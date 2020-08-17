@@ -285,9 +285,9 @@
         ).then(response => {
           this.sessionData = response.data
         })
-        console.log("this.sessionData[0]['trpg_session_now_scene']")
-        console.log(this.sessionData[0]['trpg_session_now_scene'])
-        this.loadScene(this.sessionData[0]['trpg_session_now_scene'])
+        console.log("this.entyrInfo[0]['trpg_session']")
+        console.log(this.entyrInfo[0]['trpg_session'])
+//        this.loadScene(this.sessionData[0]['trpg_session_now_scene'])
       },
       async updateTwuserInfo(twUID,twName,twPhoto){
         var csrftoken = Cookies.get('csrftoken')
