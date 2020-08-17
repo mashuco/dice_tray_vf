@@ -185,6 +185,7 @@ export default {
       }
     },    
     firebaseMessageAdded(snap) {
+      console("firebaseMessageAdded")
         if (this.entry!=true)
           return
         var fBmessage = snap.val().message.split('|')
