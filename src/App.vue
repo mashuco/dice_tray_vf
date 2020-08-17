@@ -191,9 +191,6 @@
       this.$store.watch(
         (state, getters) => getters.trpgSessionBgm,
         (newValue, oldValue) => {
-console.log("$store.watch")          
-console.log(this.$store.getters.trpgSessionBgm)  
-        
           if(this.entry != true)
             return
 
