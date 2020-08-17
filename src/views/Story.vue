@@ -147,7 +147,7 @@ export default {
       }
 
   },  
-  selectScene() {
+  async selectScene() {
     this.regisScean()
     await axios.get('/scene/?format=json&session_scene_id='+this.sceneSelect.session_scene_id).then(response => {
         this.sceneData = response.data
@@ -158,8 +158,7 @@ export default {
 
     firebase.database().ref('message').push({
      message: 'storyUpdate|'+this.sceneSelect.session_scene_id
-    })
-    
+    })    
   },
   async regisScean(){
       var csrftoken = Cookies.get('csrftoken')
