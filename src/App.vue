@@ -154,8 +154,9 @@
   import axios from 'axios'
   import firebase from 'firebase'
   import Cookies from 'js-cookie'
+  import Story from './views/Story.vue'
 
-  export default {
+export default {
     data() {
       return {
         drawer: true,
@@ -177,6 +178,9 @@
         use_dice_target:false
       };
     },
+    components() {
+      Story
+    },    
     created() {
       this.$vuetify.theme.dark = true
       this.fireBaseAuthState()

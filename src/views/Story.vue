@@ -188,29 +188,29 @@ export default {
 console.log("snap.val()")
 console.log(snap.val())
 
-        if (this.entry!=true)
-          return
-        var fBmessage = snap.val().message.split('|')
-        switch(fBmessage[0]){
-          case 'storyUpdate':
-      console.log("storyUpdate")
-            this.loadScene(fBmessage[1])
-          default:
-           break
+      var fBmessage = snap.val().message.split('|')
 
-        }
-      },
-      async loadScene(sceneId){
-        await axios.get('/scene/?format=json&session_scene_id='+sceneId).then(response => {
-            this.sceneData = response.data
-        })
-console.log("sceneId")
-console.log(sceneId)
+      //if (this.entry!=true)
+      //  return
 
-        await this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
-        await this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
-        await this.$store.commit('notifySessionSceneId',sceneId)
-      },
+      switch(fBmessage[0]){
+        case 'storyUpdate':
+    console.log("storyUpdate")
+          this.loadScene(fBmessage[1])
+        default:
+          break
+
+    }
+    },
+    async loadScene(sceneId){
+      await axios.get('/scene/?format=json&session_scene_id='+sceneId).then(response => {
+          this.sceneData = response.data
+      })
+
+      await this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
+      await this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
+      await this.$store.commit('notifySessionSceneId',sceneId)
+    },
 
   
  }
