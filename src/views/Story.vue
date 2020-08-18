@@ -189,9 +189,9 @@ export default {
     },    
     firebaseMessageAdded(snap) {
       var fBmessage = snap.val().message.split('|')
-console.log("this.p_entry")
-console.log(this.p_entry)
-      if (this.p_entry!=true)
+console.log("this.p_entry.value")
+console.log(this.p_entry.value)
+      if (this.p_entry.value!=true)
         return
 
       switch(fBmessage[0]){
