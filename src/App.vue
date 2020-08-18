@@ -50,7 +50,7 @@
               </v-col><v-col>
                 <v-btn text to="/items" @click="drawer = true">items</v-btn>
               </v-col><v-col>
-                <v-btn text to="/story" @click="drawer = true">story</v-btn>
+                <v-btn  @click="doStory">story</v-btn>
               </v-col><v-col>
                 <v-btn  @click="switchMusic"  v-if="isPlay == true" >BGM停止</v-btn>
                 <v-btn  @click="switchMusic"  v-else >BGM再生</v-btn>
@@ -289,8 +289,6 @@ console.log(this.$store.getters.trpgSessionBgm)
         )
         this.entry = true
         //this.$router.push("/story")
-        console.log("this.entry")
-        console.log(this.entry)
         this.$router.push({ name: "story" , props:{p_entry : this.entry}})
         this.loadChatlog();
 
@@ -333,17 +331,24 @@ console.log(this.$store.getters.trpgSessionBgm)
           this.currentTime = this.audio.currentTime;
         });
         this.audio.addEventListener('ended', ()=> {
-          this.audio.currentTime = 0;
-          this.audio.play();
+          this.audio.currentTime = 0
+          this.audio.play()
         });
       },
       switchMusic: function () {
-         this.isPlay = !this.isPlay;
+         this.isPlay = !this.isPlay
          if(this.isPlay==true){
            this.audio.play()
          }else{
            this.audio.pause()
          }
+      },
+      doStory(){
+        drawer = true
+        console.log("this.entry")
+        console.log(this.entry)
+
+        this.$router.push({ name: "story" , props:{p_entry : this.entry}})
       },
       async rollDice(){
         var csrftoken = Cookies.get('csrftoken')
