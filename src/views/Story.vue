@@ -99,9 +99,9 @@ import Cookies from 'js-cookie';
 import firebase from 'firebase'
 
 export default {
-  props: {
-    p_entry:{type:Boolean, default:false }
-  },
+//  props: {
+//    p_entry:{type:Boolean, default:false }
+//  },
   data() {
     return {
       sessionData:[],
@@ -118,6 +118,9 @@ export default {
     }
     this.loadPage()
     this.loadAllScene()
+
+    if(Vue.config.solo_mode)
+      return
     this.fireBaseAuthState()
     
  },
@@ -152,16 +155,20 @@ export default {
 
   },  
   async selectScene() {
+    console.log("this.p_entry")
+    console.log(this.p_entry)
+
+    console.log("selectScene")
     this.regServeScean()
     await axios.get('/scene/?format=json&session_scene_id='+this.sceneSelect.session_scene_id).then(response => {
         this.sceneData = response.data
     })
+    this.loadScene(this.sceneSelect.session_scene_id)
 
-    if(Vue.config.debug)
-        return
-
+    if(Vue.config.solo_mode)
+      return
     firebase.database().ref('message').push({
-     message: 'storyUpdate|'+this.sceneSelect.session_scene_id
+     message: 'storyUpdate|'+this.$store.getters.sessionUserId+'|'+this.sceneSelect.session_scene_id
     })    
   },
   async regServeScean(){
@@ -180,23 +187,23 @@ export default {
       )
     },  
     fireBaseAuthState(){
-      if(!Vue.config.debug){
-        firebase.auth().onAuthStateChanged(user => {
-          const ref_message = firebase.database().ref('message')
-          ref_message.limitToLast(10).on('child_added', this.firebaseMessageAdded)
-        })
-      }
+      firebase.auth().onAuthStateChanged(user => {
+        const ref_message = firebase.database().ref('message')
+        ref_message.limitToLast(10).on('child_added', this.firebaseMessageAdded)
+      })
     },    
     firebaseMessageAdded(snap) {
-      var fBmessage = snap.val().message.split('|')
-console.log("this.p_entry")
-console.log(this.p_entry)
-      if (this.p_entry!=true)
-        return
+      //if (this.p_entry!=true)
+      //  return
 
-      switch(fBmessage[0]){
+      var fBmessage = snap.val().message.split('|')
+      var fb_messaget_type = fBmessage[0]
+      var fb_send_user_uid = fBmessage[1]
+      var fb_scene_id      = fBmessage[2]
+      switch(fb_messaget_type){
         case 'storyUpdate':
-         this.loadScene(fBmessage[1])
+         if(fb_send_user_uid!=this.$store.getters.sessionUserId) 
+          this.loadScene(fb_scene_id)
         default:
           break
       }

@@ -10,6 +10,7 @@ import './plugins/element.js'
 
 Vue.config.productionTip = false
 Vue.config.debug = true
+Vue.config.solo_mode = true
 
 axios.defaults.baseURL = process.env.VUE_APP_URL
 

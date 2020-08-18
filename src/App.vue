@@ -289,7 +289,7 @@ console.log(this.$store.getters.trpgSessionBgm)
         )
         this.entry = true
         //this.$router.push("/story")
-        this.$router.push({ name: "/story" , props:{p_entry : this.entry}})
+        this.$router.push({ name: "story" , props:{p_entry : this.entry}})
         this.loadChatlog();
 
         await axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId
@@ -348,7 +348,7 @@ console.log(this.$store.getters.trpgSessionBgm)
         console.log("this.entry")
         console.log(this.entry)
 
-        this.$router.push({ name: "/story" , props:{p_entry : this.entry}})
+        this.$router.push({ name: "story" , props:{p_entry : this.entry}})
       },
       async rollDice(){
         var csrftoken = Cookies.get('csrftoken')
