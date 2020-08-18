@@ -99,7 +99,10 @@ import Cookies from 'js-cookie';
 import firebase from 'firebase'
 
 export default {
-      data() {
+  props: {
+    p_entry:{type:Boolean, 'default': { count:false } }
+  },
+  data() {
     return {
       sessionData:[],
       sceneAllData:[],
@@ -149,7 +152,7 @@ export default {
 
   },  
   async selectScene() {
-    this.regisScean()
+    this.regServeScean()
     await axios.get('/scene/?format=json&session_scene_id='+this.sceneSelect.session_scene_id).then(response => {
         this.sceneData = response.data
     })
@@ -161,7 +164,7 @@ export default {
      message: 'storyUpdate|'+this.sceneSelect.session_scene_id
     })    
   },
-  async regisScean(){
+  async regServeScean(){
       var csrftoken = Cookies.get('csrftoken')
       const formData = new FormData();
       formData.append("trpg_session_now_scene", this.sceneSelect.session_scene_id);
@@ -185,22 +188,18 @@ export default {
       }
     },    
     firebaseMessageAdded(snap) {
-console.log("snap.val()")
-console.log(snap.val())
-
       var fBmessage = snap.val().message.split('|')
-
-      //if (this.entry!=true)
-      //  return
+console.log("this.p_entry")
+console.log(this.p_entry)
+      if (this.p_entry!=true)
+        return
 
       switch(fBmessage[0]){
         case 'storyUpdate':
-    console.log("storyUpdate")
-          this.loadScene(fBmessage[1])
+         this.loadScene(fBmessage[1])
         default:
           break
-
-    }
+      }
     },
     async loadScene(sceneId){
       await axios.get('/scene/?format=json&session_scene_id='+sceneId).then(response => {

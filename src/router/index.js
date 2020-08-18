@@ -52,7 +52,8 @@ Vue.use(VueRouter)
       name: 'story',
       component: function () {
         return import(/* webpackChunkName: "diceTray" */ '../views/Story.vue')
-      }   
+      },
+      props: true
     },
 
   ]

@@ -178,9 +178,6 @@ export default {
         use_dice_target:false
       };
     },
-    components() {
-      Story
-    },    
     created() {
       this.$vuetify.theme.dark = true
       this.fireBaseAuthState()
@@ -291,7 +288,8 @@ console.log(this.$store.getters.trpgSessionBgm)
             this.$store.getters.twPhoto
         )
         this.entry = true
-        this.$router.push("/story")
+        //this.$router.push("/story")
+        this.$router.push({ name: "story" , params: {props_entry : this.entry}})
         this.loadChatlog();
 
         await axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId
