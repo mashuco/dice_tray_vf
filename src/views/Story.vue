@@ -155,8 +155,6 @@ export default {
 
   },  
   async selectScene() {
-    console.log("this.p_entry")
-    console.log(this.p_entry)
 
     console.log("selectScene")
     this.regServeScean()
@@ -193,10 +191,11 @@ export default {
       })
     },    
     firebaseMessageAdded(snap) {
-      //if (this.p_entry!=true)
-      //  return
-
       var fBmessage = snap.val().message.split('|')
+console.log("fBmessage")
+console.log(fBmessage)
+
+
       var fb_messaget_type = fBmessage[0]
       var fb_send_user_uid = fBmessage[1]
       var fb_scene_id      = fBmessage[2]
