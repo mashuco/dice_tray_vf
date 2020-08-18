@@ -100,7 +100,7 @@ import firebase from 'firebase'
 
 export default {
   props: {
-    p_entry:{type:Boolean, 'default': { count:false } }
+    entry:{type:Boolean, default:false }
   },
   data() {
     return {
