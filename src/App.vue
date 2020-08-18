@@ -289,6 +289,8 @@ console.log(this.$store.getters.trpgSessionBgm)
         )
         this.entry = true
         //this.$router.push("/story")
+        console.log("this.entry")
+        console.log(this.entry)
         this.$router.push({ name: "story" , props:{p_entry : this.entry}})
         this.loadChatlog();
 
