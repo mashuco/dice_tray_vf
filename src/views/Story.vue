@@ -100,7 +100,7 @@ import firebase from 'firebase'
 
 export default {
   props: {
-    entry:{type:Boolean, default:false }
+    p_entry:{type:Boolean, default:false }
   },
   data() {
     return {
@@ -189,9 +189,9 @@ export default {
     },    
     firebaseMessageAdded(snap) {
       var fBmessage = snap.val().message.split('|')
-console.log("this.p_entry.value")
-console.log(this.p_entry.value)
-      if (this.p_entry.value!=true)
+console.log("this.p_entry")
+console.log(this.p_entry)
+      if (this.p_entry!=true)
         return
 
       switch(fBmessage[0]){
