@@ -344,7 +344,7 @@ console.log(this.$store.getters.trpgSessionBgm)
          }
       },
       doStory(){
-        drawer = true
+        this.drawer = true
         console.log("this.entry")
         console.log(this.entry)
 
