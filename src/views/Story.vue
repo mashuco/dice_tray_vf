@@ -99,10 +99,7 @@ import Cookies from 'js-cookie';
 import firebase from 'firebase'
 
 export default {
-//  props: {
-//    p_entry:{type:Boolean, default:false }
-//  },
-  data() {
+ data() {
     return {
       sessionData:[],
       sceneAllData:[],
@@ -147,19 +144,6 @@ export default {
         session_scene_id: this.sceneAllData[0]['session_scene_id']
       }
   },  
-  async selectScene() {
-    this.regServeScean()
-    await axios.get('/scene/?format=json&session_scene_id='+this.sceneSelect.session_scene_id).then(response => {
-        this.sceneData = response.data
-    })
-    this.loadScene(this.sceneSelect.session_scene_id)
-
-    if(Vue.config.solo_mode)
-      return
-    firebase.database().ref('message').push({
-     message: 'storyUpdate|'+this.$store.getters.sessionUserId+'|'+this.sceneSelect.session_scene_id
-    })    
-  },
   async regServeScean(){
       var csrftoken = Cookies.get('csrftoken')
       const formData = new FormData();
@@ -174,14 +158,27 @@ export default {
           },
         }
       )
-    },  
-    fireBaseAuthState(){
+  },
+  async selectScene() {
+    this.regServeScean()
+    await axios.get('/scene/?format=json&session_scene_id='+this.sceneSelect.session_scene_id).then(response => {
+        this.sceneData = response.data
+    })
+    this.loadScene(this.sceneSelect.session_scene_id)
+
+    if(Vue.config.solo_mode)
+      return
+    firebase.database().ref('message').push({
+     message: 'storyUpdate|'+this.$store.getters.sessionUserId+'|'+this.sceneSelect.session_scene_id
+    })    
+  },
+  fireBaseAuthState(){
       firebase.auth().onAuthStateChanged(user => {
         const ref_message = firebase.database().ref('message')
         ref_message.limitToLast(10).on('child_added', this.firebaseMessageAdded)
       })
-    },    
-    firebaseMessageAdded(snap) {
+  },    
+  firebaseMessageAdded(snap) {
       var fBmessage = snap.val().message.split('|')
       var fb_message_type = fBmessage[0]
       var fb_send_user_uid = fBmessage[1]
@@ -193,16 +190,15 @@ export default {
         default:
           break
       }
-    },
-    async loadScene(sceneId){
+  },
+  async loadScene(sceneId){
       await axios.get('/scene/?format=json&session_scene_id='+sceneId).then(response => {
           this.sceneData = response.data
       })
-
       await this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
       await this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
       await this.$store.commit('notifySessionSceneId',sceneId)
-    },
+  },
 
   
  }

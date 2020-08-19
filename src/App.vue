@@ -285,19 +285,15 @@ export default {
             this.$store.getters.twPhoto
         )
         this.entry = true
-        //this.$router.push("/story")
 
         await axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId
         ).then(response => {
           this.sessionData = response.data
         })
-        //this.loadScene(this.sessionData[0]['trpg_session_now_scene'])
         this.$store.commit('notifyNowScene',this.sessionData[0]['trpg_session_now_scene'])
         this.$router.push({ name: "story" , props:{p_entry : this.entry}})
-        this.loadChatlog();
 
-//  this.audio.src = this.$store.getters.trpgSessionBgm
-//  this.audio.load(),this.audio.play(),this.isPlay=true
+        this.loadChatlog();
 
       },
       async updateTwuserInfo(twUID,twName,twPhoto){
@@ -430,11 +426,8 @@ export default {
           case 'chatUpdate':
            this.loadChatlog()
            break
-          //case 'storyUpdate':
-          //  this.loadScene(fBmessage[1])
           default:
            break
-
         }
       },
       // firebase に更新メッセージを送信。他端末で検知を期待。
@@ -445,18 +438,6 @@ export default {
             this.textarea_dice_command = ""
         })
       },
-      
-      async loadScene(sceneId){
-        await axios.get('/scene/?format=json&session_scene_id='+sceneId).then(response => {
-            this.sceneData = response.data
-        })
-
-        await this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
-        await this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
-        await this.$store.commit('notifySessionSceneId',sceneId)
-      },
-     
-
     }      
   }
 </script>
