@@ -118,19 +118,13 @@ export default {
     }
     this.loadPage()
     this.loadAllScene()
-
+    this.loadScene(this.$store.getters.nowScene)
     if(Vue.config.solo_mode)
       return
     this.fireBaseAuthState()
     
  },
-  mounted() {
-    this.$store.watch(
-      (state, getters) => getters.sessionSceneId,
-      (newValue, oldValue) => {
-
-      }
-    )
+ mounted() {
  },
  methods: {
   doTop:function(){
@@ -152,11 +146,8 @@ export default {
         scene_name:this.sceneAllData[0]['scene_name'], 
         session_scene_id: this.sceneAllData[0]['session_scene_id']
       }
-
   },  
   async selectScene() {
-
-    console.log("selectScene")
     this.regServeScean()
     await axios.get('/scene/?format=json&session_scene_id='+this.sceneSelect.session_scene_id).then(response => {
         this.sceneData = response.data
@@ -192,14 +183,10 @@ export default {
     },    
     firebaseMessageAdded(snap) {
       var fBmessage = snap.val().message.split('|')
-console.log("fBmessage")
-console.log(fBmessage)
-
-
-      var fb_messaget_type = fBmessage[0]
+      var fb_message_type = fBmessage[0]
       var fb_send_user_uid = fBmessage[1]
       var fb_scene_id      = fBmessage[2]
-      switch(fb_messaget_type){
+      switch(fb_message_type){
         case 'storyUpdate':
          if(fb_send_user_uid!=this.$store.getters.sessionUserId) 
           this.loadScene(fb_scene_id)

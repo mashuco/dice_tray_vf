@@ -15,7 +15,8 @@ export default new Vuex.Store({
     sessionSceneId:'',
     twUID :'',
     twName:'',
-    twPhoto:''
+    twPhoto:'',
+    nowScene:''
   },
   getters: {
     ticketNo(state){
@@ -50,6 +51,9 @@ export default new Vuex.Store({
     },
     twPhoto(state){
       return state.twPhoto
+    },
+    nowScene(state){
+      return state.nowScene
     },
     
   },
@@ -86,6 +90,9 @@ export default new Vuex.Store({
     },
     notifyTwPhoto(state,str){
       state.twPhoto =str
+    },
+    notifyNowScene(state,str){
+      state.nowScene =str
     }
     
   },

@@ -192,9 +192,6 @@ export default {
       this.$store.watch(
         (state, getters) => getters.trpgSessionBgm,
         (newValue, oldValue) => {
-console.log("$store.watch")          
-console.log(this.$store.getters.trpgSessionBgm)  
-        
           if(this.entry != true)
             return
 
@@ -289,14 +286,16 @@ console.log(this.$store.getters.trpgSessionBgm)
         )
         this.entry = true
         //this.$router.push("/story")
-        this.$router.push({ name: "story" , props:{p_entry : this.entry}})
-        this.loadChatlog();
 
         await axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId
         ).then(response => {
           this.sessionData = response.data
         })
-        this.loadScene(this.sessionData[0]['trpg_session_now_scene'])
+        //this.loadScene(this.sessionData[0]['trpg_session_now_scene'])
+        this.$store.commit('notifyNowScene',this.sessionData[0]['trpg_session_now_scene'])
+        this.$router.push({ name: "story" , props:{p_entry : this.entry}})
+        this.loadChatlog();
+
 //  this.audio.src = this.$store.getters.trpgSessionBgm
 //  this.audio.load(),this.audio.play(),this.isPlay=true
 
@@ -345,8 +344,7 @@ console.log(this.$store.getters.trpgSessionBgm)
       },
       doStory(){
         this.drawer = true
-        console.log("this.entry")
-        console.log(this.entry)
+
 
         this.$router.push({ name: "story" , props:{p_entry : this.entry}})
       },
@@ -378,11 +376,6 @@ console.log(this.$store.getters.trpgSessionBgm)
           })
           await this.scrollToLastItem()
       },
-      loadSession:function(){
-          axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
-              this.sessionData = response.data
-          })
-      },  
       scrollToLastItem() {
           this.$vuetify.goTo(99999)
       },
@@ -457,8 +450,6 @@ console.log(this.$store.getters.trpgSessionBgm)
         await axios.get('/scene/?format=json&session_scene_id='+sceneId).then(response => {
             this.sceneData = response.data
         })
-console.log("sceneId")
-console.log(sceneId)
 
         await this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
         await this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
