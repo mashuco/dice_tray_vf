@@ -56,26 +56,12 @@ export default {
     };
   },  
   created(){
-    //if(this.$store.getters.sessionUserId == ""){
-    //  this.doTop();
-   // }
-
-    this.userName = this.$store.getters.userName
-    this.trpgSessionName = this.$store.getters.trpgSessionName
-    this.trpgSessionId = this.$store.trpgSessionId
-    this.sessionUserId = this.$store.sessionUserId
     
     this.loadAll()
   },  
   methods: {
-    //doTop:function(){
-    //  this.$router.push("/")
-    //},
-    doMain: function(evnet){
-      this.$router.push("/main")
-    },
     loadAll:function(){
-      axios.get('/uEntry/?format=json').then(response => {
+      axios.get('/uEntry/?format=json&is_session_master=false&trpg_session='+this.$store.getters.trpgSessionId).then(response => {
         this.profileData = response.data
       })
     },

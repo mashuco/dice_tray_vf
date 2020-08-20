@@ -12,7 +12,8 @@ export default new Vuex.Store({
     trpgSessionBgm:'',
     userName:'',
     sessionUserId:'',
-    sessionSceneId:'',
+    isSessionMaster:false,
+//    sessionSceneId:'',
     twUID :'',
     twName:'',
     twPhoto:'',
@@ -40,9 +41,13 @@ export default new Vuex.Store({
     sessionUserId(state){
       return state.sessionUserId
     },
-    sessionSceneId(state){
-      return state.sessionSceneId
-    },    
+    isSessionMaster(state){
+      return state.isSessionMaster
+    },
+    
+  //  sessionSceneId(state){
+  //    return state.sessionSceneId
+  //  },    
     twUID(state){
       return state.twUID
     },
@@ -79,9 +84,12 @@ export default new Vuex.Store({
     notifySessionUserId(state,str){
       state.sessionUserId =str
     },
-    notifySessionSceneId(state,str){
-      state.sessionSceneId =str
+    notifyIsSessionMaster(state,bool){
+      state.isSessionMaster =bool
     },
+    //notifySessionSceneId(state,str){
+    //  state.sessionSceneId =str
+    //},
     notifyTwUID(state,str){
       state.twUID =str
     },

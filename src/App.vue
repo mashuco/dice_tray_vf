@@ -5,7 +5,7 @@
         app
         clipped
         stateless
-        width = "65%"
+        width = "70%"
         :style="{backgroundImage:`url('${bgImg}')`}" class="bg-img"
     >
       <v-container class="mt-12" >
@@ -41,15 +41,21 @@
           <div class="side-bar-header">
             <div style="width:1px; height: 50px"></div>
             <v-row >
+<div>
+  <p>window width: {{ width }}</p>
+  <p>window height: {{ height }}</p>
+</div>
               <v-col>
                 <v-btn  @click="doLogout">Logout</v-btn>
               </v-col><v-col>
                 <v-btn txet to="/member_profile" @click="drawer = true">member_profile</v-btn>
               </v-col><v-col>
                 <v-btn text to="/my_profile" @click="drawer = true">MyProfile</v-btn>
-              </v-col><v-col>
+              </v-col>
+              <!--v-col>
                 <v-btn text to="/items" @click="drawer = true">items</v-btn>
-              </v-col><v-col>
+              </v-col-->
+              <v-col>
                 <v-btn  @click="doStory">story</v-btn>
               </v-col><v-col>
                 <v-btn  @click="switchMusic"  v-if="isPlay == true" >BGM停止</v-btn>
@@ -101,7 +107,8 @@
           <div class="chat-window">
             <v-row >
               <v-list three-line
-                min-width="500px">
+                min-width="500px"
+              >
                 <v-list-item v-for="item in messages" :key="item.text" link >
                   <!--v-list-item-avatar>
                   <v-img :src="item.twitter_users_photo" />
@@ -159,6 +166,9 @@
 export default {
     data() {
       return {
+      width: window.innerWidth,
+      height: window.innerHeight,
+
         drawer: true,
         messages:[],
         sessionData:[],
@@ -183,7 +193,9 @@ export default {
       this.fireBaseAuthState()
     },
     mounted() {
-      this.$store.watch(
+  window.addEventListener('resize', this.handleResize),      
+
+this.$store.watch(
         (state, getters) => getters.trpgSessionImg,
         (newValue, oldValue) => {
           this.bgImg = this.$store.getters.trpgSessionImg
@@ -206,7 +218,16 @@ export default {
       
       
     },
-    methods: {
+
+  beforeDestroy: function () {
+    window.removeEventListener('resize', this.handleResize)
+  },
+  methods: {
+  handleResize: function() {
+      // resizeのたびにこいつが発火するので、ここでやりたいことをやる
+      this.width = window.innerWidth;
+      this.height = window.innerHeight;
+    },      
       fireBaseAuthState(){
         if(!Vue.config.debug){
         var firebaseConfig = {
@@ -278,6 +299,9 @@ export default {
         this.$store.commit('notifyTrpgSessionId',this.entyrInfo[0]['trpg_session'])
         this.$store.commit('notifyTrpgSessionName',this.entyrInfo[0]['trpg_session_name'])
         this.$store.commit('notifyUserName',this.entyrInfo[0]['name'])
+        this.$store.commit('notifyIsSessionMaster',this.entyrInfo[0]['is_session_master'])
+        console.log("this.$store.getters.isSessionMaster")
+        console.log(this.$store.getters.isSessionMaster)
         this.$store.commit('notifySessionUserId',this.entyrInfo[0]['session_user_id'])
         this.updateTwuserInfo(
             this.$store.getters.twUID,

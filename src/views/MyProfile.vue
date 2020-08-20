@@ -53,10 +53,6 @@ export default {
     };
   },
   created(){
-    if(this.$store.getters.sessionUserId == ""){
-      this.doTop();
-    }
-    
     this.loadProfile()
   },
   methods: {

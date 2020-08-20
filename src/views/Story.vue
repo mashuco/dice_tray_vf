@@ -4,9 +4,8 @@
         <v-card
           max-width="800"
         >
-        シーン
        <v-select
-          v-model="sceneSelect"
+          v-model="selectedScene"
           :items="sceneAllData"
           item-text="scene_name"
           item-value="session_scene_id"
@@ -16,36 +15,10 @@
           single-line
           return-object
           @change = 'selectScene'
-
+         :readonly="!isSessionMaster"
         ></v-select>
        </v-card>
 
-        <!--v-card
-          max-width="800"
-        >
-        <v-list>
-          <v-list-item
-            v-for="item in sessionData"
-            :key="item.session_user_id"
-          >
-          <v-card color="#385F73" width="100%" height="200px">
-            <div class="d-flex flex-no-wrap justify-space-between">
-                <v-card-title
-                  class="headline"
-                  v-text="item.title"
-                ></v-card-title>
-                <v-row>
-              <v-col>
-                <v-card-title class="headline" v-text="item.trpg_session_name"/>
-                <v-card-subtitle v-text="item.trpg_session_outline"/>
-              </v-col>
-              </v-row>
-            </div>
-          </v-card>
-          </v-list-item>
-        </v-list>
-       </v-card-->
-      
         <v-card
           max-width="800"
         >
@@ -72,24 +45,7 @@
         </v-list>
        </v-card>
 
-</v-container>
-    <!--v-container>
-        Story
-        <v-list>
-            <v-list-item
-                v-for="item in sessionData"
-            :key="item.trpg_session_id"
-            >
-                <v-list-item-content>
-                    <v-list-item-title v-text="item.trpg_session_outline"></v-list-item-title>
-                </v-list-item-content>
-                <v-list-item-avatar>
-                <v-img :src="item.trpg_session_image"></v-img>
-                </v-list-item-avatar>
-            </v-list-item>
-        </v-list>
-
-    </v-container-->
+  </v-container>
 </template>
 
 <script>
@@ -104,9 +60,9 @@ export default {
       sessionData:[],
       sceneAllData:[],
       sceneData:[],
-      scene_id:'',
-      sceneSelect: [],
+      selectedScene: {scene_name:'',session_scene_id:''},
       tw_user: {},  // twitterユーザー情報
+      isSessionMaster: false,
     };
   },
   created(){
@@ -116,19 +72,17 @@ export default {
     this.loadPage()
     this.loadAllScene()
     this.loadScene(this.$store.getters.nowScene)
+    this.isSessionMaster =  this.$store.getters.isSessionMaster
+
     if(Vue.config.solo_mode)
       return
     this.fireBaseAuthState()
-    
  },
  mounted() {
  },
  methods: {
   doTop:function(){
     this.$router.push("/")
-  },
-  doMain: function(evnet){
-     this.$router.push("/main")
   },
   async loadPage(){
       await axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
@@ -139,7 +93,7 @@ export default {
       await axios.get('/scene/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
           this.sceneAllData = response.data
       })
-      this.sceneSelect   ={ 
+      this.selectedScene   ={ 
         scene_name:this.sceneAllData[0]['scene_name'], 
         session_scene_id: this.sceneAllData[0]['session_scene_id']
       }
@@ -147,7 +101,7 @@ export default {
   async regServeScean(){
       var csrftoken = Cookies.get('csrftoken')
       const formData = new FormData();
-      formData.append("trpg_session_now_scene", this.sceneSelect.session_scene_id);
+      formData.append("trpg_session_now_scene", this.selectedScene.session_scene_id);
       await axios.patch(
         '/session/'+this.$store.getters.trpgSessionId+'/', 
         formData,
@@ -161,15 +115,15 @@ export default {
   },
   async selectScene() {
     this.regServeScean()
-    await axios.get('/scene/?format=json&session_scene_id='+this.sceneSelect.session_scene_id).then(response => {
+    await axios.get('/scene/?format=json&session_scene_id='+this.selectedScene.session_scene_id).then(response => {
         this.sceneData = response.data
     })
-    this.loadScene(this.sceneSelect.session_scene_id)
+    this.loadScene(this.selectedScene.session_scene_id)
 
     if(Vue.config.solo_mode)
       return
     firebase.database().ref('message').push({
-     message: 'storyUpdate|'+this.$store.getters.sessionUserId+'|'+this.sceneSelect.session_scene_id
+     message: 'storyUpdate|'+this.$store.getters.sessionUserId+'|'+this.selectedScene.session_scene_id
     })    
   },
   fireBaseAuthState(){
@@ -195,9 +149,13 @@ export default {
       await axios.get('/scene/?format=json&session_scene_id='+sceneId).then(response => {
           this.sceneData = response.data
       })
-      await this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
-      await this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
-      await this.$store.commit('notifySessionSceneId',sceneId)
+      this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
+      this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
+     
+      this.selectedScene   ={ 
+        scene_name:this.sceneData[0]['scene_name'], 
+        session_scene_id: this.sceneData[0]['session_scene_id']
+      }
   },
 
   
