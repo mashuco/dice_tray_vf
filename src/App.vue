@@ -257,7 +257,7 @@
             if(this.$vuetify.breakpoint.mdAndUp)
               return '100%'
             if(this.$vuetify.breakpoint.smAndDown)
-              return '70%'
+              return '90%'
           },
       },
   beforeDestroy: function () {
