@@ -1,6 +1,6 @@
 <template>
     <v-container>
-      <v-card color="#385F73" width="100%" height="300px">
+      <v-card color="#385F73" width="100%" >
         <div class="d-flex flex-no-wrap justify-space-between">
           <v-row>
             <v-col>
@@ -29,7 +29,7 @@
             <v-col>
               <v-btn  v-on:click="doRegistory">登録</v-btn>
             </v-col>
-            </v-row>
+          </v-row>
         </div>
       </v-card>
     </v-container>

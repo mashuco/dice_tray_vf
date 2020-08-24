@@ -1,9 +1,7 @@
 <template>
 
-<v-container>
-        <v-card
-          max-width="800"
-        >
+<v-container class="A">
+       <v-card width="100%">
        <v-select
           v-model="selectedScene"
           :items="sceneAllData"
@@ -19,15 +17,12 @@
         ></v-select>
        </v-card>
 
-        <v-card
-          max-width="800"
-        >
+        <v-card width="100%" >
         <v-list>
           <v-list-item
             v-for="item in sceneData"
             :key="item.session_user_id"
           >
-          <v-card color="#385F73" width="100%" height="200px">
             <div class="d-flex flex-no-wrap justify-space-between">
                 <v-card-title
                   class="headline"
@@ -40,7 +35,6 @@
               </v-col>
               </v-row>
             </div>
-          </v-card>
           </v-list-item>
         </v-list>
        </v-card>
