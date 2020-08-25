@@ -11,29 +11,17 @@
 
 .menu {
   z-index:1900;
-
 }
 .side-bar-header {
   z-index:1800;
-  background-color: rgb(0, 0, 0);
-  /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);*/
   padding: 0.1rem 1rem;
   position: sticky;
   top: 0;
-  margin:0;
-
 }
 .chat-window
 {
   z-index:1700;
-  background-color: rgb(0, 0, 0);
-  /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);*/
-  padding: 0.1rem 1rem;
   position: sticky;
-  left: 0;
-  width: 100% ;
-  margin:0;
-
 }
 .main-contens{
   z-index:1000;

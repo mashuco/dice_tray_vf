@@ -20,8 +20,7 @@
             </template>
             <v-list>
               <v-list-item>
-                <v-list-item-content>
-                </v-list-item-content>
+                <v-list-item-content/>
               </v-list-item>
               <v-list-item>
                 <v-list-item-content>
@@ -62,7 +61,6 @@
         :width = 'navigation_wide'
         ref="myNavDrawer"
     >
-      <div class="side-bar" >
         <v-container class="pa-0 ma-1">
           <v-layout wrap>
             <v-card   
@@ -121,32 +119,23 @@
             <v-sheet class="chat-window"
               :width = 'window_width_prop'
             >
-              <v-row >
-                <v-list three-line                >
-                  <v-list-item v-for="item in messages" :key="item.text" link >
-                    <!--v-list-item-avatar>
-                    <v-img :src="item.twitter_users_photo" />
-                    </v-list-item-avatar>
-                    <v-list-item-title v-text="item.twitter_users_name"></v-list-item-title-->
-                    <img class="character_image_s" :src="item.character_image"/>
-                    <v-list-item-content>
-                      <!--v-list-item-title v-html="item.character_name"></v-list-item-title-->
-                      <!--v-list-item-subtitle v-html="item.roll_dice_command"></v-list-item-subtitle-->
-                      <v-textarea
-                          outlined
-                          :value="chatMessage(item.roll_dice_command,item.roll_dice_result_sum,item.roll_dice_result_split,item.is_roll_daice_suees)"
-                          :label="item.character_name"
-                          style="white-space:pre"
-                          height="70px"
-                      ></v-textarea>
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-list> 
-              </v-row>
+              <v-list three-line >
+                <v-list-item v-for="item in messages" :key="item.text" link >
+                  <img class="character_image_s" :src="item.character_image"/>
+                  <v-list-item-content>
+                    <v-textarea
+                        outlined
+                        :value="chatMessage(item.roll_dice_command,item.roll_dice_result_sum,item.roll_dice_result_split,item.is_roll_daice_suees)"
+                        :label="item.character_name +'('+ item.twitter_users_name +')'"
+                        style="white-space:pre"
+                        height="70px"
+                    ></v-textarea>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list> 
             </v-sheet>
            </v-layout>
         </v-container>
-      </div>
     </v-navigation-drawer>
     <v-main
       :style="{backgroundImage:`url('${bgImg}')`}" class="bg-img"
@@ -262,6 +251,9 @@
               return '100%'
             if(this.$vuetify.breakpoint.smAndDown)
               return '100%'
+          },
+          is_mdAndUp(){
+            return this.$vuetify.breakpoint.mdAndUp
           },
           window_width_prop(){
             console.log("this.window_width+px")
@@ -419,15 +411,18 @@
          }
       },
       doStory(){
-        this.drawer = false
+        if(this.is_mdAndUp == false)
+          this.drawer = false
         this.$router.push({ name: "story" , props:{p_entry : this.entry}})
       },
       doMemberProfile(){
-        this.drawer = false
+        if(this.is_mdAndUp == false)
+          this.drawer = false
         this.$router.push({ name: "member_profile" })
       },
       doMyProfile(){
-        this.drawer = false
+        if(this.is_mdAndUp == false)
+          this.drawer = false
         this.$router.push({ name: "my_profile" })
       },
       async rollDice(){
