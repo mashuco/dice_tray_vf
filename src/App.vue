@@ -60,8 +60,9 @@
         clipped
         stateless
         :width = 'navigation_wide'
+        ref="myNavDrawer"
     >
-      <div class="side-bar">
+      <div class="side-bar" >
         <v-container>
           <v-layout wrap>
             <v-card   
@@ -69,6 +70,8 @@
               :width = 'dice_tray_wide'
              >
               <div style="width:1px; height: 50px"/>
+                  <v-btn  outlined small @click="test">test</v-btn>
+
                 <v-row class="pa-0 ma-0">
                   <v-col class="pa-1 ma-0">
                   <v-select  class="pa-0 ma-0"
@@ -218,6 +221,7 @@
         currentTime: 0,
         use_dice_target:false,
         panale1Visible:false,
+        navDrawerContent :null
       };
     },
     created() {
@@ -225,6 +229,7 @@
       this.fireBaseAuthState()
     },
     mounted() {
+
       this.$store.watch(
           (state, getters) => getters.trpgSessionImg,
           (newValue, oldValue) => {
@@ -263,6 +268,14 @@
   beforeDestroy: function () {
   },
   methods: {
+    test(){
+      this.navDrawerContent = this.$refs.myNavDrawer
+
+      //console.log(this.$el)
+      //console.log(this.$refs)
+      console.log(this.navDrawerContent)
+
+    },
     fireBaseAuthState(){
       if(!Vue.config.debug){
         var firebaseConfig = {
@@ -335,8 +348,6 @@
         this.$store.commit('notifyTrpgSessionName',this.entyrInfo[0]['trpg_session_name'])
         this.$store.commit('notifyUserName',this.entyrInfo[0]['name'])
         this.$store.commit('notifyIsSessionMaster',this.entyrInfo[0]['is_session_master'])
-        console.log("this.$store.getters.isSessionMaster")
-        console.log(this.$store.getters.isSessionMaster)
         this.$store.commit('notifySessionUserId',this.entyrInfo[0]['session_user_id'])
         this.updateTwuserInfo(
             this.$store.getters.twUID,
@@ -429,7 +440,9 @@
           await this.scrollToLastItem()
       },
       scrollToLastItem() {
-          this.$vuetify.goTo(99999)
+          this.navDrawerContent = this.$refs['myNavDrawer'].$el.querySelector('div.v-navigation-drawer__content');
+          console.log( this.navDrawerContent)
+          this.$vuetify.goTo(99999 ,{ container:this.navDrawerContent})
       },
       chatMessage(msg,rollSum,rollResult,SuccessOrFailure) {
         if(rollSum == "") 
