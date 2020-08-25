@@ -120,7 +120,6 @@
             </v-card >
             <v-sheet class="chat-window"
               :width = 'dice_tray_wide'
-            
             >
               <v-row >
                 <v-list three-line                >
@@ -159,7 +158,6 @@
         </v-col>
         </v-row>
       </v-container>
-
     </v-main>
   </v-app>
   <v-app v-else-if="login">
@@ -183,7 +181,6 @@
     </v-container>
   </v-app>
 </template>
-
 <script>
   import Vue from "vue"
   import axios from 'axios'
@@ -229,7 +226,6 @@
       this.fireBaseAuthState()
     },
     mounted() {
-
       this.$store.watch(
           (state, getters) => getters.trpgSessionImg,
           (newValue, oldValue) => {
@@ -262,7 +258,7 @@
             if(this.$vuetify.breakpoint.mdAndUp)
               return '100%'
             if(this.$vuetify.breakpoint.smAndDown)
-              return '90%'
+              return '100%'
           },
       },
   beforeDestroy: function () {
