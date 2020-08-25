@@ -63,15 +63,14 @@
         ref="myNavDrawer"
     >
       <div class="side-bar" >
-        <v-container>
+        <v-container class="pa-0 ma-1">
           <v-layout wrap>
             <v-card   
-              class="side-bar-header "
-              :width = 'dice_tray_wide'
+              class="side-bar-header"
+              :width = 'window_width_prop '
              >
-              <div style="width:1px; height: 50px"/>
-                  <v-btn  outlined small @click="test">test</v-btn>
-
+              <!--:width = 'dice_tray_wide'-->
+              <div style="width:1px; height: 10px"/>
                 <v-row class="pa-0 ma-0">
                   <v-col class="pa-1 ma-0">
                   <v-select  class="pa-0 ma-0"
@@ -82,11 +81,12 @@
                     outlined
                     return-object
                     dense
+                    style="width:95px;"
                   ></v-select>
                 </v-col>
                 <v-col class="pa-2 ma-0">
                   <div width="20px">
-                  <el-input-number width="100%"  size="small" v-model="dice_num"  :min="1" :max="100"></el-input-number>
+                  <el-input-number style="width:110px;"  size="small" v-model="dice_num"  :min="1" :max="100"></el-input-number>
                   </div>
                 </v-col>
                 <v-col class="py-3  ma-0">
@@ -95,10 +95,10 @@
               </v-row>
               <v-row class="pa-0 ma-0">
                 <v-col class="pa-0 ma-0">
-                  <v-switch v-model="use_dice_target"  label="目標値"></v-switch>
+                  <v-switch v-model="use_dice_target"  label="目標"></v-switch>
                 </v-col>
                 <v-col class="pa-3 ma-0">
-                  <el-input-number :disabled="!use_dice_target" size="small" v-model="dice_target"  :min="1" :max="100"></el-input-number>
+                  <el-input-number style="width:110px;" :disabled="!use_dice_target" size="small" v-model="dice_target"  :min="1" :max="100"></el-input-number>
                 </v-col >
                 <v-col class="py-5 ma-0">
                   以上
@@ -119,7 +119,7 @@
               </v-row>
             </v-card >
             <v-sheet class="chat-window"
-              :width = 'dice_tray_wide'
+              :width = 'window_width_prop'
             >
               <v-row >
                 <v-list three-line                >
@@ -218,7 +218,9 @@
         currentTime: 0,
         use_dice_target:false,
         panale1Visible:false,
-        navDrawerContent :null
+        navDrawerContent :null,
+        window_width: window.innerWidth,
+        window_height: window.innerHeight
       };
     },
     created() {
@@ -226,6 +228,7 @@
       this.fireBaseAuthState()
     },
     mounted() {
+      window.addEventListener('resize', this.handleResize)
       this.$store.watch(
           (state, getters) => getters.trpgSessionImg,
           (newValue, oldValue) => {
@@ -260,8 +263,17 @@
             if(this.$vuetify.breakpoint.smAndDown)
               return '100%'
           },
+          window_width_prop(){
+            console.log("this.window_width+px")
+            console.log(this.window_width+"px")
+              return this.window_width+"px"
+          },
+          window_height_prop(){
+              return this.window_height+"px"
+          },
       },
   beforeDestroy: function () {
+    window.removeEventListener('resize', this.handleResize)
   },
   methods: {
     test(){
@@ -271,6 +283,12 @@
       //console.log(this.$refs)
       console.log(this.navDrawerContent)
 
+    },
+    handleResize: function() {
+      if(this.drawer==true)
+        return
+      this.window_width = window.innerWidth;
+      this.window_height = window.innerHeight;
     },
     fireBaseAuthState(){
       if(!Vue.config.debug){
