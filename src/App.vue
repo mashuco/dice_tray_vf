@@ -67,80 +67,87 @@
               class="side-bar-header"
               :width = 'window_width_prop '
              >
-              <!--:width = 'dice_tray_wide'-->
-              <div style="width:1px; height: 10px"/>
-                <v-row class="pa-0 ma-0">
+                <div style="width:1px; height: 5px"/>
+                  <v-row class="pa-0 ma-0" justify="start">
+                    <v-col class="pa-0 ma-0">
+                       <v-img
+                      :src="diceImgPath"
+                      max-height="35" 
+                      contain
+                      class="pa-0 ma-0"
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row class="pa-0 ma-0">
                   <v-col class="pa-1 ma-0">
-                  <v-select  class="pa-0 ma-0"
-                    v-model="selected_dice_face"
-                    :items="dice_face_options"
-                    item-text="name"
-                    item-value="id"
-                    outlined
-                    return-object
-                    dense
-                    style="width:95px;"
-                  ></v-select>
-                </v-col>
-                <v-col class="pa-2 ma-0">
-                  <div width="20px">
-                  <el-input-number style="width:110px;"  size="small" v-model="dice_num"  :min="1" :max="100"></el-input-number>
-                  </div>
-                </v-col>
-                <v-col class="py-3  ma-0">
-                  <v-btn  outlined small @click="onSelectRollDice">個振る</v-btn>
+                    <v-select  class="pa-0 ma-0"
+                      v-model="selected_dice_face"
+                      :items="dice_face_options"
+                      item-text="name"
+                      item-value="id"
+                      outlined
+                      return-object
+                      dense
+                      style="width:95px;"
+                    ></v-select>
                   </v-col>
-              </v-row>
-              <v-row class="pa-0 ma-0">
-                <v-col class="pa-0 ma-0">
-                  <v-switch v-model="use_dice_target"  label="目標"></v-switch>
-                </v-col>
-                <v-col class="pa-3 ma-0">
-                  <el-input-number style="width:110px;" :disabled="!use_dice_target" size="small" v-model="dice_target"  :min="1" :max="100"></el-input-number>
-                </v-col >
-                <v-col class="py-5 ma-0">
-                  以上
-                </v-col >
-              </v-row>
-              <v-row>
-                <v-col class="pa-0 ma-0">
-                <v-text-field class="pa-0  ma-0"
-                  v-model="textarea_dice_command"
-                  placeholder="input message..."
-                  single-line
-                  append-icon="mdi-chat"
-                  color="white"
-                  hide-details
-                  @keydown.enter="onRoll"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-            </v-card >
-            <v-sheet class="chat-window"
-              :width = 'window_width_prop'
-            >
-              <v-list three-line >
-                <v-list-item v-for="item in messages" :key="item.text" link >
-                  <img class="character_image_s" :src="item.character_image"/>
-                  <v-list-item-content>
-                    <v-textarea
-                        outlined
-                        :value="chatMessage(item.roll_dice_command,item.roll_dice_result_sum,item.roll_dice_result_split,item.is_roll_daice_suees)"
-                        :label="item.character_name +'('+ item.twitter_users_name +')'"
-                        style="white-space:pre"
-                        height="70px"
-                    ></v-textarea>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list> 
-            </v-sheet>
-           </v-layout>
-        </v-container>
+                  <v-col class="pa-2 ma-0">
+                    <el-input-number style="width:110px;"  size="small" v-model="dice_num"  :min="1" :max="100"></el-input-number>
+                  </v-col>
+                  <v-col class="py-3  ma-0">
+                    <v-btn  outlined small @click="onSelectRollDice">個振る</v-btn>
+                  </v-col>
+                </v-row>
+                <v-row class="pa-0 ma-0">
+                  <v-col class="pa-0 ma-0">
+                    <v-switch v-model="use_dice_target"  label="目標"></v-switch>
+                  </v-col>
+                  <v-col class="pa-3 ma-0">
+                    <el-input-number style="width:110px;" :disabled="!use_dice_target" size="small" v-model="dice_target"  :min="1" :max="100"></el-input-number>
+                  </v-col >
+                  <v-col class="py-5 ma-0">
+                    以上
+                  </v-col >
+                </v-row>
+                <v-row>
+                  <v-col class="pa-0 ma-0">
+                  <v-text-field class="pa-0  ma-0"
+                    v-model="textarea_dice_command"
+                    placeholder="input message..."
+                    single-line
+                    append-icon="mdi-chat"
+                    color="white"
+                    hide-details
+                    @keydown.enter="onRoll"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+          </v-card >
+          <v-sheet class="chat-window"
+            :width = 'window_width_prop'
+          >
+            <v-list three-line >
+              <v-list-item v-for="item in messages" :key="item.text" link >
+                <img class="character_image_s" :src="item.character_image"/>
+                <v-list-item-content>
+                  <v-textarea
+                      outlined
+                      :value="chatMessage(item.roll_dice_command,item.roll_dice_result_sum,item.roll_dice_result_split,item.is_roll_daice_suees)"
+                      :label="item.character_name +'('+ item.twitter_users_name +')'"
+                      style="white-space:pre"
+                      height="70px"
+                  ></v-textarea>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list> 
+          </v-sheet>
+          </v-layout>
+      </v-container>
     </v-navigation-drawer>
     <v-main
       :style="{backgroundImage:`url('${bgImg}')`}" class="bg-img"
     >
-      <v-container class="S">
+      <v-container  class="pa-1 ma-1">
         <v-row >
         <v-col >
           <router-view ></router-view>
@@ -156,8 +163,9 @@
         <v-text-field
             v-model="textarea_ticekt_no"
             label="チケットNO"
+            @keydown.enter="onEntry"
         ></v-text-field>
-        <v-btn  v-on:click="onEntry" text to="/items">Entry</v-btn>
+        <v-btn  v-on:click="onEntry" >Entry</v-btn>
       </v-container>
     </v-app>
   <v-app v-else>
@@ -209,7 +217,8 @@
         panale1Visible:false,
         navDrawerContent :null,
         window_width: window.innerWidth,
-        window_height: window.innerHeight
+        window_height: window.innerHeight,
+        diceImgPath: require('@/assets/142187.png')
       };
     },
     created() {
@@ -256,8 +265,6 @@
             return this.$vuetify.breakpoint.mdAndUp
           },
           window_width_prop(){
-            console.log("this.window_width+px")
-            console.log(this.window_width+"px")
               return this.window_width+"px"
           },
           window_height_prop(){
@@ -270,7 +277,6 @@
   methods: {
     test(){
       this.navDrawerContent = this.$refs.myNavDrawer
-
       //console.log(this.$el)
       //console.log(this.$refs)
       console.log(this.navDrawerContent)
@@ -355,20 +361,22 @@
         this.$store.commit('notifyUserName',this.entyrInfo[0]['name'])
         this.$store.commit('notifyIsSessionMaster',this.entyrInfo[0]['is_session_master'])
         this.$store.commit('notifySessionUserId',this.entyrInfo[0]['session_user_id'])
-        this.updateTwuserInfo(
-            this.$store.getters.twUID,
-            this.$store.getters.twName,
-            this.$store.getters.twPhoto
-        )
         this.entry = true
-
         await axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId
         ).then(response => {
           this.sessionData = response.data
         })
         this.$store.commit('notifyNowScene',this.sessionData[0]['trpg_session_now_scene'])
-        this.$router.push({ name: "story" , props:{p_entry : this.entry}})
+        this.$router.push({ name: "story" })
         this.loadChatlog();
+        if(Vue.config.debug)
+          return
+
+        this.updateTwuserInfo(
+            this.$store.getters.twUID,
+            this.$store.getters.twName,
+            this.$store.getters.twPhoto
+        )
       },
       async updateTwuserInfo(twUID,twName,twPhoto){
         var csrftoken = Cookies.get('csrftoken')

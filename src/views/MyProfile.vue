@@ -1,34 +1,42 @@
-<template>
-    <v-container>
-      <v-card color="#385F73" width="100%" >
-          <v-row>
-            <v-col>
+<template >
+    <v-container class="pa-0 my-0">
+      <v-card color="#385F73" width="100%"  class="py-1 my-1">
+        <v-card-title>
               <v-text-field
+                  outlined
                   class="headline"
                   v-model="character_name"
                   label="キャラクター名"
+                  append-icon="mdi-fountain-pen-tip"
               ></v-text-field>
-            </v-col>
-            <v-col>
-              <img :src="character_image"/>
-              <v-file-input
-                v-model="img_file"
-                @change="getFileName"
-                accept="image/*"
-                label="File input"
-              ></v-file-input>
-            </v-col>
-            <v-col>
-              <v-textarea
-                  outlined
-                  v-model="character_profile"
-                  label="プロフィール"
-              ></v-textarea>
-            </v-col>
-            <v-col>
-              <v-btn  v-on:click="doRegistory">登録</v-btn>
-            </v-col>
-          </v-row>
+        </v-card-title>
+        <v-card-subtitle class="pa-0 ma-0">
+          <v-img 
+            :src="character_image"  
+            max-height="180" 
+            contain />
+          <v-file-input
+            v-model="img_file"
+            @change="getFileName"
+            accept="image/*"
+            label="File input"
+          ></v-file-input>
+        </v-card-subtitle>
+        <v-card-text class="pa-1 ma-0">
+            <v-textarea
+              outlined
+              v-model="character_profile"
+              label="プロフィール"
+              append-icon="mdi-fountain-pen-tip"
+              class="pa-0 ma-0"
+            />
+        </v-card-text>
+       <div
+        align="center"
+        style="padding:0px; margin:5px"
+       >
+        <v-btn v-on:click="doRegistory" block  color="warning">登録</v-btn>
+       </div>
       </v-card>
     </v-container>
 </template>
