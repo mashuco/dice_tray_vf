@@ -1,7 +1,9 @@
 <template >
     <v-container class="pa-0 my-0">
-      <v-card color="#385F73" width="100%"  class="py-1 my-1">
-        <v-card-title>
+      <v-card color="#385F73" width="100%"  class="pa-2 my-">
+        <v-row
+          class="py-0 my-0"
+        >
               <v-text-field
                   outlined
                   class="headline"
@@ -9,7 +11,7 @@
                   label="キャラクター名"
                   append-icon="mdi-fountain-pen-tip"
               ></v-text-field>
-        </v-card-title>
+        </v-row>
         <v-card-subtitle class="pa-0 ma-0">
           <v-img 
             :src="character_image"  
