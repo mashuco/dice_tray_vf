@@ -9,20 +9,24 @@
         :key="item.session_user_id"
         class="pa-1 my-0"
       >
-        <v-card color="#385F73" width="100%" height="250px">
-                <v-img  class="character_image_m　pa-0 my-5"  
+        <v-card color="#385F73" width="100%" height="265px">
+                <v-img  class="character_image_m　pa-0 my-3"  
                   :src="item.character_image"   
                   max-height="150" 
                   contain
                 >
                   <v-card-title class="pa-0 my-0" v-text="item.character_name"/>
                 </v-img>
-                <v-card-subtitle class="pa-0 my-0" v-text="item.character_profile"/>
-                <img
-                class="tw-phot"
-                :src="item.tw_photo"
-                ></img>
-              <v-card-subtitle v-text="item.tw_name"/>
+                <v-card-subtitle class="pa-1 my-0" v-text="item.character_profile"/>
+                  <v-list-item-avatar class="pa-0 my-0">
+                    <v-img
+                      :src="item.tw_photo"
+                      max-height="30" 
+                      contain
+                      >
+                    </v-img>
+                  </v-list-item-avatar>
+                  <v-card-subtitle v-text="item.tw_name" class="py-0 my-0"/>
         </v-card>
       </v-list-item>
     </v-list>

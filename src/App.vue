@@ -29,7 +29,7 @@
               </v-list-item>
               <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-title  @click="doMemberProfile">member_profile</v-list-item-title>
+                  <v-list-item-title  @click="doMemberProfile">Party</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item>
@@ -145,9 +145,9 @@
       </v-container>
     </v-navigation-drawer>
     <v-main
-      :style="{backgroundImage:`url('${bgImg}')`}" class="bg-img"
+    :style="{backgroundImage:`url('${bgImg}')`}" class="bg-img"
     >
-      <v-container  class="pa-1 ma-1">
+      <v-container class="S">
         <v-row >
         <v-col >
           <router-view ></router-view>
@@ -155,6 +155,7 @@
         </v-row>
       </v-container>
     </v-main>
+    </div>
   </v-app>
   <v-app v-else-if="login">
       <v-container>
@@ -373,9 +374,9 @@
           return
 
         this.updateTwuserInfo(
-            this.$store.getters.twUID,
-            this.$store.getters.twName,
-            this.$store.getters.twPhoto
+          this.$store.getters.twUID,
+          this.$store.getters.twName,
+          this.$store.getters.twPhoto
         )
       },
       async updateTwuserInfo(twUID,twName,twPhoto){

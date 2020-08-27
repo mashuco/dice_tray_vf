@@ -46,9 +46,10 @@
   width: auto;
   max-height: 100px;
 }
-
 .bg-img{
   background-size: cover;
+  background:right;
+  background-repeat: no-repeat;
 }
 .tw-phot{
   border-radius: 20px;
