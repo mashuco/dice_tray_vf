@@ -56,3 +56,6 @@
   vertical-align: top;
 }
 
+.v-text-field input {
+  font-size: 1.0em;
+}
