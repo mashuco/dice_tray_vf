@@ -116,13 +116,13 @@ export default {
 
     if(Vue.config.solo_mode)
       return
-    firebase.database().ref('message').push({
+    firebase.database().ref('scene').push({
      message: 'storyUpdate|'+this.$store.getters.sessionUserId+'|'+this.selectedScene.session_scene_id
     })    
   },
   fireBaseAuthState(){
       firebase.auth().onAuthStateChanged(user => {
-        const ref_message = firebase.database().ref('message')
+        const ref_message = firebase.database().ref('scene')
         ref_message.limitToLast(10).on('child_added', this.firebaseMessageAdded)
       })
   },    
