@@ -368,6 +368,9 @@
           this.sessionData = response.data
         })
         this.$store.commit('notifyNowScene',this.sessionData[0]['trpg_session_now_scene'])
+        this.$store.commit('notifyFirebaseMessageKeyId',this.sessionData[0]['firebase_message_key_id'])
+        this.$store.commit('notifyFirebaseSceanKeyId',this.sessionData[0]['firebase_scean_key_id'])
+
         this.$router.push({ name: "story" })
         this.loadChatlog();
         if(Vue.config.debug)

@@ -13,11 +13,12 @@ export default new Vuex.Store({
     userName:'',
     sessionUserId:'',
     isSessionMaster:false,
-//    sessionSceneId:'',
     twUID :'',
     twName:'',
     twPhoto:'',
-    nowScene:''
+    nowScene:'',
+    firebaseMessageKeyId,
+    firebaseSceanKeyId
   },
   getters: {
     ticketNo(state){
@@ -44,10 +45,6 @@ export default new Vuex.Store({
     isSessionMaster(state){
       return state.isSessionMaster
     },
-    
-  //  sessionSceneId(state){
-  //    return state.sessionSceneId
-  //  },    
     twUID(state){
       return state.twUID
     },
@@ -60,7 +57,13 @@ export default new Vuex.Store({
     nowScene(state){
       return state.nowScene
     },
-    
+    firebaseMessageKeyId(state){
+      return state.firebaseMessageKeyId
+    },
+    firebaseSceanKeyId(state){
+      return state.nowfirebaseSceanKeyIdScene
+    },
+   
   },
   mutations: {
     notifyTickesNo(state,str){
@@ -101,8 +104,17 @@ export default new Vuex.Store({
     },
     notifyNowScene(state,str){
       state.nowScene =str
-    }
-    
+    },
+    notifyTwPhoto(state,str){
+      state.twPhoto =str
+    },
+    notifyFirebaseMessageKeyId(state,str){
+      state.twPhoto =str
+    },
+    notifyFirebaseSceanKeyId(state,str){
+      state.twPhoto =str
+    }   
+
   },
   actions: {
   },
