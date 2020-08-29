@@ -17,8 +17,8 @@ export default new Vuex.Store({
     twName:'',
     twPhoto:'',
     nowScene:'',
-    firebaseMessageKeyId,
-    firebaseSceanKeyId
+    firebaseMessageKeyId:'',
+    firebaseSceanKeyId:''
   },
   getters: {
     ticketNo(state){
