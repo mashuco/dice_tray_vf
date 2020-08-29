@@ -118,8 +118,9 @@ export default {
       return
     firebase.database().ref('scene').push({
      message: 'storyUpdate|'+this.$store.getters.sessionUserId+'|'+this.selectedScene.session_scene_id
-     ,message2: 'storyUpdate|'+this.$store.getters.sessionUserId+'|'+this.selectedScene.session_scene_id
-
+     ,sessionUserId: this.$store.getters.sessionUserId
+     ,sessionSceneId:this.selectedScene.session_scene_id
+     ,trpgSessionId:+this.$store.getters.trpgSessionId
     })    
   },
   fireBaseAuthState(){
