@@ -116,16 +116,10 @@ export default {
 
     if(Vue.config.solo_mode)
       return
-//    firebase.database().ref('scene').push({
-//     message: 'storyUpdate|'+this.$store.getters.sessionUserId+'|'+this.selectedScene.session_scene_id
-//     ,sessionUserId: this.$store.getters.sessionUserId
-//     ,sessionSceneId:this.selectedScene.session_scene_id
-//     ,trpgSessionId:this.$store.getters.trpgSessionId
-//    })    
+
     firebase.database().ref('scene').child(this.$store.getters.firebaseSceanKeyId).update(
       {sessionSceneId: this.selectedScene.session_scene_id,sessionUserId:this.$store.getters.sessionUserId}
     );
-
 },
   fireBaseAuthState(){
       firebase.auth().onAuthStateChanged(user => {
