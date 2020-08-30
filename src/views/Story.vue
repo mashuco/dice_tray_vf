@@ -130,35 +130,14 @@ export default {
   fireBaseAuthState(){
       firebase.auth().onAuthStateChanged(user => {
         const ref_message = firebase.database().ref('scene')
-  //      ref_message.limitToLast(10).on('child_added', this.firebaseMessageAdded)
         ref_message.limitToLast(10).on('child_changed', this.firebaseMessageChanged)
       })
   },    
-  firebaseMessageAdded(snap) {
-      var fBmessage = snap.val().message.split('|')
-      var fb_message_type = fBmessage[0]
-      var fb_send_user_uid = fBmessage[1]
-      var fb_scene_id      = fBmessage[2]
-      switch(fb_message_type){
-        case 'storyUpdate':
-         if(fb_send_user_uid!=this.$store.getters.sessionUserId) 
-          this.loadScene(fb_scene_id)
-        default:
-          break
-      }
-  },
   firebaseMessageChanged(snap) {
-    console.log("firebaseMessageChanged")
-    console.log("snap.val().sessionUserId")
-    console.log(snap.val().sessionUserId)
-    console.log("snap.val().sessionSceneId")
-    console.log(snap.val().sessionSceneId)
-    if(snap.val().sessionUserId!=this.$store.getters.sessionUserId){ 
-      console.log("write")
-        this.loadScene(snap.val().sessionSceneId)
-    }
+    if(snap.val().sessionUserId==this.$store.getters.sessionUserId) 
+      return
+    this.loadScene(snap.val().sessionSceneId)
   },
-
   async loadScene(sceneId){
       await axios.get('/scene/?format=json&session_scene_id='+sceneId).then(response => {
           this.sceneData = response.data
