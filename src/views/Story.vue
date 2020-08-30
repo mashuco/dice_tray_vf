@@ -122,8 +122,6 @@ export default {
 //     ,sessionSceneId:this.selectedScene.session_scene_id
 //     ,trpgSessionId:this.$store.getters.trpgSessionId
 //    })    
-console.log("this.$store.getters.sessionUserId")
-console.log(this.$store.getters.sessionUserId)
     firebase.database().ref('scene').child(this.$store.getters.firebaseSceanKeyId).update(
       {sessionSceneId: this.selectedScene.session_scene_id,sessionUserId:this.$store.getters.sessionUserId}
     );
@@ -133,6 +131,7 @@ console.log(this.$store.getters.sessionUserId)
       firebase.auth().onAuthStateChanged(user => {
         const ref_message = firebase.database().ref('scene')
         ref_message.limitToLast(10).on('child_added', this.firebaseMessageAdded)
+        ref_message.limitToLast(10).on('child_changed', this.firebaseMessageChanged)
       })
   },    
   firebaseMessageAdded(snap) {
@@ -148,6 +147,18 @@ console.log(this.$store.getters.sessionUserId)
           break
       }
   },
+  firebaseMessageChanged(snap) {
+    console.log("firebaseMessageChanged")
+    console.log("snap.sessionUserId")
+    console.log(snap.sessionUserId)
+    console.log("snap.sessionSceneId")
+    console.log(snap.sessionSceneId)
+    if(snap.sessionUserId!=this.$store.getters.sessionUserId) 
+    console.log("write")
+//        this.loadScene(snap.sessionSceneId)
+    }
+  },
+
   async loadScene(sceneId){
       await axios.get('/scene/?format=json&session_scene_id='+sceneId).then(response => {
           this.sceneData = response.data
