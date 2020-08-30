@@ -149,10 +149,10 @@ export default {
   },
   firebaseMessageChanged(snap) {
     console.log("firebaseMessageChanged")
-    console.log("snap.sessionUserId")
-    console.log(snap.sessionUserId)
-    console.log("snap.sessionSceneId")
-    console.log(snap.sessionSceneId)
+    console.log("snap.val().sessionUserId")
+    console.log(snap.val().sessionUserId)
+    console.log("snap.val().sessionSceneId")
+    console.log(snap.val().sessionSceneId)
     if(snap.sessionUserId!=this.$store.getters.sessionUserId){ 
       console.log("write")
 //        this.loadScene(snap.sessionSceneId)
