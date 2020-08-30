@@ -122,7 +122,10 @@ export default {
      ,sessionSceneId:this.selectedScene.session_scene_id
      ,trpgSessionId:this.$store.getters.trpgSessionId
     })    
-  },
+
+    firebase.database.ref('scene').child('MFuooDakdq0PIHiEo1G').update({sessionUserId: 'japan'});
+
+},
   fireBaseAuthState(){
       firebase.auth().onAuthStateChanged(user => {
         const ref_message = firebase.database().ref('scene')
