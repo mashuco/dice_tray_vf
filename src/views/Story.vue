@@ -116,14 +116,14 @@ export default {
 
     if(Vue.config.solo_mode)
       return
-    firebase.database().ref('scene').push({
-     message: 'storyUpdate|'+this.$store.getters.sessionUserId+'|'+this.selectedScene.session_scene_id
-     ,sessionUserId: this.$store.getters.sessionUserId
-     ,sessionSceneId:this.selectedScene.session_scene_id
-     ,trpgSessionId:this.$store.getters.trpgSessionId
-    })    
+//    firebase.database().ref('scene').push({
+//     message: 'storyUpdate|'+this.$store.getters.sessionUserId+'|'+this.selectedScene.session_scene_id
+//     ,sessionUserId: this.$store.getters.sessionUserId
+//     ,sessionSceneId:this.selectedScene.session_scene_id
+//     ,trpgSessionId:this.$store.getters.trpgSessionId
+//    })    
 
-    firebase.database().ref('scene').child('MFuooDakdq0PIHiEo1G').update({sessionUserId: 'japan'});
+    firebase.database().ref('scene').child('-MFuooDakdq0PIHiEo1G').update({sessionUserId: 'japan'});
 
 },
   fireBaseAuthState(){
@@ -133,7 +133,7 @@ export default {
       })
   },    
   firebaseMessageAdded(snap) {
-      var fBmessage = snap.val().scene.split('|')
+      var fBmessage = snap.val().message.split('|')
       var fb_message_type = fBmessage[0]
       var fb_send_user_uid = fBmessage[1]
       var fb_scene_id      = fBmessage[2]
