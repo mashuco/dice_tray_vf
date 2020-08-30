@@ -124,8 +124,7 @@ export default {
 //    })    
 
     firebase.database().ref('scene').child(this.$store.getters.firebaseSceanKeyId).update(
-      {sessionSceneId: this.selectedScene.session_scene_id},
-      {sessionUserId: this.$store.getters.sessionUserId}
+      {sessionSceneId: this.selectedScene.session_scene_id,sessionUserId: this.$store.getters.sessionUserId}
     );
 
 },
