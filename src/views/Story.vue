@@ -153,8 +153,8 @@ export default {
     console.log(snap.sessionUserId)
     console.log("snap.sessionSceneId")
     console.log(snap.sessionSceneId)
-    if(snap.sessionUserId!=this.$store.getters.sessionUserId) 
-    console.log("write")
+    if(snap.sessionUserId!=this.$store.getters.sessionUserId){ 
+      console.log("write")
 //        this.loadScene(snap.sessionSceneId)
     }
   },
