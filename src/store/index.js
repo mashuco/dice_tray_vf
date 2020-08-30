@@ -61,7 +61,7 @@ export default new Vuex.Store({
       return state.firebaseMessageKeyId
     },
     firebaseSceanKeyId(state){
-      return state.nowfirebaseSceanKeyIdScene
+      return state.firebaseSceanKeyIdScene
     },
    
   },
