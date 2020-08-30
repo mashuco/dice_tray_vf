@@ -133,7 +133,7 @@ export default {
       })
   },    
   firebaseMessageAdded(snap) {
-      var fBmessage = snap.val().message.split('|')
+      var fBmessage = snap.val().scene.split('|')
       var fb_message_type = fBmessage[0]
       var fb_send_user_uid = fBmessage[1]
       var fb_scene_id      = fBmessage[2]
