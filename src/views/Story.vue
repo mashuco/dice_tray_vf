@@ -122,9 +122,10 @@ export default {
 //     ,sessionSceneId:this.selectedScene.session_scene_id
 //     ,trpgSessionId:this.$store.getters.trpgSessionId
 //    })    
-
+console.log("this.$store.getters.sessionUserId")
+console.log(this.$store.getters.sessionUserId)
     firebase.database().ref('scene').child(this.$store.getters.firebaseSceanKeyId).update(
-      {sessionSceneId: this.selectedScene.session_scene_id,sessionUserId:"USA"}
+      {sessionSceneId: this.selectedScene.session_scene_id,sessionUserId:this.$store.getters.sessionUserId}
     );
 
 },
