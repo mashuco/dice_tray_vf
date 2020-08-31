@@ -313,9 +313,9 @@
               //ref_message.limitToLast(10).on('child_added', this.firebaseMessageAdded)
               ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged)
             } else {
+              ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged)
               this.$router.push("/")
               //ref_message.limitToLast(10).on('child_added', this.firebaseMessageAdded)
-              ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged)
             }
             this.$store.commit('notifyTwUID',twitter_user.uid)
             this.$store.commit('notifyTwName',twitter_user.displayName)
