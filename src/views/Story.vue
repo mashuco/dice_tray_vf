@@ -43,10 +43,6 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from 'axios';
-import Cookies from 'js-cookie';
-
 
 export default {
  data() {
