@@ -147,19 +147,10 @@ export default {
     }
   },
   firebaseMessageChanged(snap) {
-    console.log("snap.val().trpgSessionId")
-    console.log(snap.val().trpgSessionId)
-    console.log("this.$store.getters.trpgSessionId")
-    console.log(this.$store.getters.trpgSessionId)
     if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
       return
-
-console.log("trpgSessionId_pass")  
-      
     if(snap.val().sessionUserId==this.$store.getters.sessionUserId) 
       return
-
-    console.log("SSSS")  
     this.loadScene(snap.val().sessionSceneId)
   },
   async loadScene(sceneId){
