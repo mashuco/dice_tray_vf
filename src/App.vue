@@ -310,11 +310,11 @@
             var twitter_user = user ?user : {}
             const ref_message = firebase.database().ref('message')
             if (user) {
-              ref_message.limitToLast(10).on('child_added', this.firebaseMessageAdded)
+              //ref_message.limitToLast(10).on('child_added', this.firebaseMessageAdded)
               ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged)
             } else {
               this.$router.push("/")
-              ref_message.limitToLast(10).on('child_added', this.firebaseMessageAdded)
+              //ref_message.limitToLast(10).on('child_added', this.firebaseMessageAdded)
               ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged)
             }
             this.$store.commit('notifyTwUID',twitter_user.uid)
