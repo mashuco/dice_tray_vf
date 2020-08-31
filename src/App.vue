@@ -524,6 +524,8 @@
         }
       },
       firebaseMessageChanged(snap) {
+        console.log("caht…")
+
         if(snap.val().trpgSessionId==this.$store.getters.trpgSessionId) 
           return
         if(snap.val().sessionUserId==this.$store.getters.sessionUserId) 

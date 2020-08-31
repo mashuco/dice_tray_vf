@@ -153,6 +153,9 @@ export default {
     console.log(this.$store.getters.trpgSessionId)
     if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
       return
+
+console.log("trpgSessionId_pass")  
+      
     if(snap.val().sessionUserId==this.$store.getters.sessionUserId) 
       return
 
