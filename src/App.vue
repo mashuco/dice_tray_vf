@@ -528,7 +528,8 @@
           return
         if(snap.val().sessionUserId==this.$store.getters.sessionUserId) 
           return
-        this.loadChatlog()
+          console.log("caht!!")
+//        this.loadChatlog()
       },
       doChatFireBaseUpdate() {
 
