@@ -524,13 +524,12 @@
       },
       firebaseMessageChanged2(snap) {
         console.log("firebaseMessageChanged")
-
         if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
           return
         if(snap.val().sessionUserId==this.$store.getters.sessionUserId) 
           return
-          console.log("caht!!")
-//        this.loadChatlog()
+        console.log("caht!!")
+        this.loadChatlog()
       },
       doChatFireBaseUpdate() {
         //firebase.database().ref('message').push({
@@ -538,10 +537,12 @@
         //  }, () => {
         //    this.textarea_dice_command = ""
         //})
+        var date = new Date()
         firebase.database().ref('message').child(this.$store.getters.firebaseMessageKeyId).update(
           {
             sessionUserId:this.$store.getters.sessionUserId,
-            trpgSessionId:"greate!"//this.$store.getters.trpgSessionId
+            trpgSessionId:this.$store.getters.trpgSessionId,
+            updateDate:date.getTime()
             }
         );
       },
