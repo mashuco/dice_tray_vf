@@ -310,12 +310,10 @@
             var twitter_user = user ?user : {}
             const ref_message = firebase.database().ref('message')
             if (user) {
-              //ref_message.limitToLast(10).on('child_added', this.firebaseMessageAdded)
-              ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged2)
+              ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged)
             } else {
-              ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged2)
+              ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged)
               this.$router.push("/")
-              //ref_message.limitToLast(10).on('child_added', this.firebaseMessageAdded)
             }
             this.$store.commit('notifyTwUID',twitter_user.uid)
             this.$store.commit('notifyTwName',twitter_user.displayName)
@@ -512,7 +510,6 @@
       firebaseMessageAdded(snap) {
         if (this.entry!=true)
           return
-
         var fBmessage = snap.val().message.split('|')
         switch(fBmessage[0]){
           case 'chatUpdate':
@@ -522,21 +519,14 @@
            break
         }
       },
-      firebaseMessageChanged2(snap) {
-        console.log("firebaseMessageChanged")
+      firebaseMessageChanged(snap) {
         if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
           return
         if(snap.val().sessionUserId==this.$store.getters.sessionUserId) 
           return
-        console.log("caht!!")
         this.loadChatlog()
       },
       doChatFireBaseUpdate() {
-        //firebase.database().ref('message').push({
-        //  message: 'chatUpdate'
-        //  }, () => {
-        //    this.textarea_dice_command = ""
-        //})
         var date = new Date()
         firebase.database().ref('message').child(this.$store.getters.firebaseMessageKeyId).update(
           {
