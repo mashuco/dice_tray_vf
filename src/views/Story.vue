@@ -118,7 +118,11 @@ export default {
 
     if(Vue.config.solo_mode)
       return
-
+//    firebase.database().ref('scene').push({
+//     ,sessionUserId: this.$store.getters.sessionUserId
+//     ,sessionSceneId:this.selectedScene.session_scene_id
+//     ,trpgSessionId:this.$store.getters.trpgSessionId
+//    })
     firebase.database().ref('scene').child(this.$store.getters.firebaseSceanKeyId).update(
       {sessionSceneId: this.selectedScene.session_scene_id,sessionUserId:this.$store.getters.sessionUserId}
     );
@@ -128,8 +132,23 @@ export default {
         const ref_message = firebase.database().ref('scene')
         ref_message.limitToLast(10).on('child_changed', this.firebaseMessageChanged)
       })
-  },    
+  }, 
+  firebaseMessageAdded(snap) {
+    var fBmessage = snap.val().message.split('|')
+    var fb_message_type = fBmessage[0]
+    var fb_send_user_uid = fBmessage[1]
+    var fb_scene_id      = fBmessage[2]
+    switch(fb_message_type){
+    case 'storyUpdate':
+    if(fb_send_user_uid!=this.$store.getters.sessionUserId) 
+      this.loadScene(fb_scene_id)
+      default:
+      break
+    }
+  },
   firebaseMessageChanged(snap) {
+    if(snap.val().trpgSessionId==this.$store.getters.trpgSessionId) 
+      return
     if(snap.val().sessionUserId==this.$store.getters.sessionUserId) 
       return
     this.loadScene(snap.val().sessionSceneId)
@@ -146,7 +165,6 @@ export default {
         session_scene_id: this.sceneData[0]['session_scene_id']
       }
   },
-
   
  }
 }
