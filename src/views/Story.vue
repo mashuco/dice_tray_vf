@@ -147,6 +147,10 @@ export default {
     }
   },
   firebaseMessageChanged(snap) {
+    console.log("snap.val().trpgSessionId")
+    console.log(snap.val().trpgSessionId)
+    console.log("this.$store.getters.trpgSessionId")
+    console.log(this.$store.getters.trpgSessionId)
     if(snap.val().trpgSessionId==this.$store.getters.trpgSessionId) 
       return
     if(snap.val().sessionUserId==this.$store.getters.sessionUserId) 
