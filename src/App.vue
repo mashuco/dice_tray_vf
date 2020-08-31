@@ -541,7 +541,7 @@
         firebase.database().ref('message').child(this.$store.getters.firebaseMessageKeyId).update(
           {
             sessionUserId:this.$store.getters.sessionUserId,
-            trpgSessionId:this.$store.getters.trpgSessionId
+            trpgSessionId:"greate!"//this.$store.getters.trpgSessionId
             }
         );
       },
