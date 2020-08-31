@@ -188,6 +188,8 @@
   import Cookies from 'js-cookie'
   import Story from './views/Story.vue'
   import Vuetify from 'vuetify/lib'
+  import './plugins/element.js'
+  axios.defaults.baseURL = process.env.VUE_APP_URL
 
   export default {
     data() {

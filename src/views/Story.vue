@@ -43,6 +43,12 @@
 </template>
 
 <script>
+import Vue from "vue"
+import axios from 'axios'
+import Cookies from 'js-cookie'
+import Vuetify from 'vuetify/lib'
+import firebase from 'firebase/app'
+import "firebase/database"
 
 export default {
  data() {
