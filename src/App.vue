@@ -534,13 +534,16 @@
 //        this.loadChatlog()
       },
       doChatFireBaseUpdate() {
-        firebase.database().ref('message').push({
-          message: 'chatUpdate'
-          }, () => {
-            this.textarea_dice_command = ""
-        })
+        //firebase.database().ref('message').push({
+        //  message: 'chatUpdate'
+        //  }, () => {
+        //    this.textarea_dice_command = ""
+        //})
         firebase.database().ref('message').child(this.$store.getters.firebaseMessageKeyId).update(
-          {sessionUserId:this.$store.getters.sessionUserId}
+          {
+            sessionUserId:this.$store.getters.sessionUserId,
+            trpgSessionId:this.$store.getters.trpgSessionId
+            }
         );
       },
     }      
