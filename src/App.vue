@@ -311,9 +311,9 @@
             const ref_message = firebase.database().ref('message')
             if (user) {
               //ref_message.limitToLast(10).on('child_added', this.firebaseMessageAdded)
-              ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged)
+              ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged2)
             } else {
-              ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged)
+              ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged2)
               this.$router.push("/")
               //ref_message.limitToLast(10).on('child_added', this.firebaseMessageAdded)
             }
@@ -469,7 +469,6 @@
       },
       scrollToLastItem() {
           this.navDrawerContent = this.$refs['myNavDrawer'].$el.querySelector('div.v-navigation-drawer__content');
-          console.log( this.navDrawerContent)
           this.$vuetify.goTo(99999 ,{ container:this.navDrawerContent})
       },
       chatMessage(msg,rollSum,rollResult,SuccessOrFailure) {
@@ -523,8 +522,8 @@
            break
         }
       },
-      firebaseMessageChanged(snap) {
-        console.log("caht…")
+      firebaseMessageChanged2(snap) {
+        console.log("firebaseMessageChanged")
 
         if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
           return
