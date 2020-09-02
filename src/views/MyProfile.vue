@@ -5,7 +5,7 @@
               <v-textarea
                   outlined
                   class="headline"
-                  
+                  height="50"
                   v-model="character_name"
                   label="キャラクター名"
                   append-icon="mdi-fountain-pen-tip"
