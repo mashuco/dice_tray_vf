@@ -88,7 +88,6 @@ export default {
           this.sessionData = response.data
     })
     if(this.$store.getters.nowScene==''){
-      console.log("this.$store.getters.nowScene==''")
       this.$store.commit('notifyNowScene',this.sessionData[0]['trpg_session_now_scene'])
     }
   },

@@ -93,7 +93,13 @@
                     ></v-select>
                   </v-col>
                   <v-col class="pa-2 ma-0">
-                    <el-input-number style="width:110px;"  size="small" v-model="diceNum"  :min="1" :max="100"></el-input-number>
+                    <el-input-number 
+                      style="width:110px; font-size: 16px; transform: scale(0.8);"  
+                      size="small" 
+                      v-model="diceNum"  
+                      :min="1" 
+                      :max="100"
+                    ></el-input-number>
                   </v-col>
                   <v-col class="py-3  ma-0">
                     <v-btn  outlined small @click="onSelectRollDice">個振る</v-btn>
@@ -104,7 +110,14 @@
                     <v-switch v-model="useDiceTarget"  label="目標"></v-switch>
                   </v-col>
                   <v-col class="pa-3 ma-0">
-                    <el-input-number style="width:110px;" :disabled="!useDiceTarget" size="small" v-model="diceTarget"  :min="1" :max="100"></el-input-number>
+                    <el-input-number 
+                      style="width:110px; font-size: 16px; transform: scale(0.8);"  
+                      :disabled="!useDiceTarget" 
+                      size="small" 
+                      v-model="diceTarget"  
+                      :min="1" 
+                      :max="100"
+                      ></el-input-number>
                   </v-col >
                   <v-col class="py-5 ma-0">
                     以上
@@ -132,11 +145,12 @@
                 <img class="character_image_s" :src="item.character_image"/>
                 <v-list-item-content>
                   <v-textarea
-                      outlined
-                      :value="chatMessage(item.roll_dice_command,item.roll_dice_result_sum,item.roll_dice_result_split,item.is_roll_daice_suees)"
-                      :label="item.character_name +'('+ item.twitter_users_name +')'"
-                      style="white-space:pre"
-                      height="70px"
+                    outlined
+                    :value="chatMessage(item.roll_dice_command,item.roll_dice_result_sum,item.roll_dice_result_split,item.is_roll_daice_suees)"
+                    :label="item.character_name +'('+ item.twitter_users_name +')'"
+                    style="white-space:pre"
+                    height="70px"
+                    readonly
                   ></v-textarea>
                 </v-list-item-content>
               </v-list-item>
@@ -298,46 +312,34 @@
     },
     fireBaseAuthState(){
       if(!Vue.config.debug){
-//        var firebaseConfig = {
-//            apiKey: "AIzaSyBCtkiqT0oEBhTUf0myLAda9TFnAInET1o",
-//            authDomain: "dice-adab6.firebaseapp.com",
-//            databaseURL: "https://dice-adab6.firebaseio.com",
-//            projectId: "dice-adab6",
-//            storageBucket: "dice-adab6.appspot.com",
-//            messagingSenderId: "178770782401",
-//            appId: "1:178770782401:web:7f6bfe1ec009964df20c40"
-//          }
-
-          var firebaseConfig = {
-              apiKey:process.env.VUE_APP_FIREBASE_CONFIG_APIKEY ,
-              authDomain:process.env.VUE_APP_FIREBASE_CONFIG_AUTHDOMAIN ,
-              databaseURL:process.env.VUE_APP_FIREBASE_CONFIG_DATABASEURL ,
-              projectId:process.env.VUE_APP_FIREBASE_CONFIG_PROJECTID ,
-              storageBucket:process.env.VUE_APP_FIREBASE_CONFIG_STORAGEBUCKET ,
-              messagingSenderId:process.env.VUE_APP_FIREBASE_CONFIG_MESSAGINGSENDERID ,
-              appId:process.env.VUE_APP_FIREBASE_CONFIG_APPID
-            }
-
-
-          firebase.initializeApp(firebaseConfig);  
-          firebase.auth().onAuthStateChanged(user => {
-            var twitter_user = user ?user : {}
-            const ref_message = firebase.database().ref('message')
-            if (user) {
-              ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged)
-            } else {
-              ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged)
-              //this.$router.push("/")
-            }
-            this.$store.commit('notifyTwUID',twitter_user.uid)
-            this.$store.commit('notifyTwName',twitter_user.displayName)
-            this.$store.commit('notifyTwPhoto',twitter_user.photoURL)
-          })
-        }else{
-            this.$store.commit('notifyTwUID','test')
-            this.$store.commit('notifyTwName','test')
-            this.$store.commit('notifyTwPhoto','')
-        }
+        var firebaseConfig = {
+          apiKey:process.env.VUE_APP_FIREBASE_CONFIG_APIKEY ,
+          authDomain:process.env.VUE_APP_FIREBASE_CONFIG_AUTHDOMAIN ,
+          databaseURL:process.env.VUE_APP_FIREBASE_CONFIG_DATABASEURL ,
+          projectId:process.env.VUE_APP_FIREBASE_CONFIG_PROJECTID ,
+          storageBucket:process.env.VUE_APP_FIREBASE_CONFIG_STORAGEBUCKET ,
+          messagingSenderId:process.env.VUE_APP_FIREBASE_CONFIG_MESSAGINGSENDERID ,
+          appId:process.env.VUE_APP_FIREBASE_CONFIG_APPID
+          }
+        firebase.initializeApp(firebaseConfig);  
+        firebase.auth().onAuthStateChanged(user => {
+          var twitter_user = user ?user : {}
+          const ref_message = firebase.database().ref('message')
+          if (user) {
+            ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged)
+          } else {
+            ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged)
+            //this.$router.push("/")
+          }
+          this.$store.commit('notifyTwUID',twitter_user.uid)
+          this.$store.commit('notifyTwName',twitter_user.displayName)
+          this.$store.commit('notifyTwPhoto',twitter_user.photoURL)
+        })
+      }else{
+          this.$store.commit('notifyTwUID','test')
+          this.$store.commit('notifyTwName','test')
+          this.$store.commit('notifyTwPhoto','')
+      }
     },
     async doLogin() {
       this.TwAuthloading = true
