@@ -298,15 +298,27 @@
     },
     fireBaseAuthState(){
       if(!Vue.config.debug){
-        var firebaseConfig = {
-            apiKey: "AIzaSyBCtkiqT0oEBhTUf0myLAda9TFnAInET1o",
-            authDomain: "dice-adab6.firebaseapp.com",
-            databaseURL: "https://dice-adab6.firebaseio.com",
-            projectId: "dice-adab6",
-            storageBucket: "dice-adab6.appspot.com",
-            messagingSenderId: "178770782401",
-            appId: "1:178770782401:web:7f6bfe1ec009964df20c40"
-          };
+//        var firebaseConfig = {
+//            apiKey: "AIzaSyBCtkiqT0oEBhTUf0myLAda9TFnAInET1o",
+//            authDomain: "dice-adab6.firebaseapp.com",
+//            databaseURL: "https://dice-adab6.firebaseio.com",
+//            projectId: "dice-adab6",
+//            storageBucket: "dice-adab6.appspot.com",
+//            messagingSenderId: "178770782401",
+//            appId: "1:178770782401:web:7f6bfe1ec009964df20c40"
+//          }
+
+          var firebaseConfig = {
+              apiKey:process.env.VUE_APP_FIREBASE_CONFIG_APIKEY ,
+              authDomain:process.env.VUE_APP_FIREBASE_CONFIG_AUTHDOMAIN ,
+              databaseURL:process.env.VUE_APP_FIREBASE_CONFIG_DATABASEURL ,
+              projectId:process.env.VUE_APP_FIREBASE_CONFIG_PROJECTID ,
+              storageBucket:process.env.VUE_APP_FIREBASE_CONFIG_STORAGEBUCKET ,
+              messagingSenderId:process.env.VUE_APP_FIREBASE_CONFIG_MESSAGINGSENDERID ,
+              appId:process.env.VUE_APP_FIREBASE_CONFIG_APPID
+            }
+
+
           firebase.initializeApp(firebaseConfig);  
           firebase.auth().onAuthStateChanged(user => {
             var twitter_user = user ?user : {}
