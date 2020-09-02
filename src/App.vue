@@ -309,6 +309,12 @@
         return
       this.windowWidth = window.innerWidth;
       this.windowHeight = window.innerHeight;
+      
+      viewportContent = "width=device-width,initial-scale=1.0" 
+      document.querySelector("meta[name='viewport']").setAttribute("content", viewportContent) 
+
+
+
     },
     fireBaseAuthState(){
       if(!Vue.config.debug){
