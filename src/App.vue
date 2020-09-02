@@ -94,7 +94,7 @@
                   </v-col>
                   <v-col class="pa-2 ma-0">
                     <el-input-number 
-                      style="width:145px; font-size: 16px; transform: scale(0.9);"  
+                      style="width:145px; font-size: 17px; "  
                       v-model="diceNum"  
                       :min="1" 
                       :max="100"
@@ -110,7 +110,7 @@
                   </v-col>
                   <v-col class="pa-3 ma-0">
                     <el-input-number 
-                      style="width:145px; font-size: 16px; transform: scale(0.9);"  
+                      style="width:145px; font-size: 17px; "  
                       :disabled="!useDiceTarget" 
                       v-model="diceTarget"  
                       :min="1" 
