@@ -95,7 +95,6 @@
                   <v-col class="pa-2 ma-0">
                     <el-input-number 
                       style="width:110px; font-size: 16px; transform: scale(0.8);"  
-                      size="small" 
                       v-model="diceNum"  
                       :min="1" 
                       :max="100"
