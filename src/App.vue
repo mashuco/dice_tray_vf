@@ -247,10 +247,11 @@
     created() {
       this.$vuetify.theme.dark = true
       this.fireBaseAuthState()
-      document.querySelector("meta[property='viewport']").setAttribute('content', "user-scalable=0")
 
     },
     mounted() {
+      document.querySelector("meta[name='viewport']").setAttribute('content', "user-scalable=0")
+
       window.addEventListener('resize', this.handleResize)
       this.$store.watch(
           (state, getters) => getters.trpgSessionImg,
