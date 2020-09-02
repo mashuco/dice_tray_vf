@@ -89,19 +89,19 @@
                       outlined
                       return-object
                       dense
-                      style="width:95px;"
+                      style="width:90px;"
                     ></v-select>
                   </v-col>
                   <v-col class="pa-2 ma-0">
                     <el-input-number 
-                      style="width:150px; font-size: 16px; transform: scale(0.7);"  
+                      style="width:130px; font-size: 16px; transform: scale(0.8);"  
                       v-model="diceNum"  
                       :min="1" 
                       :max="100"
                     ></el-input-number>
                   </v-col>
                   <v-col class="py-3  ma-0">
-                    <v-btn  outlined small @click="onSelectRollDice">個振る</v-btn>
+                    <v-btn  outlined small @click="onSelectRollDice">個ふる</v-btn>
                   </v-col>
                 </v-row>
                 <v-row class="pa-0 ma-0">
@@ -110,7 +110,7 @@
                   </v-col>
                   <v-col class="pa-3 ma-0">
                     <el-input-number 
-                      style="width:150px; font-size: 16px; transform: scale(0.7);"  
+                      style="width:150px; font-size: 16px; transform: scale(0.8);"  
                       :disabled="!useDiceTarget" 
                       v-model="diceTarget"  
                       :min="1" 
