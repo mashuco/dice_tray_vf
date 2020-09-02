@@ -101,7 +101,7 @@
                     ></el-input-number>
                   </v-col>
                   <v-col class="py-3  ma-0">
-                    <v-btn  outlined small @click="onSelectRollDice">振Q</v-btn>
+                    <v-btn  outlined small @click="onSelectRollDice">振D</v-btn>
                   </v-col>
                 </v-row>
                 <v-row class="pa-0 ma-0">
@@ -250,7 +250,7 @@
 
     },
     mounted() {
-      document.querySelector("meta[name='viewport']").setAttribute('content', "user-scalable=0")
+      //document.querySelector("meta[name='viewport']").setAttribute('content', "user-scalable=0")
 
       window.addEventListener('resize', this.handleResize)
       this.$store.watch(
@@ -309,11 +309,9 @@
         return
       this.windowWidth = window.innerWidth;
       this.windowHeight = window.innerHeight;
-      
+
       viewportContent = "width=device-width,initial-scale=1.0" 
       document.querySelector("meta[name='viewport']").setAttribute("content", viewportContent) 
-
-
 
     },
     fireBaseAuthState(){
