@@ -169,7 +169,7 @@
       </v-container>
     </v-main>
   </v-app>
-  <v-app v-else-if="login">
+  <v-app v-else-if="ChoiceSession">
       <v-container>
         <h2 class = "input_title">チケット番号を入力</h2>
         <div>(テストユーザー⇒123)</div>      
@@ -180,7 +180,28 @@
         ></v-text-field>
         <v-btn  v-on:click="onEntry" >Entry</v-btn>
       </v-container>
-    </v-app>
+  </v-app>
+  <v-app v-else-if="login">
+    <v-container class="pa-0 my-0">
+      MemberProfile
+        <v-list 
+          class="pa-1 my-0"
+        >
+          <v-list-item
+            v-for="item in sessionAllData"
+            :key="item.trpg_session_id"
+            class="pa-1 my-0"
+          >
+            <v-card color="#385F73" width="100%" height="265px">
+                    <v-card-title class="pa-0 my-0" v-text="item.trpg_session_name"/>
+            </v-card>
+          </v-list-item>
+        </v-list>
+        <v-btn
+            @click="onSelectSession" 
+         >次へ</v-btn>
+    </v-container>
+  </v-app>
   <v-app v-else>
     <v-container >
       <v-row
@@ -214,7 +235,9 @@
         drawer: true,
         messages:[],
         sessionData:[],
+        sessionAllData:[],
         login:false,
+        ChoiceSession:false,
         entry:false,
         textareaTicektNo:'',
         textareaDiceCommand:'',
@@ -246,6 +269,7 @@
     },
     created() {
       this.$vuetify.theme.dark = true
+      this.loadAllSession()
       this.fireBaseAuthState()
 
     },
@@ -368,6 +392,10 @@
           return
       firebase.auth().signOut()
     },
+    onSelectSession(){
+      console.log("onSelectSession!")
+          this.ChoiceSession = true
+    },
     onEntry: function(evnet){
       if(this.textareaTicektNo===""){
         alert('チケット番号を入力してください')
@@ -375,6 +403,13 @@
       }else{
         this.chekTicekt()
       }
+    },
+    async loadAllSession(){
+        await axios.get('/session/'
+        ).then(response => {
+          this.sessionAllData = response.data
+        })
+
     },
     async chekTicekt(){
       await axios.get('/uEntry/?format=json&ticket_no='+this.textareaTicektNo,
