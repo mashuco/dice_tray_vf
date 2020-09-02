@@ -101,7 +101,7 @@
                     ></el-input-number>
                   </v-col>
                   <v-col class="py-3  ma-0">
-                    <v-btn  outlined small @click="onSelectRollDice">振る</v-btn>
+                    <v-btn  outlined small @click="onSelectRollDice">振Q</v-btn>
                   </v-col>
                 </v-row>
                 <v-row class="pa-0 ma-0">
