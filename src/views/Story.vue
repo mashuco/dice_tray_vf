@@ -13,7 +13,7 @@
           single-line
           return-object
           @change = 'selectScene'
-         :readonly="!isSessionMaster"
+         :readonly="!$store.getters.isSessionMaster"
         ></v-select>
        </v-card>
 
@@ -57,22 +57,13 @@ export default {
       sceneAllData:[],
       sceneData:[],
       selectedScene: {scene_name:'',session_scene_id:''},
-      tw_user: {},  // twitterユーザー情報
+//      tw_user: {},  // twitterユーザー情報
       isSessionMaster: false,
     };
   },
   created(){
-    if(this.$store.getters.sessionUserId == ""){
-      this.doTop();
-    }
-    this.loadPage()
-    this.loadAllScene()
-    this.loadScene(this.$store.getters.nowScene)
-    this.isSessionMaster =  this.$store.getters.isSessionMaster
 
-    if(Vue.config.solo_mode)
-      return
-    this.fireBaseAuthState()
+    this.loadStory()
  },
  mounted() {
  },
@@ -80,20 +71,36 @@ export default {
   doTop:function(){
     this.$router.push("/")
   },
-  async loadPage(){
-      await axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
+  async loadStory(){
+    if(this.$store.getters.nowScene=="")
+      await this.loadSession()
+
+    await this.loadSceneAll()
+    this.loadScene(this.$store.getters.nowScene)
+    this.isSessionMaster =  this.$store.getters.isSessionMaster
+
+    if(Vue.config.solo_mode)
+      return
+    this.fireBaseAuthState()
+  },  
+  async loadSession(){
+    await axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
           this.sessionData = response.data
-      })
-  },  
-  async loadAllScene(){
-      await axios.get('/scene/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
-          this.sceneAllData = response.data
-      })
-      this.selectedScene   ={ 
-        scene_name:this.sceneAllData[0]['scene_name'], 
-        session_scene_id: this.sceneAllData[0]['session_scene_id']
-      }
-  },  
+    })
+    if(this.$store.getters.nowScene==''){
+      console.log("this.$store.getters.nowScene==''")
+      this.$store.commit('notifyNowScene',this.sessionData[0]['trpg_session_now_scene'])
+    }
+  },
+  async loadSceneAll(){
+    await axios.get('/scene/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
+        this.sceneAllData = response.data
+    })
+    this.selectedScene   ={ 
+      scene_name:this.sceneAllData[0]['scene_name'], 
+      session_scene_id: this.sceneAllData[0]['session_scene_id']
+    }
+  },
   async regServeScean(){
       var csrftoken = Cookies.get('csrftoken')
       const formData = new FormData();
@@ -118,11 +125,7 @@ export default {
 
     if(Vue.config.solo_mode)
       return
-//    firebase.database().ref('scene').push({
-//     ,sessionUserId: this.$store.getters.sessionUserId
-//     ,sessionSceneId:this.selectedScene.session_scene_id
-//     ,trpgSessionId:this.$store.getters.trpgSessionId
-//    })
+
     firebase.database().ref('scene').child(this.$store.getters.firebaseSceanKeyId).update(
       {
         sessionSceneId:this.selectedScene.session_scene_id,

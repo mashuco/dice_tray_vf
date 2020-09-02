@@ -82,8 +82,8 @@
                   <v-row class="pa-0 ma-0">
                   <v-col class="pa-1 ma-0">
                     <v-select  class="pa-0 ma-0"
-                      v-model="selected_dice_face"
-                      :items="dice_face_options"
+                      v-model="selectedDiceFace"
+                      :items="diceFaceOptions"
                       item-text="name"
                       item-value="id"
                       outlined
@@ -93,7 +93,7 @@
                     ></v-select>
                   </v-col>
                   <v-col class="pa-2 ma-0">
-                    <el-input-number style="width:110px;"  size="small" v-model="dice_num"  :min="1" :max="100"></el-input-number>
+                    <el-input-number style="width:110px;"  size="small" v-model="diceNum"  :min="1" :max="100"></el-input-number>
                   </v-col>
                   <v-col class="py-3  ma-0">
                     <v-btn  outlined small @click="onSelectRollDice">個振る</v-btn>
@@ -101,10 +101,10 @@
                 </v-row>
                 <v-row class="pa-0 ma-0">
                   <v-col class="pa-0 ma-0">
-                    <v-switch v-model="use_dice_target"  label="目標"></v-switch>
+                    <v-switch v-model="useDiceTarget"  label="目標"></v-switch>
                   </v-col>
                   <v-col class="pa-3 ma-0">
-                    <el-input-number style="width:110px;" :disabled="!use_dice_target" size="small" v-model="dice_target"  :min="1" :max="100"></el-input-number>
+                    <el-input-number style="width:110px;" :disabled="!useDiceTarget" size="small" v-model="diceTarget"  :min="1" :max="100"></el-input-number>
                   </v-col >
                   <v-col class="py-5 ma-0">
                     以上
@@ -113,7 +113,7 @@
                 <v-row>
                   <v-col class="pa-0 ma-0">
                   <v-text-field class="pa-0  ma-0"
-                    v-model="textarea_dice_command"
+                    v-model="textareaDiceCommand"
                     placeholder="input message..."
                     single-line
                     append-icon="mdi-chat"
@@ -163,7 +163,7 @@
         <h2 class = "input_title">チケット番号を入力</h2>
         <div>(テストユーザー⇒123)</div>      
         <v-text-field
-            v-model="textarea_ticekt_no"
+            v-model="textareaTicektNo"
             label="チケットNO"
             @keydown.enter="onEntry"
         ></v-text-field>
@@ -174,7 +174,11 @@
     <v-container fluid class="pa-0">
       <v-row align="center">
         <v-col cols="12" >
-          <v-btn block x-large color="#009688"  @click="doLogin" >Twitterでログイン</v-btn>
+          <v-btn 
+            block x-large color="#009688"  
+            @click="doLogin" 
+           :loading="TwAuthloading"
+          >Twitterでログイン</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -200,10 +204,10 @@
         sessionData:[],
         login:false,
         entry:false,
-        textarea_ticekt_no:'',
-        textarea_dice_command:'',
-        dice_num:1,
-        dice_face_options: [
+        textareaTicektNo:'',
+        textareaDiceCommand:'',
+        diceNum:1,
+        diceFaceOptions: [
                     { id: '4', name: '4面' },
                     { id: '6', name: '6面' },
                     { id: '8', name: '8面' },
@@ -212,24 +216,26 @@
                     { id: '20', name: '20面' },
                     { id: '100', name: '100面' },
         ],
-        selected_dice_face: {id:'6',name:'6面'},
-        dice_target:'',
+        selectedDiceFace: {id:'6',name:'6面'},
+        diceTarget:'',
         bgImg:'',
         audio: new Audio(),
         isPlay: false,
         duration: 0,
         currentTime: 0,
-        use_dice_target:false,
+        useDiceTarget:false,
         panale1Visible:false,
         navDrawerContent :null,
-        window_width: window.innerWidth,
-        window_height: window.innerHeight,
-        diceImgPath: require('@/assets/142187.png')
+        windowWidth: window.innerWidth,
+        windowHeight: window.innerHeight,
+        diceImgPath: require('@/assets/142187.png'),
+        TwAuthloading:false
       };
     },
     created() {
       this.$vuetify.theme.dark = true
       this.fireBaseAuthState()
+
     },
     mounted() {
       window.addEventListener('resize', this.handleResize)
@@ -271,10 +277,10 @@
             return this.$vuetify.breakpoint.mdAndUp
           },
           window_width_prop(){
-              return this.window_width+"px"
+              return this.windowWidth+"px"
           },
           window_height_prop(){
-              return this.window_height+"px"
+              return this.windowHeight+"px"
           },
       },
   beforeDestroy: function () {
@@ -282,17 +288,13 @@
   },
   methods: {
     test(){
-      this.navDrawerContent = this.$refs.myNavDrawer
-      //console.log(this.$el)
-      //console.log(this.$refs)
-      console.log(this.navDrawerContent)
 
     },
     handleResize: function() {
       if(this.drawer==true)
         return
-      this.window_width = window.innerWidth;
-      this.window_height = window.innerHeight;
+      this.windowWidth = window.innerWidth;
+      this.windowHeight = window.innerHeight;
     },
     fireBaseAuthState(){
       if(!Vue.config.debug){
@@ -313,7 +315,7 @@
               ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged)
             } else {
               ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged)
-              this.$router.push("/")
+              //this.$router.push("/")
             }
             this.$store.commit('notifyTwUID',twitter_user.uid)
             this.$store.commit('notifyTwName',twitter_user.displayName)
@@ -326,6 +328,7 @@
         }
     },
     async doLogin() {
+      this.TwAuthloading = true
       if(Vue.config.debug){
         this.login = true,alert('AUTO LOGIN')
         return  
@@ -335,17 +338,20 @@
 
       const provider = new firebase.auth.TwitterAuthProvider()
       await firebase.auth().signInWithPopup(provider)
+      this.TwAuthloading = false
       this.login = true
 
     },
     doLogout() {
-      this.login = false,this.entry= false
+      this.login = false
+      this.entry= false
+      this.$store.commit('notifyEntry',false)
       if(Vue.config.debug)
           return
       firebase.auth().signOut()
     },
     onEntry: function(evnet){
-      if(this.textarea_ticekt_no===""){
+      if(this.textareaTicektNo===""){
         alert('チケット番号を入力してください')
         return
       }else{
@@ -353,7 +359,7 @@
       }
     },
     async chekTicekt(){
-      await axios.get('/uEntry/?format=json&ticket_no='+this.textarea_ticekt_no,
+      await axios.get('/uEntry/?format=json&ticket_no='+this.textareaTicektNo,
       ).then(response => {
             this.entyrInfo = response.data
       })
@@ -372,11 +378,14 @@
         ).then(response => {
           this.sessionData = response.data
         })
-        this.$store.commit('notifyNowScene',this.sessionData[0]['trpg_session_now_scene'])
+
+//        this.$store.commit('notifyNowScene',this.sessionData[0]['trpg_session_now_scene'])
         this.$store.commit('notifyFirebaseMessageKeyId',this.sessionData[0]['firebase_message_key_id'])
         this.$store.commit('notifyFirebaseSceanKeyId',this.sessionData[0]['firebase_scean_key_id'])
-
-        this.$router.push({ name: "story" })
+ 
+        if(this.$route.path!="/story")
+          this.$router.push({ name: "story" })
+  
         this.loadChatlog();
         if(Vue.config.debug)
           return
@@ -447,7 +456,7 @@
         await axios.post('/uDiceRoll/', 
           { 
             session_users:this.$store.getters.sessionUserId, 
-            roll_dice_command:this.textarea_dice_command,
+            roll_dice_command:this.textareaDiceCommand,
             twitter_users_name: this.$store.getters.twName,
             twitter_users_photo:this.$store.getters.twPhoto
           },
@@ -457,7 +466,7 @@
           this.loadChatlog()  
         })
         this.doChatFireBaseUpdate()
-        this.textarea_dice_command =""
+        this.textareaDiceCommand =""
       },
       async loadChatlog(){
           await axios.get('/uDiceLog/?format=json&session_users__trpg_session='+this.$store.getters.trpgSessionId).then(response => {
@@ -493,17 +502,17 @@
         })
       },
       onRoll:function(event){
-        if(this.textarea_dice_command===""){
+        if(this.textareaDiceCommand===""){
           alert('コマンドを入力してください')
           return
         }
         this.rollDice() 
       },
       onSelectRollDice:function(event){
-        if(this.dice_target==null || this.use_dice_target==false){
-          this.textarea_dice_command = this.dice_num+"d"+this.selected_dice_face.id
+        if(this.diceTarget==null || this.useDiceTarget==false){
+          this.textareaDiceCommand = this.diceNum+"d"+this.selectedDiceFace.id
         }else{
-          this.textarea_dice_command = this.dice_num+"d"+this.selected_dice_face.id+">="+this.dice_target
+          this.textareaDiceCommand = this.diceNum+"d"+this.selectedDiceFace.id+">="+this.diceTarget
         }
         this.rollDice() 
       },
