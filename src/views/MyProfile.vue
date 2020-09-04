@@ -55,7 +55,7 @@ export default {
       character_image:'',
       character_img_upfile:'',
       profileData:[],
-      tw_user: {},  // twitterユーザー情報
+      tw_user: {},  
       img_file:null  
     };
   },

@@ -16,6 +16,7 @@ export default new Vuex.Store({
     twUID :'',
     twName:'',
     twPhoto:'',
+    nowSessionId:'',
     nowScene:'',
     firebaseMessageKeyId:'',
     firebaseSceanKeyId:''
@@ -53,6 +54,9 @@ export default new Vuex.Store({
     },
     twPhoto(state){
       return state.twPhoto
+    },
+    nowSessionId(state){
+      return state.nowSessionId
     },
     nowScene(state){
       return state.nowScene
@@ -101,6 +105,9 @@ export default new Vuex.Store({
     },
     notifyTwPhoto(state,str){
       state.twPhoto =str
+    },
+    notifyNowSessionId(state,str){
+      state.nowSessionId =str
     },
     notifyNowScene(state,str){
       state.nowScene =str

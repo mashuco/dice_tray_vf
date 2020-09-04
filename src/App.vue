@@ -1,4 +1,3 @@
-
 <template>
   <v-app prop v-if="entry">
     <div class="app-bar">
@@ -65,7 +64,7 @@
         <v-container class="pa-0 ma-1">
           <v-layout wrap>
             <v-card   
-              class="side-bar-header"
+              class="side-bar-header "
               :width = 'window_width_prop '
              >
                 <div style="width:1px; height: 5px"/>
@@ -80,7 +79,7 @@
                     </v-col>
                   </v-row>
                   <v-row class="pa-0 ma-0">
-                  <v-col class="pa-1 ma-0">
+                  <v-col class="pa-0 ma-0">
                     <v-select  class="pa-0 ma-0"
                       v-model="selectedDiceFace"
                       :items="diceFaceOptions"
@@ -94,14 +93,16 @@
                   </v-col>
                   <v-col class="pa-2 ma-0">
                     <el-input-number 
-                      style="width:145px; font-size: 17px; "  
+                      style="width:110px;  font-size: 16px; transform: scale(0.8);"
+                      size="small"
                       v-model="diceNum"  
                       :min="1" 
                       :max="100"
+
                     ></el-input-number>
                   </v-col>
                   <v-col class="py-3  ma-0">
-                    <v-btn  outlined small @click="onSelectRollDice">振D</v-btn>
+                    <v-btn  outlined small @click="onSelectRollDice">個振る</v-btn>
                   </v-col>
                 </v-row>
                 <v-row class="pa-0 ma-0">
@@ -110,7 +111,8 @@
                   </v-col>
                   <v-col class="pa-3 ma-0">
                     <el-input-number 
-                      style="width:145px; font-size: 17px; "  
+                      style="width:130px;  font-size: 16px; transform: scale(0.8);"
+                      size="small"
                       :disabled="!useDiceTarget" 
                       v-model="diceTarget"  
                       :min="1" 
@@ -154,12 +156,10 @@
               </v-list-item>
             </v-list> 
           </v-sheet>
-          </v-layout>
+        </v-layout>>
       </v-container>
     </v-navigation-drawer>
-    <v-main
-    :style="{backgroundImage:`url('${bgImg}')`}" class="bg-img"
-    >
+    <v-main  :style="{backgroundImage:`url('${bgImg}')`}" class="bg-img" >
       <v-container class="S">
         <v-row >
         <v-col >
@@ -170,39 +170,92 @@
     </v-main>
   </v-app>
   <v-app v-else-if="ChoiceSession">
-      <v-container>
-        <h2 class = "input_title">チケット番号を入力</h2>
-        <div>(テストユーザー⇒123)</div>      
+  <v-container>
+   チケットの選択
+
+  <div>
+    <v-btn color="success" @click.stop="dialog = true">
+      開く
+    </v-btn>
+    <v-dialog v-model="dialog">
+      
+      <CialogCard
+        v-on:clickSubmit="onSubmit"
+        title="確認"
+        msg="現在◎◎さんが使用中です"
+      ></CialogCard>
+    </v-dialog>
+    <v-text-field v-model="name" label="Name" disabled></v-text-field>
+    <v-text-field v-model="email" label="E-mail" disabled></v-text-field>
+  </div>
+        <v-list class="pa-1 my-0" >
+
+          <v-list-item
+            v-for="item in sessionTicketData"
+            :key="item.ticket_no"
+            class="pa-1 my-0"
+            @click="selectTicekt(item.ticket_no)"
+          >
+            <v-card 
+              color="#385F73" 
+              width="100%" 
+              height="250px" 
+            >
+              <v-card-title class="pa-0 my-0" v-text="'チケット名:'+item.name"/>
+              <v-card-subtitle class="pa-1 my-0" v-text="'エントリー中'">
+              </v-card-subtitle>
+              <v-list-item-avatar>
+              <v-img
+                :src="item.tw_photo"
+                max-height="30" 
+                contain
+                >
+              </v-img>
+              </v-list-item-avatar>
+              <v-card-subtitle v-text="item.tw_name" class="py-0 my-0"/>
+            </v-card>
+          </v-list-item>
+        </v-list>
+        <h2 class = "input_title">マスター：チケット番号を入力</h2>
         <v-text-field
             v-model="textareaTicektNo"
             label="チケットNO"
             @keydown.enter="onEntry"
         ></v-text-field>
-        <v-btn  v-on:click="onEntry" >Entry</v-btn>
       </v-container>
   </v-app>
   <v-app v-else-if="login">
     <v-container class="pa-0 my-0">
-      MemberProfile
-        <v-list 
-          class="pa-1 my-0"
-        >
+    セッションの選択
+        <v-list class="pa-1 my-0" >
           <v-list-item
             v-for="item in sessionAllData"
-            :key="item.trpg_session_id"
+            :key="item.session_user_id"
             class="pa-1 my-0"
           >
-            <v-card color="#385F73" width="100%" height="265px">
-                    <v-card-title class="pa-0 my-0" v-text="item.trpg_session_name"/>
+            <v-card 
+              color="#385F73" 
+              width="100%" 
+              height="265px" 
+              @click="onSelectSession(item.trpg_session_id)"
+            >
+              <v-card-title class="pa-0 my-0" v-text="item.trpg_session_name"/>
             </v-card>
           </v-list-item>
         </v-list>
-        <v-btn
-            @click="onSelectSession" 
-         >次へ</v-btn>
+
     </v-container>
   </v-app>
   <v-app v-else>
+    <LoginPage>
+        @login="onSubmit"
+    </LoginPage>
+      <!--CialogCard
+        v-on:clickSubmit="onSubmit"
+        title="確認"
+        msg="現在◎◎さんが使用中です"
+      ></CialogCard-->
+
     <v-container >
       <v-row
         style="height: 300px;"
@@ -227,15 +280,27 @@
   import Story from './views/Story.vue'
   import Vuetify from 'vuetify/lib'
   import './plugins/element.js'
+  import CialogCard from './components/DialogCard'
+  import DialogCard2 from './components/App/DialogCard2'
+  import LoginPage from './components/App/LoginPage'
   axios.defaults.baseURL = process.env.VUE_APP_URL
 
   export default {
+    components: {
+      LoginPage,
+      CialogCard,
+    },
     data() {
       return {
+      name: '',
+      email: '',
+      dialog: false,
+      dialogmsg:'',
         drawer: true,
         messages:[],
         sessionData:[],
         sessionAllData:[],
+        sessionTicketData:[],
         login:false,
         ChoiceSession:false,
         entry:false,
@@ -243,18 +308,18 @@
         textareaDiceCommand:'',
         diceNum:1,
         diceFaceOptions: [
-                    { id: '4', name: '4面' },
-                    { id: '6', name: '6面' },
-                    { id: '8', name: '8面' },
-                    { id: '10', name: '10面' },
-                    { id: '12', name: '12面' },
-                    { id: '20', name: '20面' },
-                    { id: '100', name: '100面' },
+          { id: '4', name: '4面' },
+          { id: '6', name: '6面' },
+          { id: '8', name: '8面' },
+          { id: '10', name: '10面' },
+          { id: '12', name: '12面' },
+          { id: '20', name: '20面' },
+          { id: '100', name: '100面' },
         ],
         selectedDiceFace: {id:'6',name:'6面'},
         diceTarget:'',
         bgImg:'',
-        audio: new Audio(),
+        audio:null,
         isPlay: false,
         duration: 0,
         currentTime: 0,
@@ -264,18 +329,22 @@
         windowWidth: window.innerWidth,
         windowHeight: window.innerHeight,
         diceImgPath: require('@/assets/142187.png'),
-        TwAuthloading:false
+        TwAuthloading:false,
+        bgmVolume:0.5
       };
     },
     created() {
       this.$vuetify.theme.dark = true
       this.loadAllSession()
       this.fireBaseAuthState()
+      if(this.audio != null)
+        delete  this.Audio
+      this.audio= new Audio()
+      this.audio.loop =true
 
     },
     mounted() {
       //document.querySelector("meta[name='viewport']").setAttribute('content', "user-scalable=0")
-
       window.addEventListener('resize', this.handleResize)
       this.$store.watch(
           (state, getters) => getters.trpgSessionImg,
@@ -325,8 +394,14 @@
     window.removeEventListener('resize', this.handleResize)
   },
   methods: {
-    test(){
-
+    testTest(params){
+    },
+    onSubmit(params) {
+      console.log("test")
+      this.dialog =false
+      this.name = params.name
+      this.email = params.email
+      this.agreeTicekt()
     },
     handleResize: function() {
       if(this.drawer==true)
@@ -348,7 +423,7 @@
           storageBucket:process.env.VUE_APP_FIREBASE_CONFIG_STORAGEBUCKET ,
           messagingSenderId:process.env.VUE_APP_FIREBASE_CONFIG_MESSAGINGSENDERID ,
           appId:process.env.VUE_APP_FIREBASE_CONFIG_APPID
-          }
+         }
         firebase.initializeApp(firebaseConfig);  
         firebase.auth().onAuthStateChanged(user => {
           var twitter_user = user ?user : {}
@@ -370,49 +445,57 @@
       }
     },
     async doLogin() {
+console.log("hoge2")      
       this.TwAuthloading = true
+      this.login = true
+
       if(Vue.config.debug){
         this.login = true,alert('AUTO LOGIN')
+        this.TwAuthloading =false
         return  
       }
-      if(this.$store.getters.twUID=='')
-        return
-
+      
       const provider = new firebase.auth.TwitterAuthProvider()
       await firebase.auth().signInWithPopup(provider)
       this.TwAuthloading = false
-      this.login = true
-
     },
     doLogout() {
       this.login = false
       this.entry= false
-      this.$store.commit('notifyEntry',false)
+      this.ChoiceSession=false
+      this.ticket_no=''
+      this.audio.pause()
       if(Vue.config.debug)
           return
       firebase.auth().signOut()
     },
-    onSelectSession(){
-      console.log("onSelectSession!")
-          this.ChoiceSession = true
+    async onSelectSession(str){
+      this.$store.commit('notifyNowSessionId',str)
+      this.ChoiceSession = true
+      await axios.get('/uEntry/?format=json&is_session_master=false&trpg_session='+str,
+      ).then(response => {
+            this.sessionTicketData = response.data
+     })
     },
     onEntry: function(evnet){
       if(this.textareaTicektNo===""){
         alert('チケット番号を入力してください')
         return
       }else{
-        this.chekTicekt()
+        this.chekTicekt(this.textareaTicektNo)
       }
     },
+    selectTicekt(str){
+        this.chekTicekt(str)
+    },
     async loadAllSession(){
-        await axios.get('/session/'
+        await axios.get('/session/?format=json'
         ).then(response => {
           this.sessionAllData = response.data
         })
-
     },
-    async chekTicekt(){
-      await axios.get('/uEntry/?format=json&ticket_no='+this.textareaTicektNo,
+    async chekTicekt(str){
+      await axios.get('/uEntry/?format=json&ticket_no='+str ,
       ).then(response => {
             this.entyrInfo = response.data
       })
@@ -420,28 +503,36 @@
           alert('存在しないチケットです')
           return
       }
-        this.$store.commit('notifyTickesNo',this.entyrInfo[0]['ticket_no'])
-        this.$store.commit('notifyTrpgSessionId',this.entyrInfo[0]['trpg_session'])
-        this.$store.commit('notifyTrpgSessionName',this.entyrInfo[0]['trpg_session_name'])
-        this.$store.commit('notifyUserName',this.entyrInfo[0]['name'])
-        this.$store.commit('notifyIsSessionMaster',this.entyrInfo[0]['is_session_master'])
-        this.$store.commit('notifySessionUserId',this.entyrInfo[0]['session_user_id'])
-        this.entry = true
-        await axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId
-        ).then(response => {
-          this.sessionData = response.data
-        })
-
+      if(this.entyrInfo[0].tw_name!=''){
+        this.dialog = true
+        return
+      }
+      this.agreeTicekt()
+    },
+    async agreeTicekt(){
+      this.audio.play()
+      this.isPlay = true
+      this.$store.commit('notifyTickesNo',this.entyrInfo[0]['ticket_no'])
+      this.$store.commit('notifyTrpgSessionId',this.entyrInfo[0]['trpg_session'])
+      this.$store.commit('notifyTrpgSessionName',this.entyrInfo[0]['trpg_session_name'])
+      this.$store.commit('notifyUserName',this.entyrInfo[0]['name'])
+      this.$store.commit('notifyIsSessionMaster',this.entyrInfo[0]['is_session_master'])
+      this.$store.commit('notifySessionUserId',this.entyrInfo[0]['session_user_id'])
+      this.entry = true
+      await axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId
+      ).then(response => {
+        this.sessionData = response.data
+      })
 //        this.$store.commit('notifyNowScene',this.sessionData[0]['trpg_session_now_scene'])
-        this.$store.commit('notifyFirebaseMessageKeyId',this.sessionData[0]['firebase_message_key_id'])
-        this.$store.commit('notifyFirebaseSceanKeyId',this.sessionData[0]['firebase_scean_key_id'])
- 
-        if(this.$route.path!="/story")
-          this.$router.push({ name: "story" })
-  
-        this.loadChatlog();
-        if(Vue.config.debug)
-          return
+      this.$store.commit('notifyFirebaseMessageKeyId',this.sessionData[0]['firebase_message_key_id'])
+      this.$store.commit('notifyFirebaseSceanKeyId',this.sessionData[0]['firebase_scean_key_id'])
+
+      if(this.$route.path!="/story")
+        this.$router.push({ name: "story" })
+
+      this.loadChatlog();
+      if(Vue.config.debug)
+        return
 
         this.updateTwuserInfo(
           this.$store.getters.twUID,
@@ -598,7 +689,6 @@
             }
         );
       },
-
     }      
   }
 </script>

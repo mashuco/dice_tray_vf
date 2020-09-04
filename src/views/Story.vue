@@ -57,7 +57,6 @@ export default {
       sceneAllData:[],
       sceneData:[],
       selectedScene: {scene_name:'',session_scene_id:''},
-//      tw_user: {},  // twitterユーザー情報
       isSessionMaster: false,
     };
   },
