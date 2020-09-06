@@ -170,104 +170,32 @@
     </v-main>
   </v-app>
   <v-app v-else-if="ChoiceSession">
+   <TicektSelectPage
+      v-on:clickSubmit="chekTicekt" 
+      :ticketData = "sessionAllTicketData"
+      :ticketDataWithoutGM ="sessionTicketDataWithOutGMMaster"
+    />
   <v-container>
-   チケットの選択
-
-  <div>
     <v-btn color="success" @click.stop="dialog = true">
       開く
     </v-btn>
     <v-dialog v-model="dialog">
-      
       <CialogCard
         v-on:clickSubmit="onSubmit"
         title="確認"
         msg="現在◎◎さんが使用中です"
       ></CialogCard>
     </v-dialog>
-    <v-text-field v-model="name" label="Name" disabled></v-text-field>
-    <v-text-field v-model="email" label="E-mail" disabled></v-text-field>
-  </div>
-        <v-list class="pa-1 my-0" >
-
-          <v-list-item
-            v-for="item in sessionTicketData"
-            :key="item.ticket_no"
-            class="pa-1 my-0"
-            @click="selectTicekt(item.ticket_no)"
-          >
-            <v-card 
-              color="#385F73" 
-              width="100%" 
-              height="250px" 
-            >
-              <v-card-title class="pa-0 my-0" v-text="'チケット名:'+item.name"/>
-              <v-card-subtitle class="pa-1 my-0" v-text="'エントリー中'">
-              </v-card-subtitle>
-              <v-list-item-avatar>
-              <v-img
-                :src="item.tw_photo"
-                max-height="30" 
-                contain
-                >
-              </v-img>
-              </v-list-item-avatar>
-              <v-card-subtitle v-text="item.tw_name" class="py-0 my-0"/>
-            </v-card>
-          </v-list-item>
-        </v-list>
-        <h2 class = "input_title">マスター：チケット番号を入力</h2>
-        <v-text-field
-            v-model="textareaTicektNo"
-            label="チケットNO"
-            @keydown.enter="onEntry"
-        ></v-text-field>
-      </v-container>
+    </v-container>
   </v-app>
   <v-app v-else-if="login">
-    <v-container class="pa-0 my-0">
-    セッションの選択
-        <v-list class="pa-1 my-0" >
-          <v-list-item
-            v-for="item in sessionAllData"
-            :key="item.session_user_id"
-            class="pa-1 my-0"
-          >
-            <v-card 
-              color="#385F73" 
-              width="100%" 
-              height="265px" 
-              @click="onSelectSession(item.trpg_session_id)"
-            >
-              <v-card-title class="pa-0 my-0" v-text="item.trpg_session_name"/>
-            </v-card>
-          </v-list-item>
-        </v-list>
-
-    </v-container>
+    <SessionSelectPage 
+      v-on:clickSubmit="onSelectSession" 
+      :sessionData = "sessionAllData"
+    />
   </v-app>
   <v-app v-else>
-    <LoginPage>
-        @login="onSubmit"
-    </LoginPage>
-      <!--CialogCard
-        v-on:clickSubmit="onSubmit"
-        title="確認"
-        msg="現在◎◎さんが使用中です"
-      ></CialogCard-->
-
-    <v-container >
-      <v-row
-        style="height: 300px;"
-        justify="center" align-content="center"
-      >
-        <v-btn 
-          block x-large color="#009688"  
-          @click="doLogin" 
-          :loading="TwAuthloading"
-        >Twitterでログイン</v-btn>
-      </v-row>
-    </v-container>
+    <LoginPage v-on:clickSubmit="doLogin" />
   </v-app>
 </template>
 <script>
@@ -281,13 +209,17 @@
   import Vuetify from 'vuetify/lib'
   import './plugins/element.js'
   import CialogCard from './components/DialogCard'
-  import DialogCard2 from './components/App/DialogCard2'
   import LoginPage from './components/App/LoginPage'
+  import SessionSelectPage from './components/App/SessionSelectPage'
+  import TicektSelectPage  from './components/App/TicektSelectPage'
+ 
   axios.defaults.baseURL = process.env.VUE_APP_URL
 
   export default {
     components: {
       LoginPage,
+      SessionSelectPage,
+      TicektSelectPage,
       CialogCard,
     },
     data() {
@@ -300,11 +232,11 @@
         messages:[],
         sessionData:[],
         sessionAllData:[],
-        sessionTicketData:[],
+        sessionAllTicketData:[],
+        sessionTicketDataWithOutGMMaster:[],
         login:false,
         ChoiceSession:false,
         entry:false,
-        textareaTicektNo:'',
         textareaDiceCommand:'',
         diceNum:1,
         diceFaceOptions: [
@@ -341,7 +273,6 @@
         delete  this.Audio
       this.audio= new Audio()
       this.audio.loop =true
-
     },
     mounted() {
       //document.querySelector("meta[name='viewport']").setAttribute('content', "user-scalable=0")
@@ -368,50 +299,47 @@
         )
   },
   computed: {
-          navigation_wide(){
-            if(this.$vuetify.breakpoint.mdAndUp)
-              return '30%'
-            if(this.$vuetify.breakpoint.smAndDown)
-              return '100%'
-          },
-          dice_tray_wide(){
-            if(this.$vuetify.breakpoint.mdAndUp)
-              return '100%'
-            if(this.$vuetify.breakpoint.smAndDown)
-              return '100%'
-          },
-          is_mdAndUp(){
-            return this.$vuetify.breakpoint.mdAndUp
-          },
-          window_width_prop(){
-              return this.windowWidth+"px"
-          },
-          window_height_prop(){
-              return this.windowHeight+"px"
-          },
-      },
+    navigation_wide(){
+      if(this.$vuetify.breakpoint.mdAndUp)
+        return '30%'
+      if(this.$vuetify.breakpoint.smAndDown)
+        return '100%'
+    },
+    dice_tray_wide(){
+      if(this.$vuetify.breakpoint.mdAndUp)
+        return '100%'
+      if(this.$vuetify.breakpoint.smAndDown)
+        return '100%'
+    },
+    is_mdAndUp(){
+      return this.$vuetify.breakpoint.mdAndUp
+    },
+    window_width_prop(){
+        return this.windowWidth+"px"
+    },
+    window_height_prop(){
+        return this.windowHeight+"px"
+    },
+  },
   beforeDestroy: function () {
     window.removeEventListener('resize', this.handleResize)
   },
   methods: {
-    testTest(params){
+    test(params){
     },
     onSubmit(params) {
-      console.log("test")
       this.dialog =false
       this.name = params.name
       this.email = params.email
-      this.agreeTicekt()
+//      this.agreeTicekt()
     },
     handleResize: function() {
       if(this.drawer==true)
         return
       this.windowWidth = window.innerWidth;
       this.windowHeight = window.innerHeight;
-
       viewportContent = "width=device-width,initial-scale=1.0" 
       document.querySelector("meta[name='viewport']").setAttribute("content", viewportContent) 
-
     },
     fireBaseAuthState(){
       if(!Vue.config.debug){
@@ -445,7 +373,6 @@
       }
     },
     async doLogin() {
-console.log("hoge2")      
       this.TwAuthloading = true
       this.login = true
 
@@ -454,7 +381,6 @@ console.log("hoge2")
         this.TwAuthloading =false
         return  
       }
-      
       const provider = new firebase.auth.TwitterAuthProvider()
       await firebase.auth().signInWithPopup(provider)
       this.TwAuthloading = false
@@ -472,21 +398,14 @@ console.log("hoge2")
     async onSelectSession(str){
       this.$store.commit('notifyNowSessionId',str)
       this.ChoiceSession = true
-      await axios.get('/uEntry/?format=json&is_session_master=false&trpg_session='+str,
+      //await axios.get('/uEntry/?format=json&is_session_master=false&trpg_session='+str,
+      await axios.get('/uEntry/?format=json&trpg_session='+str,
       ).then(response => {
-            this.sessionTicketData = response.data
+            this.sessionAllTicketData             = response.data
+            this.sessionTicketDataWithOutGMMaster = response.data.filter(function(item,index){
+              if(item.is_session_master == false)return true
+            })
      })
-    },
-    onEntry: function(evnet){
-      if(this.textareaTicektNo===""){
-        alert('チケット番号を入力してください')
-        return
-      }else{
-        this.chekTicekt(this.textareaTicektNo)
-      }
-    },
-    selectTicekt(str){
-        this.chekTicekt(str)
     },
     async loadAllSession(){
         await axios.get('/session/?format=json'
@@ -494,22 +413,18 @@ console.log("hoge2")
           this.sessionAllData = response.data
         })
     },
-    async chekTicekt(str){
-      await axios.get('/uEntry/?format=json&ticket_no='+str ,
-      ).then(response => {
-            this.entyrInfo = response.data
-      })
-      if(typeof this.entyrInfo[0] === 'undefined'){
-          alert('存在しないチケットです')
-          return
-      }
-      if(this.entyrInfo[0].tw_name!=''){
-        this.dialog = true
-        return
-      }
-      this.agreeTicekt()
-    },
-    async agreeTicekt(){
+    async chekTicekt(searchTicket){
+      this.entyrInfo = searchTicket
+
+//      if(this.entyrInfo[0].tw_name!=''){
+//          alert('tw')
+//
+//        this.dialog = true
+//        return
+//      }
+//      this.agreeTicekt()
+//    },
+//    async agreeTicekt(){
       this.audio.play()
       this.isPlay = true
       this.$store.commit('notifyTickesNo',this.entyrInfo[0]['ticket_no'])
@@ -533,7 +448,6 @@ console.log("hoge2")
       this.loadChatlog();
       if(Vue.config.debug)
         return
-
         this.updateTwuserInfo(
           this.$store.getters.twUID,
           this.$store.getters.twName,
@@ -625,10 +539,9 @@ console.log("hoge2")
       chatMessage(msg,rollSum,rollResult,SuccessOrFailure) {
         if(rollSum == "") 
           return msg
-
         if(SuccessOrFailure == null)
           return msg +"\n"+ rollResult+">>"+rollSum
-          
+        
         return msg +"\n"+ rollResult+">>"+rollSum+">>"+ (SuccessOrFailure?"成功":"失敗")
       },
       async setTwuserInfo(){
