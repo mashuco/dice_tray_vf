@@ -20,11 +20,6 @@ export default {
   props: {
     authloading:false,
   },
-  watch: {
-      authloading: function(chenged, old){
-        console.log(old+'から'+chenged)
-      }
-  }, 
   data() {
     return {
       TwAuthloading:false
