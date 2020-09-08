@@ -182,7 +182,10 @@
     />
   </v-app>
   <v-app v-else>
-    <LoginPage v-on:clickSubmit="doLogin" />
+    <LoginPage 
+      v-on:clickSubmit="doLogin" 
+      :authloading ="TwAuthloading"
+    />
   </v-app>
 </template>
 <script>
@@ -360,8 +363,8 @@
     },
     async doLogin() {
       this.TwAuthloading = true
-      this.login = true
 
+      this.login = true
       if(Vue.config.debug){
         this.login = true,alert('AUTO LOGIN')
         this.TwAuthloading =false
@@ -369,6 +372,7 @@
       }
       const provider = new firebase.auth.TwitterAuthProvider()
       await firebase.auth().signInWithPopup(provider)
+
       this.TwAuthloading = false
     },
     doLogout() {
