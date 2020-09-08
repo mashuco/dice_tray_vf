@@ -344,6 +344,8 @@
         firebase.initializeApp(firebaseConfig);  
         firebase.auth().onAuthStateChanged(user => {
           var twitter_user = user ?user : {}
+console.log("twitter_user change!!")
+console.log(twitter_user)
           const ref_message = firebase.database().ref('message')
           if (user) {
             ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged)
@@ -362,17 +364,6 @@
       }
     },
     async doLogin() {
-/*
-      this.TwAuthloading = true
-      if(Vue.config.debug){
-        this.login = true,alert('AUTO LOGIN')
-        this.TwAuthloading =false
-        return  
-      }
-      const provider = new firebase.auth.TwitterAuthProvider()
-      await firebase.auth().signInWithPopup(provider)
-      this.TwAuthloading = false
-*/
       this.login = true
     },
     doLogout() {
