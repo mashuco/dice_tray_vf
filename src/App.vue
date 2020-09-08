@@ -98,7 +98,6 @@
                       v-model="diceNum"  
                       :min="1" 
                       :max="100"
-
                     ></el-input-number>
                   </v-col>
                   <v-col class="py-3  ma-0">
@@ -175,18 +174,6 @@
       :ticketData = "sessionAllTicketData"
       :ticketDataWithoutGM ="sessionTicketDataWithOutGMMaster"
     />
-  <v-container>
-    <v-btn color="success" @click.stop="dialog = true">
-      開く
-    </v-btn>
-    <v-dialog v-model="dialog">
-      <CialogCard
-        v-on:clickSubmit="onSubmit"
-        title="確認"
-        msg="現在◎◎さんが使用中です"
-      ></CialogCard>
-    </v-dialog>
-    </v-container>
   </v-app>
   <v-app v-else-if="login">
     <SessionSelectPage 
@@ -208,11 +195,11 @@
   import Story from './views/Story.vue'
   import Vuetify from 'vuetify/lib'
   import './plugins/element.js'
-  import CialogCard from './components/DialogCard'
+  import Dialog from './components/Dialog'
   import LoginPage from './components/App/LoginPage'
   import SessionSelectPage from './components/App/SessionSelectPage'
   import TicektSelectPage  from './components/App/TicektSelectPage'
- 
+  import regTwitterInfo from './services/App/regTwitterInfo'
   axios.defaults.baseURL = process.env.VUE_APP_URL
 
   export default {
@@ -220,7 +207,7 @@
       LoginPage,
       SessionSelectPage,
       TicektSelectPage,
-      CialogCard,
+      Dialog,
     },
     data() {
       return {
@@ -331,7 +318,6 @@
       this.dialog =false
       this.name = params.name
       this.email = params.email
-//      this.agreeTicekt()
     },
     handleResize: function() {
       if(this.drawer==true)
@@ -391,6 +377,8 @@
       this.ChoiceSession=false
       this.ticket_no=''
       this.audio.pause()
+      regTwitterInfo('','','', this.$store.getters.sessionUserId)
+
       if(Vue.config.debug)
           return
       firebase.auth().signOut()
@@ -415,16 +403,6 @@
     },
     async chekTicekt(searchTicket){
       this.entyrInfo = searchTicket
-
-//      if(this.entyrInfo[0].tw_name!=''){
-//          alert('tw')
-//
-//        this.dialog = true
-//        return
-//      }
-//      this.agreeTicekt()
-//    },
-//    async agreeTicekt(){
       this.audio.play()
       this.isPlay = true
       this.$store.commit('notifyTickesNo',this.entyrInfo[0]['ticket_no'])
@@ -438,7 +416,6 @@
       ).then(response => {
         this.sessionData = response.data
       })
-//        this.$store.commit('notifyNowScene',this.sessionData[0]['trpg_session_now_scene'])
       this.$store.commit('notifyFirebaseMessageKeyId',this.sessionData[0]['firebase_message_key_id'])
       this.$store.commit('notifyFirebaseSceanKeyId',this.sessionData[0]['firebase_scean_key_id'])
 
@@ -446,32 +423,14 @@
         this.$router.push({ name: "story" })
 
       this.loadChatlog();
-      if(Vue.config.debug)
-        return
-        this.updateTwuserInfo(
-          this.$store.getters.twUID,
-          this.$store.getters.twName,
-          this.$store.getters.twPhoto
-        )
-      },
-      async updateTwuserInfo(twUID,twName,twPhoto){
-        var csrftoken = Cookies.get('csrftoken')
-        await axios.patch(
-          '/userTwUp/'+this.$store.getters.sessionUserId+'/', 
-          { 
-            tw_UID :twUID,
-            tw_name:twName,
-            tw_photo:twPhoto
-          },
-          {
-            headers: {
-              'X-CSRFToken': csrftoken,
-            },
-          }
-        ).then(response => {
-          this.postResuolt = response.data
-        })
-      },
+     
+      regTwitterInfo(
+        this.$store.getters.twUID,
+        this.$store.getters.twName,
+        this.$store.getters.twPhoto,
+        this.$store.getters.sessionUserId
+      )
+   },
       loadMusic: function(){
         this.audio.src =this.$store.getters.trpgSessionBgm
         this.audio.load(),this.audio.play(),this.isPlay = true
@@ -573,6 +532,7 @@
         }
         this.rollDice() 
       },
+      /*
       firebaseMessageAdded(snap) {
         if (this.entry!=true)
           return
@@ -585,6 +545,7 @@
            break
         }
       },
+      */
       firebaseMessageChanged(snap) {
         if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
           return
@@ -605,7 +566,6 @@
     }      
   }
 </script>
-
 <style>
   @import "./css/styles.css";
 </style>

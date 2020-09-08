@@ -21,20 +21,16 @@ export default {
   },
   data() {
     return {
-      agree:false,
-      returnData: {
-        agree: this.agree
-      }
     }
   },
   methods: {
     submitYes() {
       this.agree = true
-      this.$emit('clickSubmit', this.returnData)
+      this.$emit('clickSubmit', true)
     },
     submitNo() {
       this.agree = false
-      this.$emit('clickSubmit', this.returnData)
+      this.$emit('clickSubmit', false)
     }
   }
 }
