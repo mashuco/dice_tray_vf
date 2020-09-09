@@ -39,12 +39,6 @@
               </v-list-item>
               <v-list-item>
                 <v-list-item-content>
-                    <v-list-item-title  @click="switchMusic"  v-if="isPlay == true" >BGM停止</v-list-item-title>
-                    <v-list-item-title  @click="switchMusic"  v-else >BGM再生</v-list-item-title>
-                 </v-list-item-content>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-content>
                   <v-list-item-title  @click="doLogout">Logout</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
@@ -80,6 +74,15 @@
                   </v-row>
                   <v-row class="pa-0 ma-0">
                   <v-col class="pa-0 ma-0">
+      <v-slider
+        v-model="audioVolume"
+        min=0
+        max=100
+        @end ="audioVolumeChenge"
+        @click:prepend = "audioPlayAndPause"
+        prepend-icon="volume_up"
+
+      ></v-slider>{{audioVolume+'%'}}
                     <v-select  class="pa-0 ma-0"
                       v-model="selectedDiceFace"
                       :items="diceFaceOptions"
@@ -203,9 +206,11 @@
   import SessionSelectPage from './components/App/SessionSelectPage'
   import TicektSelectPage  from './components/App/TicektSelectPage'
   import regTwitterInfo from './services/App/regTwitterInfo'
+  import audioMixin from './mixins/audioMixin.js'
   axios.defaults.baseURL = process.env.VUE_APP_URL
 
   export default {
+    mixins: [audioMixin],
     components: {
       LoginPage,
       SessionSelectPage,
@@ -214,10 +219,6 @@
     },
     data() {
       return {
-      name: '',
-      email: '',
-      dialog: false,
-      dialogmsg:'',
         drawer: true,
         messages:[],
         sessionData:[],
@@ -241,8 +242,6 @@
         selectedDiceFace: {id:'6',name:'6面'},
         diceTarget:'',
         bgImg:'',
-        audio:null,
-        isPlay: false,
         duration: 0,
         currentTime: 0,
         useDiceTarget:false,
@@ -259,10 +258,6 @@
       this.$vuetify.theme.dark = true
       this.loadAllSession()
       this.fireBaseAuthState()
-      if(this.audio != null)
-        delete  this.Audio
-      this.audio= new Audio()
-      this.audio.loop =true
     },
     mounted() {
       //document.querySelector("meta[name='viewport']").setAttribute('content', "user-scalable=0")
@@ -272,21 +267,7 @@
           (newValue, oldValue) => {
             this.bgImg = this.$store.getters.trpgSessionImg
           }
-        ),
-        this.$store.watch(
-          (state, getters) => getters.trpgSessionBgm,
-          (newValue, oldValue) => {
-            if(this.entry != true)
-              return
-
-            if(this.$store.getters.trpgSessionBgm == null){
-              this.audio.pause()
-              return
-            }
-            this.audio.src = this.$store.getters.trpgSessionBgm
-            this.audio.load(),this.audio.play(),this.isPlay=true
-          }
-        )
+       )
   },
   computed: {
     navigation_wide(){
@@ -315,13 +296,6 @@
     window.removeEventListener('resize', this.handleResize)
   },
   methods: {
-    test(params){
-    },
-    onSubmit(params) {
-      this.dialog =false
-      this.name = params.name
-      this.email = params.email
-    },
     handleResize: function() {
       if(this.drawer==true)
         return
@@ -344,8 +318,6 @@
         firebase.initializeApp(firebaseConfig);  
         firebase.auth().onAuthStateChanged(user => {
           var twitter_user = user ?user : {}
-console.log("twitter_user change!!")
-console.log(twitter_user)
           const ref_message = firebase.database().ref('message')
           if (user) {
             ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged)
@@ -426,53 +398,32 @@ console.log(twitter_user)
         this.$store.getters.sessionUserId
       )
    },
-      loadMusic: function(){
-        this.audio.src =this.$store.getters.trpgSessionBgm
-        this.audio.load(),this.audio.play(),this.isPlay = true
-        this.audio.addEventListener('canplay', () => {
-          this.duration = this.audio.duration;
-        });
-        this.audio.addEventListener('timeupdate', () => {
-          this.currentTime = this.audio.currentTime;
-        });
-        this.audio.addEventListener('ended', ()=> {
-          this.audio.currentTime = 0
-          this.audio.play()
-        });
+    doStory(){
+      if(this.is_mdAndUp == false)
+      this.drawer = false
+      this.$router.push({ name: "story" , props:{p_entry : this.entry}})
+    },
+    doMemberProfile(){
+      if(this.is_mdAndUp == false)
+      this.drawer = false
+      this.$router.push({ name: "member_profile" })
+    },
+    doMyProfile(){
+      if(this.is_mdAndUp == false)
+      this.drawer = false
+      this.$router.push({ name: "my_profile" })
+    },
+    async rollDice(){
+      var csrftoken = Cookies.get('csrftoken')
+      await axios.post('/uDiceRoll/', 
+      { 
+        session_users:this.$store.getters.sessionUserId, 
+        roll_dice_command:this.textareaDiceCommand,
+        twitter_users_name: this.$store.getters.twName,
+        twitter_users_photo:this.$store.getters.twPhoto
       },
-      switchMusic: function () {
-         this.isPlay = !this.isPlay
-         if(this.isPlay==true){
-           this.audio.play()
-         }else{
-           this.audio.pause()
-         }
-      },
-      doStory(){
-        if(this.is_mdAndUp == false)
-          this.drawer = false
-        this.$router.push({ name: "story" , props:{p_entry : this.entry}})
-      },
-      doMemberProfile(){
-        if(this.is_mdAndUp == false)
-          this.drawer = false
-        this.$router.push({ name: "member_profile" })
-      },
-      doMyProfile(){
-        if(this.is_mdAndUp == false)
-          this.drawer = false
-        this.$router.push({ name: "my_profile" })
-      },
-      async rollDice(){
-        var csrftoken = Cookies.get('csrftoken')
-        await axios.post('/uDiceRoll/', 
-          { 
-            session_users:this.$store.getters.sessionUserId, 
-            roll_dice_command:this.textareaDiceCommand,
-            twitter_users_name: this.$store.getters.twName,
-            twitter_users_photo:this.$store.getters.twPhoto
-          },
-          {headers: {'X-CSRFToken': csrftoken,},}
+      {
+        headers: {'X-CSRFToken': csrftoken,},}
         ).then(response => {
           this.postResuolt = response.data
           this.loadChatlog()  
@@ -498,20 +449,6 @@ console.log(twitter_user)
         
         return msg +"\n"+ rollResult+">>"+rollSum+">>"+ (SuccessOrFailure?"成功":"失敗")
       },
-      async setTwuserInfo(){
-        var csrftoken = Cookies.get('csrftoken')
-        await axios.patch(
-          '/userTwUp/'+this.$store.getters.sessionUserId+'/', 
-          { 
-            tw_UID :this.$store.getters.twUID,
-            tw_name:this.$store.getters.twName,
-            tw_photo:this.$store.getters.twPhoto
-          },
-          {headers: {'X-CSRFToken': csrftoken,},}
-        ).then(response => {
-          this.postResuolt = response.data
-        })
-      },
       onRoll:function(event){
         if(this.textareaDiceCommand===""){
           alert('コマンドを入力してください')
@@ -527,20 +464,6 @@ console.log(twitter_user)
         }
         this.rollDice() 
       },
-      /*
-      firebaseMessageAdded(snap) {
-        if (this.entry!=true)
-          return
-        var fBmessage = snap.val().message.split('|')
-        switch(fBmessage[0]){
-          case 'chatUpdate':
-           this.loadChatlog()
-           break
-          default:
-           break
-        }
-      },
-      */
       firebaseMessageChanged(snap) {
         if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
           return

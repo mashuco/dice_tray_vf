@@ -138,19 +138,6 @@ export default {
         ref_message.limitToLast(10).on('child_changed', this.firebaseMessageChanged)
       })
   }, 
-  //firebaseMessageAdded(snap) {
-  //  var fBmessage = snap.val().message.split('|')
-  //  var fb_message_type = fBmessage[0]
-  //  var fb_send_user_uid = fBmessage[1]
-  //  var fb_scene_id      = fBmessage[2]
-  //  switch(fb_message_type){
-  //  case 'storyUpdate':
-  // if(fb_send_user_uid!=this.$store.getters.sessionUserId) 
-  //    this.loadScene(fb_scene_id)
-  //    default:
-  //    break
-  //  }
-  //},
   firebaseMessageChanged(snap) {
     if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
       return
@@ -162,6 +149,7 @@ export default {
       await axios.get('/scene/?format=json&session_scene_id='+sceneId).then(response => {
           this.sceneData = response.data
       })
+      console.log("set bgm")
       this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
       this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
      
