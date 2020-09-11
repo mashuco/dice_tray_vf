@@ -38,7 +38,6 @@
           </v-list-item>
         </v-list>
        </v-card>
-
   </v-container>
 </template>
 

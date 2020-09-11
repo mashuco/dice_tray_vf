@@ -7,9 +7,6 @@
       :msg='dialogMsg'
     ></Dialog>
   </v-dialog>
-  <v-btn color="success" @click.stop="dialog = true">
-    開く!
-  </v-btn>
   チケットの選択
   <v-list class="pa-1 my-0" >
     <v-list-item

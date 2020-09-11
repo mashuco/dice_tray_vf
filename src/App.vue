@@ -13,7 +13,6 @@
           <span class="title">Xamaru</span>
         </v-toolbar-title>
         <v-toolbar-items>
-          <v-spacer></v-spacer>
           <v-menu class ="menu">
             <template v-slot:activator="{on}">
               <v-btn v-on="on" text>Menu</v-btn>
@@ -44,6 +43,29 @@
               </v-list-item>
             </v-list>
           </v-menu>
+           <v-menu class ="menu">
+            <template v-slot:activator="{on}">
+              <v-btn v-on="on" text >sound</v-btn>
+            </template>
+            <v-list>
+              <v-list-item>
+                <v-list-item-content/>
+              </v-list-item>
+              <v-list-item>
+                <v-slider
+                  v-model="audioVolume"
+                  min=0
+                  max=100
+                  vertical 
+                  @end ="audioVolumeChenge"
+                  @click:prepend = "audioPlayAndPause"
+                  :prepend-icon="audioIcon"
+                ></v-slider>
+                {{audioVolume}}
+              </v-list-item>
+            </v-list>
+           </v-menu>
+
         </v-toolbar-items>
       </v-app-bar>
     </div>
@@ -65,26 +87,17 @@
                   <v-row class="pa-0 ma-0" justify="start">
                     <v-col class="pa-0 ma-0">
                        <v-img
-                      :src="diceImgPath"
-                      max-height="35" 
-                      contain
-                      class="pa-0 ma-0"
+                        :src="diceImgPath"
+                        max-height="35" 
+                        contain
+                        class="pa-0 ma-0"
                       />
                     </v-col>
                   </v-row>
                   <v-row class="pa-0 ma-0">
                   <v-col class="pa-0 ma-0">
-      <v-slider
-        v-model="audioVolume"
-        min=0
-        max=100
-        @end ="audioVolumeChenge"
-        @click:prepend = "audioPlayAndPause"
-        prepend-icon="volume_up"
-
-      ></v-slider>{{audioVolume+'%'}}
                     <v-select  class="pa-0 ma-0"
-                      v-model="selectedDiceFace"
+                      v-model="diceSelectedFace"
                       :items="diceFaceOptions"
                       item-text="name"
                       item-value="id"
@@ -104,18 +117,18 @@
                     ></el-input-number>
                   </v-col>
                   <v-col class="py-3  ma-0">
-                    <v-btn  outlined small @click="onSelectRollDice">個振る</v-btn>
+                    <v-btn  outlined small @click="chatOnSelectRollDice">個振る</v-btn>
                   </v-col>
                 </v-row>
                 <v-row class="pa-0 ma-0">
                   <v-col class="pa-0 ma-0">
-                    <v-switch v-model="useDiceTarget"  label="目標"></v-switch>
+                    <v-switch v-model="diceUseTarget"  label="目標"></v-switch>
                   </v-col>
                   <v-col class="pa-3 ma-0">
                     <el-input-number 
                       style="width:130px;  font-size: 16px; transform: scale(0.8);"
                       size="small"
-                      :disabled="!useDiceTarget" 
+                      :disabled="!diceUseTarget" 
                       v-model="diceTarget"  
                       :min="1" 
                       :max="100"
@@ -128,13 +141,13 @@
                 <v-row>
                   <v-col class="pa-0 ma-0">
                   <v-text-field class="pa-0  ma-0"
-                    v-model="textareaDiceCommand"
+                    v-model="chatTextarea"
                     placeholder="input message..."
                     single-line
                     append-icon="mdi-chat"
                     color="white"
                     hide-details
-                    @keydown.enter="onRoll"
+                    @keydown.enter="chatOnDiceRoll"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -143,7 +156,8 @@
             :width = 'window_width_prop'
           >
             <v-list three-line >
-              <v-list-item v-for="item in messages" :key="item.text" link >
+              <v-list-item v-for="item in chatMessages
+              " :key="item.text" link >
                 <img class="character_image_s" :src="item.character_image"/>
                 <v-list-item-content>
                   <v-textarea
@@ -205,12 +219,15 @@
   import LoginPage from './components/App/LoginPage'
   import SessionSelectPage from './components/App/SessionSelectPage'
   import TicektSelectPage  from './components/App/TicektSelectPage'
+  import loadScene from './services/App/loadScene'
   import regTwitterInfo from './services/App/regTwitterInfo'
-  import audioMixin from './mixins/audioMixin.js'
+  import audioMixin from './mixins/App/audioMixin.js'
+  import chatMixin from './mixins/App/chatMixin.js'
+  import diceMixin from './mixins/App/diceMixin.js'
   axios.defaults.baseURL = process.env.VUE_APP_URL
 
   export default {
-    mixins: [audioMixin],
+    mixins: [audioMixin,chatMixin,diceMixin],
     components: {
       LoginPage,
       SessionSelectPage,
@@ -220,38 +237,19 @@
     data() {
       return {
         drawer: true,
-        messages:[],
         sessionData:[],
         sessionAllData:[],
         sessionAllTicketData:[],
         sessionTicketDataWithOutGMMaster:[],
+        sceneAllData:[],
         login:false,
         ChoiceSession:false,
         entry:false,
-        textareaDiceCommand:'',
-        diceNum:1,
-        diceFaceOptions: [
-          { id: '4', name: '4面' },
-          { id: '6', name: '6面' },
-          { id: '8', name: '8面' },
-          { id: '10', name: '10面' },
-          { id: '12', name: '12面' },
-          { id: '20', name: '20面' },
-          { id: '100', name: '100面' },
-        ],
-        selectedDiceFace: {id:'6',name:'6面'},
-        diceTarget:'',
         bgImg:'',
-        duration: 0,
-        currentTime: 0,
-        useDiceTarget:false,
-        panale1Visible:false,
         navDrawerContent :null,
         windowWidth: window.innerWidth,
         windowHeight: window.innerHeight,
-        diceImgPath: require('@/assets/142187.png'),
         TwAuthloading:false,
-        bgmVolume:0.5
       };
     },
     created() {
@@ -273,12 +271,6 @@
     navigation_wide(){
       if(this.$vuetify.breakpoint.mdAndUp)
         return '30%'
-      if(this.$vuetify.breakpoint.smAndDown)
-        return '100%'
-    },
-    dice_tray_wide(){
-      if(this.$vuetify.breakpoint.mdAndUp)
-        return '100%'
       if(this.$vuetify.breakpoint.smAndDown)
         return '100%'
     },
@@ -320,9 +312,9 @@
           var twitter_user = user ?user : {}
           const ref_message = firebase.database().ref('message')
           if (user) {
-            ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged)
+            ref_message.limitToLast(10).on('child_changed',this.chatFirebaseMessageChanged)
           } else {
-            ref_message.limitToLast(10).on('child_changed',this.firebaseMessageChanged)
+            ref_message.limitToLast(10).on('child_changed',this.chatFirebaseMessageChanged)
             //this.$router.push("/")
           }
           this.$store.commit('notifyTwUID',twitter_user.uid)
@@ -389,7 +381,11 @@
       if(this.$route.path!="/story")
         this.$router.push({ name: "story" })
 
-      this.loadChatlog();
+      this.sceneAllData  =loadScene(this.$store.getters.trpgSessionId)
+      console.log("this.sceneAllData")
+      console.log(this.sceneAllData)
+      this.audioSetSceenToSrc(this.sceneAllData)
+      this.chatLoad();
      
       regTwitterInfo(
         this.$store.getters.twUID,
@@ -413,75 +409,7 @@
       this.drawer = false
       this.$router.push({ name: "my_profile" })
     },
-    async rollDice(){
-      var csrftoken = Cookies.get('csrftoken')
-      await axios.post('/uDiceRoll/', 
-      { 
-        session_users:this.$store.getters.sessionUserId, 
-        roll_dice_command:this.textareaDiceCommand,
-        twitter_users_name: this.$store.getters.twName,
-        twitter_users_photo:this.$store.getters.twPhoto
-      },
-      {
-        headers: {'X-CSRFToken': csrftoken,},}
-        ).then(response => {
-          this.postResuolt = response.data
-          this.loadChatlog()  
-        })
-        this.doChatFireBaseUpdate()
-        this.textareaDiceCommand =""
-      },
-      async loadChatlog(){
-          await axios.get('/uDiceLog/?format=json&session_users__trpg_session='+this.$store.getters.trpgSessionId).then(response => {
-            this.messages = response.data
-          })
-          await this.scrollToLastItem()
-      },
-      scrollToLastItem() {
-          this.navDrawerContent = this.$refs['myNavDrawer'].$el.querySelector('div.v-navigation-drawer__content');
-          this.$vuetify.goTo(99999 ,{ container:this.navDrawerContent})
-      },
-      chatMessage(msg,rollSum,rollResult,SuccessOrFailure) {
-        if(rollSum == "") 
-          return msg
-        if(SuccessOrFailure == null)
-          return msg +"\n"+ rollResult+">>"+rollSum
-        
-        return msg +"\n"+ rollResult+">>"+rollSum+">>"+ (SuccessOrFailure?"成功":"失敗")
-      },
-      onRoll:function(event){
-        if(this.textareaDiceCommand===""){
-          alert('コマンドを入力してください')
-          return
-        }
-        this.rollDice() 
-      },
-      onSelectRollDice:function(event){
-        if(this.diceTarget==null || this.useDiceTarget==false){
-          this.textareaDiceCommand = this.diceNum+"d"+this.selectedDiceFace.id
-        }else{
-          this.textareaDiceCommand = this.diceNum+"d"+this.selectedDiceFace.id+">="+this.diceTarget
-        }
-        this.rollDice() 
-      },
-      firebaseMessageChanged(snap) {
-        if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
-          return
-        if(snap.val().sessionUserId==this.$store.getters.sessionUserId) 
-          return
-        this.loadChatlog()
-      },
-      doChatFireBaseUpdate() {
-        var date = new Date()
-        firebase.database().ref('message').child(this.$store.getters.firebaseMessageKeyId).update(
-          {
-            sessionUserId:this.$store.getters.sessionUserId,
-            trpgSessionId:this.$store.getters.trpgSessionId,
-            updateDate:date.getTime()
-            }
-        );
-      },
-    }      
+   }      
   }
 </script>
 <style>
