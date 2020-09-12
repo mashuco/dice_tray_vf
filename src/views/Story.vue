@@ -148,7 +148,7 @@ export default {
       await axios.get('/scene/?format=json&session_scene_id='+sceneId).then(response => {
           this.sceneData = response.data
       })
-      console.log("set bgm")
+      this.$store.commit('notifyNowScene',sceneId)
       this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
       this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
      

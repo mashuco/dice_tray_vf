@@ -219,7 +219,7 @@
   import LoginPage from './components/App/LoginPage'
   import SessionSelectPage from './components/App/SessionSelectPage'
   import TicektSelectPage  from './components/App/TicektSelectPage'
-  import loadScene from './services/App/loadScene'
+  import dataLoder from './services/App/dataLoder'
   import regTwitterInfo from './services/App/regTwitterInfo'
   import audioMixin from './mixins/App/audioMixin.js'
   import chatMixin from './mixins/App/chatMixin.js'
@@ -362,8 +362,7 @@
     },
     async chekTicekt(searchTicket){
       this.entyrInfo = searchTicket
-      this.audio.play()
-      this.isPlay = true
+
       this.$store.commit('notifyTickesNo',this.entyrInfo[0]['ticket_no'])
       this.$store.commit('notifyTrpgSessionId',this.entyrInfo[0]['trpg_session'])
       this.$store.commit('notifyTrpgSessionName',this.entyrInfo[0]['trpg_session_name'])
@@ -381,10 +380,8 @@
       if(this.$route.path!="/story")
         this.$router.push({ name: "story" })
 
-      this.sceneAllData  =loadScene(this.$store.getters.trpgSessionId)
-      console.log("this.sceneAllData")
-      console.log(this.sceneAllData)
-      this.audioSetSceenToSrc(this.sceneAllData)
+      this.sceneAllData  = await dataLoder.loadScene(this.$store.getters.trpgSessionId)
+      
       this.chatLoad();
      
       regTwitterInfo(

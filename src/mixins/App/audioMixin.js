@@ -1,13 +1,16 @@
 import {Howl, Howler} from 'howler';
 export default  {
   created:function() {
-    this.audio=   new Howl({src: [''] });
+    this.audio=   new Audio()//Howl({src: [''] });
+    this.audio.volume = this.audioVolume/100
   },
   data(){
       return {
       audio:null,
       isPlay: false,
-      audioVolume:20,
+      audioVolume:10,
+      bgmSrc:[],
+      sceneIdToArrBgmNo:[]
     }
   },
   mounted(){
@@ -21,16 +24,12 @@ export default  {
           this.audio.pause()
           return
         }
-        this.audio.unload();
-        this.audio  = new Howl({
-        src: [this.$store.getters.trpgSessionBgm],
-        loop: true,
-        volume: (this.audioVolume/100),
-      });
-      this.audio.play()
+        this.audio.src = this.$store.getters.trpgSessionBgm
+        this.audioStart()
       }
     )
   },
+  
   computed: {
     audioIcon(){
       if(this.isPlay)
@@ -39,17 +38,12 @@ export default  {
     }
   },
   methods:{
-    audioSetSceenToSrc(sceenArr){
-
-      sceenArr
-
-    },
     audioVolumeChenge(){
     if(this.audioVolume==0){
       this.audio.volume(0)
       return
     }
-    this.audio.volume(this.audioVolume/100)
+      this.audio.volume =this.audioVolume/100
     },
     audioPlayAndPause: function () {
       this.isPlay = !this.isPlay
