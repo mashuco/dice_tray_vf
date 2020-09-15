@@ -108,9 +108,6 @@ export default {
       }
       this.emit()
     },
-    dialogSubmit(){
-      this.emit()
-    },   
     emit(agree){
       this.dialog = false
       if(agree === false)

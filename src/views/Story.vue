@@ -84,7 +84,10 @@ export default {
   async loadSession(){
     await axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
           this.sessionData = response.data
-    })
+    }).catch(error => {
+      this.dialogMsgArr.push("通信エラー")
+      this.dialog = true
+    });
     if(this.$store.getters.nowScene==''){
       this.$store.commit('notifyNowScene',this.sessionData[0]['trpg_session_now_scene'])
     }
@@ -92,7 +95,10 @@ export default {
   async loadSceneAll(){
     await axios.get('/scene/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
         this.sceneAllData = response.data
-    })
+    }).catch(error => {
+      this.dialogMsgArr.push("通信エラー")
+      this.dialog = true
+    });
     this.selectedScene   ={ 
       scene_name:this.sceneAllData[0]['scene_name'], 
       session_scene_id: this.sceneAllData[0]['session_scene_id']
@@ -111,13 +117,19 @@ export default {
              'content-type': 'multipart/form-data',
           },
         }
-      )
+      ).catch(error => {
+        this.dialogMsgArr.push("通信エラー")
+        this.dialog = true
+      });
   },
   async selectScene() {
     this.regServeScean()
     await axios.get('/scene/?format=json&session_scene_id='+this.selectedScene.session_scene_id).then(response => {
         this.sceneData = response.data
-    })
+    }).catch(error => {
+        this.dialogMsgArr.push("通信エラー")
+        this.dialog = true
+      });
     this.loadScene(this.selectedScene.session_scene_id)
 
     if(Vue.config.solo_mode)
@@ -147,7 +159,10 @@ export default {
   async loadScene(sceneId){
       await axios.get('/scene/?format=json&session_scene_id='+sceneId).then(response => {
           this.sceneData = response.data
-      })
+      }).catch(error => {
+        this.dialogMsgArr.push("通信エラー")
+        this.dialog = true
+      });
       this.$store.commit('notifyNowScene',sceneId)
       this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
       this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])

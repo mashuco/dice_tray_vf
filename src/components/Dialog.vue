@@ -1,13 +1,14 @@
 <template>
   <v-card>
-    <v-card-title>Component Title</v-card-title>
-    <v-card-subtitle v-text="msg"/>
-    <v-card-actions>
+    <v-card-title v-text="title"></v-card-title>
+      <v-card-subtitle v-if="!(msg==null)" v-text="msg"/>
+      <v-card-subtitle v-for="line in msgArr">{{ line }}</v-card-subtitle>
+      <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn text color="success" @click="submitYes">
         OK
       </v-btn>
-      <v-btn text color="success" @click="submitNo">
+      <v-btn v-if ="!notification" text color="success" @click="submitNo">
         No
       </v-btn>
     </v-card-actions>
@@ -17,7 +18,13 @@
 <script>
 export default {
   props: {
+    title:'',
     msg:'',
+    msgArr:{
+      type:Array,
+      default:[]
+    },
+    notification:false
   },
   data() {
     return {

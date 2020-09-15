@@ -45,7 +45,9 @@
           </v-menu>
            <v-menu class ="menu">
             <template v-slot:activator="{on}">
-              <v-btn v-on="on" text >sound</v-btn>
+              <v-btn v-on="on" text >
+<v-icon class="pa-0 ma-0" >volume_mute</v-icon>                
+              </v-btn>
             </template>
             <v-list>
               <v-list-item>
@@ -284,10 +286,16 @@
         return this.windowHeight+"px"
     },
   },
-  beforeDestroy: function () {
+  destoryed: function () {
     window.removeEventListener('resize', this.handleResize)
+    this.doLogout()
   },
+
   methods: {
+    checkLoginTwId(){
+
+
+    },
     handleResize: function() {
       if(this.drawer==true)
         return
@@ -350,15 +358,22 @@
       ).then(response => {
             this.sessionAllTicketData             = response.data
             this.sessionTicketDataWithOutGMMaster = response.data.filter(function(item,index){
-              if(item.is_session_master == false)return true
+              if(item.is_session_master == false)
+                return true
             })
-     })
+     }).catch(error => {
+        this.dialogMsgArr.push("通信エラー")
+        this.dialog = true
+      });
     },
     async loadAllSession(){
         await axios.get('/session/?format=json'
         ).then(response => {
           this.sessionAllData = response.data
-        })
+        }).catch(error => {
+        this.dialogMsgArr.push("通信エラー")
+        this.dialog = true
+      });
     },
     async chekTicekt(searchTicket){
       this.entyrInfo = searchTicket
@@ -373,7 +388,10 @@
       await axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId
       ).then(response => {
         this.sessionData = response.data
-      })
+      }).catch(error => {
+        this.dialogMsgArr.push("通信エラー")
+        this.dialog = true
+      });
       this.$store.commit('notifyFirebaseMessageKeyId',this.sessionData[0]['firebase_message_key_id'])
       this.$store.commit('notifyFirebaseSceanKeyId',this.sessionData[0]['firebase_scean_key_id'])
 

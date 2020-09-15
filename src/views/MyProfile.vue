@@ -1,5 +1,15 @@
 <template >
     <v-container class="pa-0 my-0">
+  <v-dialog v-model="dialog">
+    <Dialog
+      v-on:clickSubmit="dialogClose"
+      title="確認"
+      :msg='dialogMsg'
+      :msgArr='dialogMsgArr'
+      :notification = true
+    ></Dialog>
+  </v-dialog>
+
       <v-card color="#385F73" width="100%"  class="py-1 my-1">
         <v-card-text class="pa-0 ma-0">
               <v-textarea
@@ -46,6 +56,7 @@
 import Vue from "vue";
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import Dialog from '../components/Dialog'
 
 export default {
   data() {
@@ -56,17 +67,29 @@ export default {
       character_img_upfile:'',
       profileData:[],
       tw_user: {},  
-      img_file:null  
+      img_file:null ,
+      dialogMsg:'',
+      dialogMsgArr:[],
+      dialog:false       
     };
   },
+  components: {
+    Dialog,
+  },  
   created(){
     this.loadProfile()
   },
   methods: {
+    dialogClose(){
+      this.dialog = false
+    },
     async loadProfile(){
       await axios.get('/uEntry/?format=json&session_user_id='+this.$store.getters.sessionUserId).then(response => {
             this.profileData = response.data
-      })
+      }).catch(error => {
+        this.dialogMsgArr.push("通信エラー")
+        this.dialog = true
+      });
       this.character_name = this.profileData[0]['character_name']
       this.character_profile = this.profileData[0]['character_profile']  
       this.character_image = this.profileData[0]['character_image']  
@@ -92,7 +115,21 @@ export default {
              'content-type': 'multipart/form-data',
           },
         }
-      ).then(response => {this.postResuolt = response.data })
+      ).then(response => {this.postResuolt = response.data })  
+      .catch(error => {
+          this.dialogMsgArr =[]
+          if(!(error.response.data.character_name==null))
+            this.dialogMsgArr.push(error.response.data.character_name[0])
+          if(!(error.response.data.character_profile ==null))
+            this.dialogMsgArr.push(error.response.data.character_profile[0])
+          if(!(error.response.data.character_image ==null))
+            this.dialogMsgArr.push("画像ファイルが不正です。png,jpgファイルを利用して下さい")
+
+          if(this.dialogMsgArr == null)
+            this.dialogMsgArr.push("不明なエラーが発生しました。")
+
+        this.dialog = true
+      });
         this.img_file = null
         this.loadProfile()
     },

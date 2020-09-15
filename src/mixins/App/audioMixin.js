@@ -1,7 +1,8 @@
 import {Howl, Howler} from 'howler';
 export default  {
   created:function() {
-    this.audio=   new Audio()//Howl({src: [''] });
+    this.audio=   new Audio()
+    this.loop = true
     this.audio.volume = this.audioVolume/100
   },
   data(){
@@ -10,7 +11,6 @@ export default  {
       isPlay: false,
       audioVolume:10,
       bgmSrc:[],
-      sceneIdToArrBgmNo:[]
     }
   },
   mounted(){

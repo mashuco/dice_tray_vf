@@ -7,6 +7,9 @@ export default {
             sceneAllData = response.data
         })
         return sceneAllData
-    },
+      },
+      loadTicket:async function(session_user_id){
+        
+      }
 
 }
