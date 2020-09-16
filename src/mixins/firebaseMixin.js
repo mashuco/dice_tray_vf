@@ -27,11 +27,7 @@ export default  {
       firebase.initializeApp(firebaseConfig);  
     },
     fireBaseMyInsertMessage(item,val) {
-      if (this.tw_user.uid) {
-          firebase.database().ref(item).push({
-              message: 'now update'
-            }, () => {val })
-      }
+      firebase.database().ref(item).push({message: 'now update'}, () => {val })
     }      
   }
 }
