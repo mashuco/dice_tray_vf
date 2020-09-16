@@ -382,8 +382,6 @@
     },
     async chekTicekt(searchTicket){
       this.entyrInfo = searchTicket
-      this.$store.commit('notifyTicketId',this.entyrInfo[0]['ticket_no'])
-      await this.ticketFireBaseStateUpdate()
     　this.ticketFireBaseStateWatch()
       this.$store.commit('notifyTrpgSessionId',this.entyrInfo[0]['trpg_session'])
       this.$store.commit('notifyTrpgSessionName',this.entyrInfo[0]['trpg_session_name'])
@@ -400,6 +398,9 @@
       });
       this.$store.commit('notifyFirebaseMessageKeyId',this.sessionData[0]['firebase_message_key_id'])
       this.$store.commit('notifyFirebaseSceanKeyId',this.sessionData[0]['firebase_scean_key_id'])
+
+      this.$store.commit('notifyTicketId',this.entyrInfo[0]['ticket_no'])
+      await this.ticketFireBaseStateUpdate()
 
       if(this.$route.path!="/story")
         this.$router.push({ name: "story" })
