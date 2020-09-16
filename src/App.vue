@@ -235,11 +235,11 @@
   import chatMixin from './mixins/App/chatMixin.js'
   import diceMixin from './mixins/App/diceMixin.js'
   import ticketMixin from './mixins/App/ticketMixin.js'
-  
+  import firebaseMixin from './mixins/firebaseMixin.js'
   axios.defaults.baseURL = process.env.VUE_APP_URL
 
   export default {
-    mixins: [audioMixin,chatMixin,diceMixin,ticketMixin],
+    mixins: [audioMixin,chatMixin,diceMixin,ticketMixin,firebaseMixin],
     components: {
       LoginPage,
       SessionSelectPage,
@@ -313,27 +313,12 @@
     },
     fireBaseAuthState(){
       if(!Vue.config.debug){
-        var firebaseConfig = {
-          apiKey:process.env.VUE_APP_FIREBASE_CONFIG_APIKEY ,
-          authDomain:process.env.VUE_APP_FIREBASE_CONFIG_AUTHDOMAIN ,
-          databaseURL:process.env.VUE_APP_FIREBASE_CONFIG_DATABASEURL ,
-          projectId:process.env.VUE_APP_FIREBASE_CONFIG_PROJECTID ,
-          storageBucket:process.env.VUE_APP_FIREBASE_CONFIG_STORAGEBUCKET ,
-          messagingSenderId:process.env.VUE_APP_FIREBASE_CONFIG_MESSAGINGSENDERID ,
-          appId:process.env.VUE_APP_FIREBASE_CONFIG_APPID
-         }
-        firebase.initializeApp(firebaseConfig);  
+        this.fireBaseMyIni()
         firebase.auth().onAuthStateChanged(user => {
           var twitter_user = user ?user : {}
           const ref_message = firebase.database().ref('message')
-          if (user) {
-            ref_message.limitToLast(10).on('child_changed',this.chatFirebaseMessageChanged)
-          } else {
-            ref_message.limitToLast(10).on('child_changed',this.chatFirebaseMessageChanged)
-            //this.$router.push("/")
-          }
-
-
+          ref_message.limitToLast(10).on('child_changed',this.chatFirebaseMessageChanged)
+                                                        
           const ref_message2 = firebase.database().ref('message')
           ref_message2.limitToLast(10).on('child_changed', this.testfirebaseTicketMessageChanged)
 
