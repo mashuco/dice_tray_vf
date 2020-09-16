@@ -411,8 +411,8 @@
 
       this.sceneAllData  = await dataLoder.loadScene(this.$store.getters.trpgSessionId)
       
-      this.chatLoad();
-     
+      this.chatLoad()
+    　this.TicketFireBaseStateWatch()
       regTwitterInfo(
         this.$store.getters.twUID,
         this.$store.getters.twName,
