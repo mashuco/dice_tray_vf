@@ -9,7 +9,7 @@
         :key="item.session_user_id"
         class="pa-1 my-0"
       >
-        <v-card color="#385F73" width="100%" height="265px">
+        <v-card color="#385F73" width="100%" height="320px">
                 <v-img  class="character_image_m　pa-0 my-3"  
                   :src="item.character_image"   
                   max-height="150" 
@@ -17,7 +17,7 @@
                 >
                   <v-card-title class="pa-0 my-0" v-text="item.character_name"/>
                 </v-img>
-                <v-card-subtitle class="pa-1 my-0" v-text="item.character_profile"/>
+                <v-text-field readonly class="pa-1 my-0" v-text="item.character_profile"/>
                   <v-list-item-avatar class="pa-0 my-0">
                     <v-img
                       :src="item.tw_photo"

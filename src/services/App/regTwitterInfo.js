@@ -18,16 +18,5 @@ export default async function (twUID,twName,twPhoto,sessionUserId){
     }
   ).then(response => {
     return  response.data
-  }).catch(error => {
-    this.dialogMsgArr =[]
-
-    if(!(error.response.data.tw_UID==null))
-      this.dialogMsgArr.push(error.response.data.tw_UID[0])
-    if(!(error.response.data.tw_name ==null))
-      this.dialogMsgArr.push(error.response.data.tw_name[0])
-    if(this.dialogMsgArr == null)
-      this.dialogMsgArr.push("不正なTwitter情報です")
-
-    this.dialog = true
-  });
+  })
 };

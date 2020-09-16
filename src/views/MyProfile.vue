@@ -1,15 +1,13 @@
 <template >
     <v-container class="pa-0 my-0">
-  <v-dialog v-model="dialog">
+  <v-dialog v-model="dialog" max-width= "500">
     <Dialog
       v-on:clickSubmit="dialogClose"
       title="確認"
-      :msg='dialogMsg'
       :msgArr='dialogMsgArr'
-      :notification = true
+      :notification = 'true'
     ></Dialog>
   </v-dialog>
-
       <v-card color="#385F73" width="100%"  class="py-1 my-1">
         <v-card-text class="pa-0 ma-0">
               <v-textarea
@@ -46,7 +44,12 @@
         align="center"
         style="padding:0px; margin:5px"
        >
-        <v-btn v-on:click="doRegistory" block  color="warning">登録</v-btn>
+        <v-btn 
+          v-on:click="doRegistory" 
+          block  
+          color="warning"
+          :loading="registLoading"          
+          >登録</v-btn>
        </div>
       </v-card>
     </v-container>
@@ -68,9 +71,10 @@ export default {
       profileData:[],
       tw_user: {},  
       img_file:null ,
-      dialogMsg:'',
       dialogMsgArr:[],
-      dialog:false       
+      dialog:false,
+      registLoading:false,
+      dailogNotification:false
     };
   },
   components: {
@@ -99,6 +103,10 @@ export default {
         this.imageFile = e.name
     },      
     async doRegistory(){
+
+      this.registLoading = true   
+      this.dialogMsgArr =[]
+
       var csrftoken = Cookies.get('csrftoken')
       const formData = new FormData();
       formData.append("character_name", this.character_name);
@@ -115,9 +123,9 @@ export default {
              'content-type': 'multipart/form-data',
           },
         }
-      ).then(response => {this.postResuolt = response.data })  
+      ).then(
+        response => {this.postResuolt = response.data })  
       .catch(error => {
-          this.dialogMsgArr =[]
           if(!(error.response.data.character_name==null))
             this.dialogMsgArr.push(error.response.data.character_name[0])
           if(!(error.response.data.character_profile ==null))
@@ -127,11 +135,19 @@ export default {
 
           if(this.dialogMsgArr == null)
             this.dialogMsgArr.push("不明なエラーが発生しました。")
+            this.dialog = true
+           this.registLoading =false
+        }
+      )
 
+      if(this.dialogMsgArr.length == 0){
+        this.dialogMsgArr =[]
+        this.dialogMsgArr.push("登録しました")
         this.dialog = true
-      });
-        this.img_file = null
-        this.loadProfile()
+        this.registLoading =false
+      }
+      this.img_file = null
+      this.loadProfile()
     },
   }
 }

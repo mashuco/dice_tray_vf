@@ -1,7 +1,6 @@
 <template>
-  <v-card>
+  <v-card >
     <v-card-title v-text="title"></v-card-title>
-      <v-card-subtitle v-if="!(msg==null)" v-text="msg"/>
       <v-card-subtitle v-for="line in msgArr">{{ line }}</v-card-subtitle>
       <v-card-actions>
       <v-spacer></v-spacer>
@@ -19,10 +18,10 @@
 export default {
   props: {
     title:'',
-    msg:'',
     msgArr:{
       type:Array,
-      default:[]
+      default:[],
+      required:false
     },
     notification:false
   },

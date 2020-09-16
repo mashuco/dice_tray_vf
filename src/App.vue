@@ -46,7 +46,7 @@
            <v-menu class ="menu">
             <template v-slot:activator="{on}">
               <v-btn v-on="on" text >
-<v-icon class="pa-0 ma-0" >volume_mute</v-icon>                
+                 <v-icon class="pa-0 ma-0" >volume_mute</v-icon>                
               </v-btn>
             </template>
             <v-list>
@@ -178,7 +178,15 @@
       </v-container>
     </v-navigation-drawer>
     <v-main  :style="{backgroundImage:`url('${bgImg}')`}" class="bg-img" >
-      <v-container class="S">
+      <v-container >
+        <v-dialog v-model="dialog" max-width= "500">
+          <Dialog
+            v-on:clickSubmit="dialogClose"
+            title="確認"
+            :msgArr="dialogMsgArr"
+          ></Dialog>
+        </v-dialog>
+
         <v-row >
         <v-col >
           <router-view ></router-view>
@@ -226,6 +234,8 @@
   import audioMixin from './mixins/App/audioMixin.js'
   import chatMixin from './mixins/App/chatMixin.js'
   import diceMixin from './mixins/App/diceMixin.js'
+  import ticketMixin from './mixins/App/ticketMixin.js'
+  
   axios.defaults.baseURL = process.env.VUE_APP_URL
 
   export default {
@@ -252,6 +262,8 @@
         windowWidth: window.innerWidth,
         windowHeight: window.innerHeight,
         TwAuthloading:false,
+        dialog:false,
+        dialogMsgArr:[]
       };
     },
     created() {
@@ -290,19 +302,14 @@
     window.removeEventListener('resize', this.handleResize)
     this.doLogout()
   },
-
   methods: {
     checkLoginTwId(){
-
-
     },
     handleResize: function() {
       if(this.drawer==true)
         return
       this.windowWidth = window.innerWidth;
       this.windowHeight = window.innerHeight;
-      viewportContent = "width=device-width,initial-scale=1.0" 
-      document.querySelector("meta[name='viewport']").setAttribute("content", viewportContent) 
     },
     fireBaseAuthState(){
       if(!Vue.config.debug){
@@ -344,7 +351,12 @@
       this.ChoiceSession=false
       this.ticket_no=''
       this.audio.pause()
-      regTwitterInfo('','','', this.$store.getters.sessionUserId)
+      regTwitterInfo('','','', this.$store.getters.sessionUserId).catch(
+        error => {
+          this.dialogMsgArr =[]
+          this.dialogMsgArr.push("不正なTwitter情報です")
+        this.dialog = true
+      });
 
       if(Vue.config.debug)
           return
@@ -377,7 +389,6 @@
     },
     async chekTicekt(searchTicket){
       this.entyrInfo = searchTicket
-
       this.$store.commit('notifyTickesNo',this.entyrInfo[0]['ticket_no'])
       this.$store.commit('notifyTrpgSessionId',this.entyrInfo[0]['trpg_session'])
       this.$store.commit('notifyTrpgSessionName',this.entyrInfo[0]['trpg_session_name'])
@@ -424,6 +435,9 @@
       this.drawer = false
       this.$router.push({ name: "my_profile" })
     },
+    dialogClose(){
+      this.dialog = false
+    }
    }      
   }
 </script>

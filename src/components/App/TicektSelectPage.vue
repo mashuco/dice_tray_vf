@@ -1,10 +1,10 @@
 <template>
  <v-container>
-  <v-dialog v-model="dialog">
+  <v-dialog v-model="dialog" max-width= "500">
     <Dialog
       v-on:clickSubmit="emit"
       title="確認"
-      :msg='dialogMsg'
+      :msgArr='dialogMsgArr'
     ></Dialog>
   </v-dialog>
   チケットの選択
@@ -74,7 +74,7 @@ export default {
     return {
       textareaTicektNo:'',
       searchTicket:[],
-      dialogMsg:'',
+      dialogMsgArr:[],
       dialog:false
     }
   },
@@ -102,7 +102,7 @@ export default {
           return
       }
       if(this.searchTicket[0].tw_name !=''){
-        this.dialogMsg = this.searchTicket[0].tw_name +"がエントリー中です。利用しますか？"
+        this.dialogMsgArr.push(this.searchTicket[0].tw_name +"がエントリー中です。利用しますか？")
         this.dialog =true
         return
       }
