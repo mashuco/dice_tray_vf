@@ -334,10 +334,8 @@
           }
 
 
-      firebase.auth().onAuthStateChanged(user => {
-        const ref_message = firebase.database().ref('ticket')
-        ref_message.limitToLast(10).on('child_changed', this.testfirebaseTicketMessageChanged)
-      })
+          const ref_message2 = firebase.database().ref('ticket')
+          ref_message2.limitToLast(10).on('child_changed', this.testfirebaseTicketMessageChanged)
 
 
 
