@@ -382,7 +382,9 @@
     },
     async chekTicekt(searchTicket){
       this.entyrInfo = searchTicket
-      this.$store.commit('notifyTickesNo',this.entyrInfo[0]['ticket_no'])
+      this.$store.commit('notifyTicketId',this.entyrInfo[0]['ticket_no'])
+      await this.ticketFireBaseStateUpdate()
+    　this.ticketFireBaseStateWatch()
       this.$store.commit('notifyTrpgSessionId',this.entyrInfo[0]['trpg_session'])
       this.$store.commit('notifyTrpgSessionName',this.entyrInfo[0]['trpg_session_name'])
       this.$store.commit('notifyUserName',this.entyrInfo[0]['name'])
@@ -403,9 +405,8 @@
         this.$router.push({ name: "story" })
 
       this.sceneAllData  = await dataLoder.loadScene(this.$store.getters.trpgSessionId)
-      
       this.chatLoad()
-    　this.TicketFireBaseStateWatch()
+
       regTwitterInfo(
         this.$store.getters.twUID,
         this.$store.getters.twName,

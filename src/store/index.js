@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    ticketNo:'',
+    ticketId:'',
     trpgSessionId:'',
     trpgSessionName:'',
     trpgSessionImg:'',
@@ -22,8 +22,8 @@ export default new Vuex.Store({
     firebaseSceanKeyId:''
   },
   getters: {
-    ticketNo(state){
-      return state.ticketNo
+    ticketId(state){
+      return state.ticketId
     },
     trpgSessionId(state){
       return state.trpgSessionId
@@ -70,8 +70,8 @@ export default new Vuex.Store({
    
   },
   mutations: {
-    notifyTickesNo(state,str){
-      state.ticketNo = str
+    notifyTicketId(state,str){
+      state.ticketId = str
     },
     notifyTrpgSessionId(state,str){
       state.trpgSessionId = str
