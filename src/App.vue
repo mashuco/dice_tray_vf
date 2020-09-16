@@ -239,7 +239,7 @@
   axios.defaults.baseURL = process.env.VUE_APP_URL
 
   export default {
-    mixins: [audioMixin,chatMixin,diceMixin],
+    mixins: [audioMixin,chatMixin,diceMixin,ticketMixin],
     components: {
       LoginPage,
       SessionSelectPage,
