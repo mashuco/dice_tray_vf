@@ -186,7 +186,7 @@
             :msgArr="dialogMsgArr"
           ></Dialog>
         </v-dialog>
-        <v-dialog v-model="dialogLogout" max-width= "500">
+        <v-dialog v-model="forcedLogout" max-width= "500">
           <Dialog
             v-on:clickSubmit="dialogLogout"
             title="確認"
@@ -435,9 +435,9 @@
     dialogClose(){
       this.dialog = false
     },
-    dialogLogout(){
+    forcedLogout(){
       this.dialog = false
-      this.doLogout()
+      this.$router.go({path: this.$router.currentRoute.path, force: true})
     }
    }      
   }
