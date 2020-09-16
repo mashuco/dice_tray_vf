@@ -334,7 +334,7 @@
           }
 
 
-          const ref_message2 = firebase.database().ref('ticket')
+          const ref_message2 = firebase.database().ref('message')
           ref_message2.limitToLast(10).on('child_changed', this.testfirebaseTicketMessageChanged)
 
           this.$store.commit('notifyTwUID',twitter_user.uid)
