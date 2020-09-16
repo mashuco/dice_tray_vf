@@ -13,11 +13,14 @@ export default  {
   mounted(){
   },
   computed: {
+    
+  },
+  methods:{
     TicketFireBaseStateWatch(){
-        firebase.auth().onAuthStateChanged(user => {
-          const ref_message = firebase.database().ref('ticket')
-          ref_message.limitToLast(10).on('child_changed', this.firebaseTicketMessageChanged)
-        })
+      firebase.auth().onAuthStateChanged(user => {
+        const ref_message = firebase.database().ref('ticket')
+        ref_message.limitToLast(10).on('child_changed', this.firebaseTicketMessageChanged)
+      })
     }, 
     firebaseTicketMessageChanged(snap) {
       console.log("ticket")
@@ -25,9 +28,6 @@ export default  {
         return
 
     },
-    
-  },
-  methods:{
 
   }
 }
