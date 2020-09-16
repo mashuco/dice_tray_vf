@@ -186,7 +186,13 @@
             :msgArr="dialogMsgArr"
           ></Dialog>
         </v-dialog>
-
+        <v-dialog v-model="dialogLogout" max-width= "500">
+          <Dialog
+            v-on:clickSubmit="dialogLogout"
+            title="確認"
+            :msgArr="dialogMsgArr"
+          ></Dialog>
+        </v-dialog>
         <v-row >
         <v-col >
           <router-view ></router-view>
@@ -263,6 +269,7 @@
         windowHeight: window.innerHeight,
         TwAuthloading:false,
         dialog:false,
+        dialogLogout:false,       
         dialogMsgArr:[]
       };
     },
@@ -344,12 +351,7 @@
       this.ChoiceSession=false
       this.ticket_no=''
       this.audio.pause()
-      regTwitterInfo('','','', this.$store.getters.sessionUserId).catch(
-        error => {
-          this.dialogMsgArr =[]
-          this.dialogMsgArr.push("不正なTwitter情報です")
-        this.dialog = true
-      });
+      regTwitterInfo('','','', this.$store.getters.sessionUserId)
 
       if(Vue.config.debug)
           return
@@ -432,6 +434,10 @@
     },
     dialogClose(){
       this.dialog = false
+    },
+    dialogLogout(){
+      this.dialog = false
+      this.doLogout()
     }
    }      
   }

@@ -36,11 +36,13 @@ export default  {
       if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
         return
 
+      if(snap.val().twUID==this.$store.getters.twUID) 
+        return
+
       if(snap.val().ticketId==this.$store.getters.ticketId) {
         this.dialogMsgArr =[]
         this.dialogMsgArr.push("このチケットは他ユーザーに取得されました")
         this.dialogMsgArr.push("強制ログアウトします")
-        this.doLogout()
         this.dialog = true
       }
     },
