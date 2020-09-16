@@ -381,7 +381,6 @@
       });
     },
     async chekTicekt(searchTicket){
-this.fireBaseMyInsertMessage("TTT","new")
       this.entyrInfo = searchTicket
       this.$store.commit('notifyTickesNo',this.entyrInfo[0]['ticket_no'])
       this.$store.commit('notifyTrpgSessionId',this.entyrInfo[0]['trpg_session'])
