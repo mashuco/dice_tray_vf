@@ -337,8 +337,6 @@
           const ref_message2 = firebase.database().ref('ticket')
           ref_message2.limitToLast(10).on('child_changed', this.testfirebaseTicketMessageChanged)
 
-
-
           this.$store.commit('notifyTwUID',twitter_user.uid)
           this.$store.commit('notifyTwName',twitter_user.displayName)
           this.$store.commit('notifyTwPhoto',twitter_user.photoURL)
@@ -351,8 +349,6 @@
     },
     testfirebaseTicketMessageChanged(snap) {
       console.log("testticket")
-      if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
-        return
 
     },    
     async doLogin() {
