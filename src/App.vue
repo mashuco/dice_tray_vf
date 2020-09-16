@@ -332,9 +332,6 @@
           this.$store.commit('notifyTwPhoto','')
       }
     },
-    testFb(){
-       this.fireBaseMyInsertMessage("ticket","new")
-    },
     testfirebaseTicketMessageChanged(snap) {
       console.log("testticket")
     }, 
@@ -384,7 +381,7 @@
       });
     },
     async chekTicekt(searchTicket){
-      this.testFb()
+this.fireBaseMyInsertMessage("TTT","new")
       this.entyrInfo = searchTicket
       this.$store.commit('notifyTickesNo',this.entyrInfo[0]['ticket_no'])
       this.$store.commit('notifyTrpgSessionId',this.entyrInfo[0]['trpg_session'])

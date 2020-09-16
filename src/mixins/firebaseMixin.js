@@ -27,7 +27,7 @@ export default  {
       firebase.initializeApp(firebaseConfig);  
     },
     fireBaseMyInsertMessage(item,val) {
-      firebase.database().ref(item).push({message: 'now update'}, () => {val })
+      firebase.database().ref('hoge').push({message: 'now update'}, () => {('fuga') })
     }      
   }
 }
