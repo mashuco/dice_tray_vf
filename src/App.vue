@@ -332,6 +332,15 @@
             ref_message.limitToLast(10).on('child_changed',this.chatFirebaseMessageChanged)
             //this.$router.push("/")
           }
+
+
+      firebase.auth().onAuthStateChanged(user => {
+        const ref_message = firebase.database().ref('ticket')
+        ref_message.limitToLast(10).on('child_changed', this.testfirebaseTicketMessageChanged)
+      })
+
+
+
           this.$store.commit('notifyTwUID',twitter_user.uid)
           this.$store.commit('notifyTwName',twitter_user.displayName)
           this.$store.commit('notifyTwPhoto',twitter_user.photoURL)
@@ -342,6 +351,12 @@
           this.$store.commit('notifyTwPhoto','')
       }
     },
+    testfirebaseTicketMessageChanged(snap) {
+      console.log("testticket")
+      if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
+        return
+
+    },    
     async doLogin() {
       this.login = true
     },
