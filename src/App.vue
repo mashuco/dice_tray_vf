@@ -352,7 +352,13 @@
             return
         firebase.auth().signOut()
       },
-      async onSelectSession(str){
+      onSelectSession(str){
+        if(!Vue.config.debug)
+        　this.ticketFireBaseStateWatch()
+
+        this.loadSession(str)
+      },
+      async loadSession(str){
         this.$store.commit('notifyNowSessionId',str)
         this.ChoiceSession = true
         //await axios.get('/uEntry/?format=json&is_session_master=false&trpg_session='+str,
@@ -384,11 +390,6 @@
         }
           console.log(searchTicket)
           console.log("searchTicket")
-
-
-
-        if(!Vue.config.debug)
-        　this.ticketFireBaseStateWatch()
 
         this.entyrInfo = searchTicket
         this.$store.commit('notifyTrpgSessionId',this.entyrInfo[0]['trpg_session'])
