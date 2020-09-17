@@ -140,6 +140,7 @@ export default {
         this.dialogLogout = true
         return
       }
+      console.log("Q!Q")
       this.updateTicketList()
 
     },updateTicketList(){
