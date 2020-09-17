@@ -108,8 +108,9 @@ export default {
         this.dialogMsgArr =[]
         this.dialogMsgArr.push(this.searchTicket[0].tw_name +"がエントリー中です。利用しますか？")
         this.dialog =true
+        return
       }
-      this.callBack()
+      this.$emit('select',this.searchTicket)
     },
     callBack(agree){
 
