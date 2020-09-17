@@ -367,7 +367,6 @@
       },
       async loadSession(str){
 
-
         //await axios.get('/uEntry/?format=json&is_session_master=false&trpg_session='+str,
         await axios.get('/uEntry/?format=json&trpg_session='+str,
         ).then(response => {
