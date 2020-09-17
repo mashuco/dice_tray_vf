@@ -24,6 +24,7 @@ export default  {
           twUID:this.$store.getters.twUID,
           updateDate:date.getTime()
         }
+        
       );
     },
     async ticketFireBaseStateUpdateTicektRelease() {
