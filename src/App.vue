@@ -355,11 +355,12 @@
       onSelectSession(str){
         if(!Vue.config.debug)
         　this.ticketFireBaseStateWatch()
-
+        
+        this.$store.commit('notifyTrpgSessionId',str)
         this.loadSession(str)
       },
       async loadSession(str){
-        this.$store.commit('notifyNowSessionId',str)
+
         this.ChoiceSession = true
         //await axios.get('/uEntry/?format=json&is_session_master=false&trpg_session='+str,
         await axios.get('/uEntry/?format=json&trpg_session='+str,
