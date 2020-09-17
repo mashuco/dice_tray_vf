@@ -187,7 +187,7 @@
         </v-dialog>
         <v-dialog v-model="dialogLogout" max-width= "500">
           <Dialog
-            v-on:clickSubmit="doLogout"
+            v-on:clickSubmit="forcedLogout"
             title="確認"
             :msgArr="dialogMsgArr"
           ></Dialog>
@@ -345,6 +345,7 @@
           this.ticketFireBaseStateUpdateTicektRelease()
           firebase.auth().signOut()
         }
+        //this.forcedLogout()
         this.entry = false
         this.login = false
         this.ChoiceSession=false
@@ -352,9 +353,10 @@
         this.audio.pause()
         console.log("this.ChoiceSession")
         console.log(this.ChoiceSession)
+
+
       },
       onSelectSession(str){
-        this.ChoiceSession = true
         if(!Vue.config.debug)
         　this.ticketFireBaseStateWatch()
         
@@ -362,6 +364,9 @@
         this.loadSession(str)
       },
       async loadSession(str){
+
+        this.ChoiceSession = true
+        //await axios.get('/uEntry/?format=json&is_session_master=false&trpg_session='+str,
         await axios.get('/uEntry/?format=json&trpg_session='+str,
         ).then(response => {
               this.sessionAllTicketData             = response.data
@@ -439,6 +444,10 @@
     dialogClose(){
       this.dialog = false
     },
+    forcedLogout(){
+      this.dialog = false
+      this.$router.go({path: this.$router.currentRoute.path, force: true})
+    }
    }      
   }
 </script>

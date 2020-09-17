@@ -29,7 +29,7 @@ export default  {
     },
     async ticketFireBaseStateUpdateTicektRelease() {
       var date = new Date()
-      await firebase.database().ref('ticket').child(this.$store.getters.firebaseMessageKeyId).update(
+      firebase.database().ref('ticket').child(this.$store.getters.firebaseMessageKeyId).update(
         {
           ticketId:this.$store.getters.ticketId,
           trpgSessionId:this.$store.getters.trpgSessionId,
@@ -57,9 +57,10 @@ export default  {
         this.dialogMsgArr.push("強制ログアウトします")
         this.dialogLogout = true
       }
+
       this.updateTicketList()
     },updateTicketList(){
-      this.loadSession(this.$store.getters.trpgSessionId)
+      this.onSelectSession(this.$store.getters.trpgSessionId)
     }
 
   }
