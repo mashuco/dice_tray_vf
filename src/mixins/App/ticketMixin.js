@@ -54,7 +54,7 @@ export default  {
       if(snap.val().twUID=="") 
         return
 
-      if(snap.val().ticketId==this.$store.getters.ticketId) {
+      if((snap.val().twUID!="")&&(snap.val().ticketId==this.$store.getters.ticketId)) {
         this.dialogMsgArr =[]
         this.dialogMsgArr.push("このチケットは他ユーザーに取得されました")
         this.dialogMsgArr.push("強制ログアウトします")
