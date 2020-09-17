@@ -82,70 +82,44 @@ export default {
     }
   },
   methods: {
-  submit(str) {
-    if(str===""){
-      alert('チケット番号がありません')
-      return
-    }
-    this.checkTicket(str)
-  },
-  textAreasubmit(){
-    if(this.textareaTicketNo===''){
-      alert('チケット番号を入力してください')
-      return
-    }
-    this.checkTicket(this.textareaTicketNo)
-  },
-  checkTicket(str){
-    this.searchTicket = this.ticketData.filter(function(item,index){
-      if(item.ticket_no == str)return true
-    })
-    if(this.searchTicket.length == 0){
-        alert('存在しないチケットです')
-        return
-    }
-    if(this.searchTicket[0].tw_name !=''){
-      this.dialogMsgArr =[]
-      this.dialogMsgArr.push(this.searchTicket[0].tw_name +"がエントリー中です。利用しますか？")
-      this.dialog =true
-    }
-    this.callBack()
-  },
-  callBack(agree){
-
-    this.dialog = false
-    if(agree === false)
-      return
-
-    this.$emit('select',this.searchTicket)
-
-},
-  ticketFireBaseStateWatch(){
-      firebase.auth().onAuthStateChanged(user => {
-        const ref_message = firebase.database().ref('ticket')
-        ref_message.limitToLast(10).on('child_changed', this.firebaseTicketMessageChanged)
-      })
-    }, 
-    firebaseTicketMessageChanged(snap) {
-      if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
-        return
-
-      if(snap.val().twUID==this.$store.getters.twUID) 
-        return
-        
-      if(snap.val().ticketId==this.$store.getters.ticketId) {
-        this.dialogMsgArr =[]
-        this.dialogMsgArr.push("このチケットは他ユーザーに取得されました")
-        this.dialogMsgArr.push("強制ログアウトします")
-        this.dialogLogout = true
+    submit(str) {
+      if(str===""){
+        alert('チケット番号がありません')
         return
       }
-      console.log("Q!Q")
-      this.updateTicketList()
+      this.checkTicket(str)
+    },
+    textAreasubmit(){
+      if(this.textareaTicketNo===''){
+        alert('チケット番号を入力してください')
+        return
+      }
+      this.checkTicket(this.textareaTicketNo)
+    },
+    checkTicket(str){
+      this.searchTicket = this.ticketData.filter(function(item,index){
+        if(item.ticket_no == str)return true
+      })
+      if(this.searchTicket.length == 0){
+          alert('存在しないチケットです')
+          return
+      }
+      if(this.searchTicket[0].tw_name !=''){
+        this.dialogMsgArr =[]
+        this.dialogMsgArr.push(this.searchTicket[0].tw_name +"がエントリー中です。利用しますか？")
+        this.dialog =true
+      }
+      this.callBack()
+    },
+    callBack(agree){
 
-    },updateTicketList(){
-      this.$emit('select')
-    }
+      this.dialog = false
+      if(agree === false)
+        return
+
+      this.$emit('select',this.searchTicket)
+
+    },
   }
 }
 </script>
