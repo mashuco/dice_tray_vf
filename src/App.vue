@@ -348,8 +348,8 @@
         regTwitterInfo('','','', this.$store.getters.sessionUserId)
 
         if(Vue.config.debug==false){
-          firebase.auth().signOut()
           this.ticketFireBaseStateUpdateTicektRelease()
+          firebase.auth().signOut()
         }
         //this.forcedLogout()
         console.log("this.ChoiceSession")

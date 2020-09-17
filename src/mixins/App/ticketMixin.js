@@ -29,7 +29,7 @@ export default  {
     },
     async ticketFireBaseStateUpdateTicektRelease() {
       var date = new Date()
-      firebase.database().ref('ticket').child(this.$store.getters.firebaseMessageKeyId).update(
+      await firebase.database().ref('ticket').child(this.$store.getters.firebaseMessageKeyId).update(
         {
           ticketId:this.$store.getters.ticketId,
           trpgSessionId:this.$store.getters.trpgSessionId,
