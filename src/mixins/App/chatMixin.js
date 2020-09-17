@@ -70,7 +70,6 @@ export default  {
       this.sendCommand() 
     },
     chatFirebaseMessageChanged(snap) {
-console.log("FBnotifyChat")      
       if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
         return
       if(snap.val().sessionUserId==this.$store.getters.sessionUserId) 

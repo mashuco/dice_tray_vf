@@ -57,7 +57,6 @@ export default  {
         this.dialogMsgArr.push("強制ログアウトします")
         this.dialogLogout = true
       }
-console.log("AAAAAAAAAAAAAAAAAAAAAAAA")
       this.updateTicketList()
     },updateTicketList(){
       this.onSelectSession(this.$store.getters.trpgSessionId)

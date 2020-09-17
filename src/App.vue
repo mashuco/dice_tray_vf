@@ -335,7 +335,6 @@
         }
       },
       testfirebaseTicketMessageChanged(snap) {
-        console.log("testticket")
       }, 
       async doLogin() {
         this.login = true
@@ -353,6 +352,10 @@
           this.ticketFireBaseStateUpdateTicektRelease()
         }
         //this.forcedLogout()
+        console.log("this.ChoiceSession")
+        console.log(this.ChoiceSession)
+
+
       },
       onSelectSession(str){
         if(!Vue.config.debug)
@@ -387,12 +390,6 @@
         });
       },
       async selectTicket(searchTicket){
-        if(searchTicket==null){
-          console.log("YES!!!!")
-
-        }
-          console.log(searchTicket)
-          console.log("searchTicket")
 
         this.entyrInfo = searchTicket
         this.$store.commit('notifyTrpgSessionId',this.entyrInfo[0]['trpg_session'])
