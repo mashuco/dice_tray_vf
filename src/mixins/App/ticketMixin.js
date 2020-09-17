@@ -24,7 +24,7 @@ export default  {
           twUID:this.$store.getters.twUID,
           updateDate:date.getTime()
         }
-        
+
       );
     },
     async ticketFireBaseStateUpdateTicektRelease() {
@@ -49,6 +49,9 @@ export default  {
         return
 
       if(snap.val().twUID==this.$store.getters.twUID) 
+        return
+
+      if(snap.val().twUID=="") 
         return
 
       if(snap.val().ticketId==this.$store.getters.ticketId) {
