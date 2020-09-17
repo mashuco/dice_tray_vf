@@ -26,6 +26,17 @@ export default  {
         }
       );
     },
+    async ticketFireBaseStateUpdateTicektRelease() {
+      var date = new Date()
+      firebase.database().ref('ticket').child(this.$store.getters.firebaseMessageKeyId).update(
+        {
+          ticketId:this.$store.getters.ticketId,
+          trpgSessionId:this.$store.getters.trpgSessionId,
+          twUID:'',
+          updateDate:date.getTime()
+        }
+      );
+    },
     ticketFireBaseStateWatch(){
       firebase.auth().onAuthStateChanged(user => {
         const ref_message = firebase.database().ref('ticket')
@@ -33,22 +44,11 @@ export default  {
       })
     }, 
     firebaseTicketMessageChanged(snap) {
-      console.log("firebaseTicketMessageChanged")
-      console.log("snap.val().trpgSessionId")
-      console.log(snap.val().trpgSessionId)
-      console.log("this.$store.getters.trpgSessionId")
-      console.log(this.$store.getters.trpgSessionId)
-
       if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
         return
 
-      console.log("snap.val().twUID")
-      console.log(snap.val().twUID)
-      console.log("this.$store.getters.twUID")
-      console.log(this.$store.getters.twUID)
-
       if(snap.val().twUID==this.$store.getters.twUID) 
-      return
+        return
 
       if(snap.val().ticketId==this.$store.getters.ticketId) {
         this.dialogMsgArr =[]
@@ -56,7 +56,6 @@ export default  {
         this.dialogMsgArr.push("強制ログアウトします")
         this.dialogLogout = true
       }
-      console.log("Q!Q")
 
       this.updateTicketList()
     },updateTicketList(){

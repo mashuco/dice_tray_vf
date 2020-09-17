@@ -351,6 +351,7 @@
         if(Vue.config.debug)
             return
         firebase.auth().signOut()
+        ticketFireBaseStateUpdateTicektRelease()
       },
       onSelectSession(str){
         if(!Vue.config.debug)
