@@ -67,7 +67,6 @@
               </v-list-item>
             </v-list>
            </v-menu>
-
         </v-toolbar-items>
       </v-app-bar>
     </div>
@@ -269,7 +268,6 @@
         windowHeight: window.innerHeight,
         TwAuthloading:false,
         dialog:false,
-        dialogLogout:false,       
         dialogMsgArr:[]
       };
     },
@@ -286,137 +284,137 @@
           (newValue, oldValue) => {
             this.bgImg = this.$store.getters.trpgSessionImg
           }
-       )
-  },
-  computed: {
-    navigation_wide(){
-      if(this.$vuetify.breakpoint.mdAndUp)
-        return '30%'
-      if(this.$vuetify.breakpoint.smAndDown)
-        return '100%'
-    },
-    is_mdAndUp(){
-      return this.$vuetify.breakpoint.mdAndUp
-    },
-    window_width_prop(){
-        return this.windowWidth+"px"
-    },
-    window_height_prop(){
-        return this.windowHeight+"px"
-    },
-  },
-  destoryed: function () {
-    window.removeEventListener('resize', this.handleResize)
-    this.doLogout()
-  },
-  methods: {
-    checkLoginTwId(){
-    },
-    handleResize: function() {
-      if(this.drawer==true)
-        return
-      this.windowWidth = window.innerWidth;
-      this.windowHeight = window.innerHeight;
-    },
-    fireBaseAuthState(){
-      if(!Vue.config.debug){
-        this.fireBaseMyIni()
-        firebase.auth().onAuthStateChanged(user => {
-          var twitter_user = user ?user : {}
-          const ref_message = firebase.database().ref('message')
-          ref_message.limitToLast(10).on('child_changed',this.chatFirebaseMessageChanged)
-                                                        
-          const ref_message2 = firebase.database().ref('message')
-          ref_message2.limitToLast(10).on('child_changed', this.testfirebaseTicketMessageChanged)
-
-          this.$store.commit('notifyTwUID',twitter_user.uid)
-          this.$store.commit('notifyTwName',twitter_user.displayName)
-          this.$store.commit('notifyTwPhoto',twitter_user.photoURL)
-        })
-      }else{
-          this.$store.commit('notifyTwUID','test')
-          this.$store.commit('notifyTwName','test')
-          this.$store.commit('notifyTwPhoto','')
-      }
-    },
-    testfirebaseTicketMessageChanged(snap) {
-      console.log("testticket")
-    }, 
-    async doLogin() {
-      this.login = true
-    },
-    doLogout() {
-      this.login = false
-      this.entry= false
-      this.ChoiceSession=false
-      this.ticket_no=''
-      this.audio.pause()
-      regTwitterInfo('','','', this.$store.getters.sessionUserId)
-
-      if(Vue.config.debug)
-          return
-      firebase.auth().signOut()
-    },
-    async onSelectSession(str){
-      this.$store.commit('notifyNowSessionId',str)
-      this.ChoiceSession = true
-      //await axios.get('/uEntry/?format=json&is_session_master=false&trpg_session='+str,
-      await axios.get('/uEntry/?format=json&trpg_session='+str,
-      ).then(response => {
-            this.sessionAllTicketData             = response.data
-            this.sessionTicketDataWithOutGMMaster = response.data.filter(function(item,index){
-              if(item.is_session_master == false)
-                return true
-            })
-     }).catch(error => {
-        this.dialogMsgArr.push("通信エラー")
-        this.dialog = true
-      });
-    },
-    async loadAllSession(){
-        await axios.get('/session/?format=json'
-        ).then(response => {
-          this.sessionAllData = response.data
-        }).catch(error => {
-        this.dialogMsgArr.push("通信エラー")
-        this.dialog = true
-      });
-    },
-    async chekTicekt(searchTicket){
-      this.entyrInfo = searchTicket
-    　this.ticketFireBaseStateWatch()
-      this.$store.commit('notifyTrpgSessionId',this.entyrInfo[0]['trpg_session'])
-      this.$store.commit('notifyTrpgSessionName',this.entyrInfo[0]['trpg_session_name'])
-      this.$store.commit('notifyUserName',this.entyrInfo[0]['name'])
-      this.$store.commit('notifyIsSessionMaster',this.entyrInfo[0]['is_session_master'])
-      this.$store.commit('notifySessionUserId',this.entyrInfo[0]['session_user_id'])
-      this.entry = true
-      await axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId
-      ).then(response => {
-        this.sessionData = response.data
-      }).catch(error => {
-        this.dialogMsgArr.push("通信エラー")
-        this.dialog = true
-      });
-      this.$store.commit('notifyFirebaseMessageKeyId',this.sessionData[0]['firebase_message_key_id'])
-      this.$store.commit('notifyFirebaseSceanKeyId',this.sessionData[0]['firebase_scean_key_id'])
-
-      this.$store.commit('notifyTicketId',this.entyrInfo[0]['ticket_no'])
-      await this.ticketFireBaseStateUpdate()
-
-      if(this.$route.path!="/story")
-        this.$router.push({ name: "story" })
-
-      this.sceneAllData  = await dataLoder.loadScene(this.$store.getters.trpgSessionId)
-      this.chatLoad()
-
-      regTwitterInfo(
-        this.$store.getters.twUID,
-        this.$store.getters.twName,
-        this.$store.getters.twPhoto,
-        this.$store.getters.sessionUserId
       )
-   },
+    },
+    computed: {
+      navigation_wide(){
+        if(this.$vuetify.breakpoint.mdAndUp)
+          return '30%'
+        if(this.$vuetify.breakpoint.smAndDown)
+          return '100%'
+      },
+      is_mdAndUp(){
+        return this.$vuetify.breakpoint.mdAndUp
+      },
+      window_width_prop(){
+          return this.windowWidth+"px"
+      },
+      window_height_prop(){
+          return this.windowHeight+"px"
+      },
+    },
+    destoryed: function () {
+      window.removeEventListener('resize', this.handleResize)
+      this.doLogout()
+    },
+    methods: {
+      checkLoginTwId(){
+      },
+      handleResize: function() {
+        if(this.drawer==true)
+          return
+        this.windowWidth = window.innerWidth;
+        this.windowHeight = window.innerHeight;
+      },
+      fireBaseAuthState(){
+        if(!Vue.config.debug){
+          this.fireBaseMyIni()
+          firebase.auth().onAuthStateChanged(user => {
+            var twitter_user = user ?user : {}
+            const ref_message = firebase.database().ref('message')
+            ref_message.limitToLast(10).on('child_changed',this.chatFirebaseMessageChanged)
+                                                          
+            const ref_message2 = firebase.database().ref('message')
+            ref_message2.limitToLast(10).on('child_changed', this.testfirebaseTicketMessageChanged)
+
+            this.$store.commit('notifyTwUID',twitter_user.uid)
+            this.$store.commit('notifyTwName',twitter_user.displayName)
+            this.$store.commit('notifyTwPhoto',twitter_user.photoURL)
+          })
+        }else{
+            this.$store.commit('notifyTwUID','test')
+            this.$store.commit('notifyTwName','test')
+            this.$store.commit('notifyTwPhoto','')
+        }
+      },
+      testfirebaseTicketMessageChanged(snap) {
+        console.log("testticket")
+      }, 
+      async doLogin() {
+        this.login = true
+      },
+      doLogout() {
+        this.login = false
+        this.entry= false
+        this.ChoiceSession=false
+        this.ticket_no=''
+        this.audio.pause()
+        regTwitterInfo('','','', this.$store.getters.sessionUserId)
+
+        if(Vue.config.debug)
+            return
+        firebase.auth().signOut()
+      },
+      async onSelectSession(str){
+        this.$store.commit('notifyNowSessionId',str)
+        this.ChoiceSession = true
+        //await axios.get('/uEntry/?format=json&is_session_master=false&trpg_session='+str,
+        await axios.get('/uEntry/?format=json&trpg_session='+str,
+        ).then(response => {
+              this.sessionAllTicketData             = response.data
+              this.sessionTicketDataWithOutGMMaster = response.data.filter(function(item,index){
+                if(item.is_session_master == false)
+                  return true
+              })
+      }).catch(error => {
+          this.dialogMsgArr.push("通信エラー")
+          this.dialog = true
+        });
+      },
+      async loadAllSession(){
+          await axios.get('/session/?format=json'
+          ).then(response => {
+            this.sessionAllData = response.data
+          }).catch(error => {
+          this.dialogMsgArr.push("通信エラー")
+          this.dialog = true
+        });
+      },
+      async chekTicekt(searchTicket){
+        this.entyrInfo = searchTicket
+      　this.ticketFireBaseStateWatch()
+        this.$store.commit('notifyTrpgSessionId',this.entyrInfo[0]['trpg_session'])
+        this.$store.commit('notifyTrpgSessionName',this.entyrInfo[0]['trpg_session_name'])
+        this.$store.commit('notifyUserName',this.entyrInfo[0]['name'])
+        this.$store.commit('notifyIsSessionMaster',this.entyrInfo[0]['is_session_master'])
+        this.$store.commit('notifySessionUserId',this.entyrInfo[0]['session_user_id'])
+        this.entry = true
+        await axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId
+        ).then(response => {
+          this.sessionData = response.data
+        }).catch(error => {
+          this.dialogMsgArr.push("通信エラー")
+          this.dialog = true
+        });
+        this.$store.commit('notifyFirebaseMessageKeyId',this.sessionData[0]['firebase_message_key_id'])
+        this.$store.commit('notifyFirebaseSceanKeyId',this.sessionData[0]['firebase_scean_key_id'])
+
+        this.$store.commit('notifyTicketId',this.entyrInfo[0]['ticket_no'])
+        await this.ticketFireBaseStateUpdate()
+
+        if(this.$route.path!="/story")
+          this.$router.push({ name: "story" })
+
+        this.sceneAllData  = await dataLoder.loadScene(this.$store.getters.trpgSessionId)
+        this.chatLoad()
+
+        regTwitterInfo(
+          this.$store.getters.twUID,
+          this.$store.getters.twName,
+          this.$store.getters.twPhoto,
+          this.$store.getters.sessionUserId
+        )
+    },
     doStory(){
       if(this.is_mdAndUp == false)
       this.drawer = false
