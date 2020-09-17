@@ -58,9 +58,6 @@ export default  {
         this.dialogLogout = true
       }
       this.loadSession(this.$store.getters.trpgSessionId)
-      //this.updateTicketList()
-    },updateTicketList(){
-      this.onSelectSession(this.$store.getters.trpgSessionId)
     }
 
   }
