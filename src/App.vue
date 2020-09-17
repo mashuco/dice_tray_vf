@@ -382,6 +382,8 @@
           console.log("YES!!!!")
 
         }
+          console.log(searchTicket)
+          console.log("searchTicket")
 
 
 
