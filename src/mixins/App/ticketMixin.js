@@ -51,16 +51,13 @@ export default  {
       if(snap.val().twUID==this.$store.getters.twUID) 
         return
 
-      if(snap.val().twUID=="") 
-        return
-
       if((snap.val().twUID!="")&&(snap.val().ticketId==this.$store.getters.ticketId)) {
         this.dialogMsgArr =[]
         this.dialogMsgArr.push("このチケットは他ユーザーに取得されました")
         this.dialogMsgArr.push("強制ログアウトします")
         this.dialogLogout = true
       }
-
+console.log("AAAAAAAAAAAAAAAAAAAAAAAA")
       this.updateTicketList()
     },updateTicketList(){
       this.onSelectSession(this.$store.getters.trpgSessionId)
