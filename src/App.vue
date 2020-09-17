@@ -340,22 +340,19 @@
         this.login = true
       },
       doLogout() {
-        this.entry = false
-        this.login = false
-        this.ChoiceSession=false
-        this.ticket_no=''
-        this.audio.pause()
         regTwitterInfo('','','', this.$store.getters.sessionUserId)
-
         if(Vue.config.debug==false){
           this.ticketFireBaseStateUpdateTicektRelease()
           firebase.auth().signOut()
         }
         //this.forcedLogout()
+        this.entry = false
+        this.login = false
+        this.ChoiceSession=false
+        this.ticket_no=''
+        this.audio.pause()
         console.log("this.ChoiceSession")
         console.log(this.ChoiceSession)
-
-
       },
       onSelectSession(str){
         if(!Vue.config.debug)
