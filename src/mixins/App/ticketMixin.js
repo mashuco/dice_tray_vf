@@ -39,13 +39,7 @@ export default  {
 
       if(snap.val().twUID==this.$store.getters.twUID) 
         return
-
-
-console.log("firebaseTicketMessageChanged")
-console.log("snap.val().twUID")
-console.log(snap.val().twUID)
-console.log("this.$store.getters.twUID")
-console.log(this.$store.getters.twUID)
+        
       if(snap.val().ticketId==this.$store.getters.ticketId) {
         this.dialogMsgArr =[]
         this.dialogMsgArr.push("このチケットは他ユーザーに取得されました")

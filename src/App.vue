@@ -201,8 +201,8 @@
     </v-main>
   </v-app>
   <v-app v-else-if="ChoiceSession">
-   <TicektSelectPage
-      v-on:clickSubmit="chekTicekt" 
+   <TicketSelectPage
+      v-on:select="selectTicket" 
       :ticketData = "sessionAllTicketData"
       :ticketDataWithoutGM ="sessionTicketDataWithOutGMMaster"
     />
@@ -233,7 +233,7 @@
   import Dialog from './components/Dialog'
   import LoginPage from './components/App/LoginPage'
   import SessionSelectPage from './components/App/SessionSelectPage'
-  import TicektSelectPage  from './components/App/TicektSelectPage'
+  import TicketSelectPage  from './components/App/TicketSelectPage'
   import dataLoder from './services/App/dataLoder'
   import regTwitterInfo from './services/App/regTwitterInfo'
   import audioMixin from './mixins/App/audioMixin.js'
@@ -248,7 +248,7 @@
     components: {
       LoginPage,
       SessionSelectPage,
-      TicektSelectPage,
+      TicketSelectPage,
       Dialog,
     },
     data() {
@@ -323,9 +323,6 @@
             var twitter_user = user ?user : {}
             const ref_message = firebase.database().ref('message')
             ref_message.limitToLast(10).on('child_changed',this.chatFirebaseMessageChanged)
-                                                          
-            const ref_message2 = firebase.database().ref('message')
-            ref_message2.limitToLast(10).on('child_changed', this.testfirebaseTicketMessageChanged)
 
             this.$store.commit('notifyTwUID',twitter_user.uid)
             this.$store.commit('notifyTwName',twitter_user.displayName)
@@ -380,15 +377,25 @@
           this.dialog = true
         });
       },
-      async chekTicekt(searchTicket){
+      async selectTicket(searchTicket){
+        if(searchTicket==null){
+          console.log("YES!!!!")
+
+        }
+
+
+
+        if(!Vue.config.debug)
+        　this.ticketFireBaseStateWatch()
+
         this.entyrInfo = searchTicket
-      　this.ticketFireBaseStateWatch()
         this.$store.commit('notifyTrpgSessionId',this.entyrInfo[0]['trpg_session'])
         this.$store.commit('notifyTrpgSessionName',this.entyrInfo[0]['trpg_session_name'])
         this.$store.commit('notifyUserName',this.entyrInfo[0]['name'])
         this.$store.commit('notifyIsSessionMaster',this.entyrInfo[0]['is_session_master'])
         this.$store.commit('notifySessionUserId',this.entyrInfo[0]['session_user_id'])
         this.entry = true
+
         await axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId
         ).then(response => {
           this.sessionData = response.data
@@ -400,7 +407,8 @@
         this.$store.commit('notifyFirebaseSceanKeyId',this.sessionData[0]['firebase_scean_key_id'])
 
         this.$store.commit('notifyTicketId',this.entyrInfo[0]['ticket_no'])
-        await this.ticketFireBaseStateUpdate()
+        if(!Vue.config.debug)
+          await this.ticketFireBaseStateUpdate()
 
         if(this.$route.path!="/story")
           this.$router.push({ name: "story" })
@@ -414,6 +422,7 @@
           this.$store.getters.twPhoto,
           this.$store.getters.sessionUserId
         )
+
     },
     doStory(){
       if(this.is_mdAndUp == false)

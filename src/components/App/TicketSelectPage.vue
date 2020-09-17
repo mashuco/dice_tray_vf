@@ -2,7 +2,7 @@
  <v-container>
   <v-dialog v-model="dialog" max-width= "500">
     <Dialog
-      v-on:clickSubmit="emit"
+      v-on:clickSubmit="callBack"
       title="確認"
       :msgArr='dialogMsgArr'
     ></Dialog>
@@ -37,7 +37,7 @@
   </v-list>
   <h2 class = "input_title">マスター：チケット番号を入力</h2>
   <v-text-field
-    v-model="textareaTicektNo"
+    v-model="textareaTicketNo"
     label="チケットNO"
     @keydown.enter="textAreasubmit()"
   ></v-text-field>
@@ -45,6 +45,9 @@
 </template>
 <script>
 import Dialog from '../Dialog'
+import firebase from 'firebase/app'
+import "firebase/database"
+
 export default {
   props: {
     ticketData:{
@@ -72,48 +75,76 @@ export default {
   },
   data() {
     return {
-      textareaTicektNo:'',
+      textareaTicketNo:'',
       searchTicket:[],
       dialogMsgArr:[],
       dialog:false
     }
   },
   methods: {
-    submit(str) {
-       if(str===""){
-        alert('チケット番号がありません')
-        return
-       }
-       this.checkTicet(str)
-    },
-    textAreasubmit(){
-      if(this.textareaTicektNo===''){
+  submit(str) {
+    if(str===""){
+      alert('チケット番号がありません')
+      return
+    }
+    this.checkTicket(str)
+  },
+  textAreasubmit(){
+    if(this.textareaTicketNo===''){
       alert('チケット番号を入力してください')
       return
-      }
-      this.checkTicet(this.textareaTicektNo)
-    },
-    checkTicet(str){
-      this.searchTicket = this.ticketData.filter(function(item,index){
-        if(item.ticket_no == str)return true
+    }
+    this.checkTicket(this.textareaTicketNo)
+  },
+  checkTicket(str){
+    this.searchTicket = this.ticketData.filter(function(item,index){
+      if(item.ticket_no == str)return true
+    })
+    if(this.searchTicket.length == 0){
+        alert('存在しないチケットです')
+        return
+    }
+    if(this.searchTicket[0].tw_name !=''){
+      this.dialogMsgArr =[]
+      this.dialogMsgArr.push(this.searchTicket[0].tw_name +"がエントリー中です。利用しますか？")
+      this.dialog =true
+    }
+    this.callBack()
+  },
+  callBack(agree){
+
+    this.dialog = false
+    if(agree === false)
+      return
+
+    this.$emit('select',this.searchTicket)
+
+},
+  ticketFireBaseStateWatch(){
+      firebase.auth().onAuthStateChanged(user => {
+        const ref_message = firebase.database().ref('ticket')
+        ref_message.limitToLast(10).on('child_changed', this.firebaseTicketMessageChanged)
       })
-      if(this.searchTicket.length == 0){
-          alert('存在しないチケットです')
-          return
-      }
-      if(this.searchTicket[0].tw_name !=''){
-        this.dialogMsgArr.push(this.searchTicket[0].tw_name +"がエントリー中です。利用しますか？")
-        this.dialog =true
+    }, 
+    firebaseTicketMessageChanged(snap) {
+      if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
+        return
+
+      if(snap.val().twUID==this.$store.getters.twUID) 
+        return
+        
+      if(snap.val().ticketId==this.$store.getters.ticketId) {
+        this.dialogMsgArr =[]
+        this.dialogMsgArr.push("このチケットは他ユーザーに取得されました")
+        this.dialogMsgArr.push("強制ログアウトします")
+        this.dialogLogout = true
         return
       }
-      this.emit()
-    },
-    emit(agree){
-      this.dialog = false
-      if(agree === false)
-        return
-      this.$emit('clickSubmit',this.searchTicket)
-   }
+      this.updateTicketList()
+
+    },updateTicketList(){
+      this.$emit('select')
+    }
   }
 }
 </script>
