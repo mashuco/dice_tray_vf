@@ -341,17 +341,18 @@
         this.login = true
       },
       doLogout() {
-        this.login = false
-        this.entry= false
-        this.ChoiceSession=false
-        this.ticket_no=''
-        this.audio.pause()
+ //       this.login = false
+ //       this.entry= false
+ //       this.ChoiceSession=false
+ //       this.ticket_no=''
+ //       this.audio.pause()
         regTwitterInfo('','','', this.$store.getters.sessionUserId)
 
-        if(Vue.config.debug)
-            return
-        firebase.auth().signOut()
-        this.ticketFireBaseStateUpdateTicektRelease()
+        if(Vue.config.debug==false){
+          firebase.auth().signOut()
+          this.ticketFireBaseStateUpdateTicektRelease()
+        }
+        this.forcedLogout()
       },
       onSelectSession(str){
         if(!Vue.config.debug)
