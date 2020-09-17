@@ -185,9 +185,9 @@
             :msgArr="dialogMsgArr"
           ></Dialog>
         </v-dialog>
-        <v-dialog v-model="forcedLogout" max-width= "500">
+        <v-dialog v-model="dialogLogout" max-width= "500">
           <Dialog
-            v-on:clickSubmit="dialogLogout"
+            v-on:clickSubmit="forcedLogout"
             title="確認"
             :msgArr="dialogMsgArr"
           ></Dialog>
