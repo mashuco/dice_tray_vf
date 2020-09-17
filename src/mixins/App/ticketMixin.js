@@ -34,11 +34,21 @@ export default  {
     }, 
     firebaseTicketMessageChanged(snap) {
       console.log("firebaseTicketMessageChanged")
+      console.log("snap.val().trpgSessionId")
+      console.log(snap.val().trpgSessionId)
+      console.log("this.$store.getters.trpgSessionId")
+      console.log(this.$store.getters.trpgSessionId)
+
       if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
         return
 
+      console.log("snap.val().twUID")
+      console.log(snap.val().twUID)
+      console.log("this.$store.getters.twUID")
+      console.log(this.$store.getters.twUID)
+
       if(snap.val().twUID==this.$store.getters.twUID) 
-        return
+      return
 
       if(snap.val().ticketId==this.$store.getters.ticketId) {
         this.dialogMsgArr =[]
@@ -47,6 +57,7 @@ export default  {
         this.dialogLogout = true
       }
       console.log("Q!Q")
+
       this.updateTicketList()
     },updateTicketList(){
       this.onSelectSession($store.getters.nowSessionId)
