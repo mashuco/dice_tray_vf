@@ -59,7 +59,7 @@ export default  {
       }
       this.updateTicketList()
     },updateTicketList(){
-      this.onSelectSession(this.$store.getters.trpgSessionId)
+      this.loadSession(this.$store.getters.trpgSessionId)
     }
 
   }
