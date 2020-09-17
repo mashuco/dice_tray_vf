@@ -362,10 +362,12 @@
         
         this.$store.commit('notifyTrpgSessionId',str)
         this.loadSession(str)
+        this.ChoiceSession = true
+
       },
       async loadSession(str){
 
-        this.ChoiceSession = true
+
         //await axios.get('/uEntry/?format=json&is_session_master=false&trpg_session='+str,
         await axios.get('/uEntry/?format=json&trpg_session='+str,
         ).then(response => {
