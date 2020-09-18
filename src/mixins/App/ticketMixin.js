@@ -58,7 +58,13 @@ export default  {
       console.log("this.$store.getters.ticketId")
       console.log(this.$store.getters.ticketId)
 
-      if(!(snap.val().twUID==null)&&(snap.val().ticketId==this.$store.getters.ticketId)) {
+      if(snap.val().twUID==null){
+        this.loadSession(this.$store.getters.trpgSessionId)
+        console.log("AAAAAAAAAAAAAAAAAAAAAAA")
+        return
+      }
+
+      if(snap.val().ticketId==this.$store.getters.ticketId) {
         this.dialogMsgArr =[]
         this.dialogMsgArr.push("このチケットは他ユーザーに取得されました")
         this.dialogMsgArr.push("強制ログアウトします")
