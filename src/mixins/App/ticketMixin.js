@@ -51,16 +51,9 @@ export default  {
       if(snap.val().twUID==this.$store.getters.twUID) 
         return
 
-      console.log("snap.val().twUID")
-      console.log(snap.val().twUID)
-      console.log("snap.val().ticketId")
-      console.log(snap.val().ticketId)
-      console.log("this.$store.getters.ticketId")
-      console.log(this.$store.getters.ticketId)
 
       if(snap.val().twUID=="logout"){
         this.loadSession(this.$store.getters.trpgSessionId)
-        console.log("AAAAAAAAAAAAAAAAAAAAAAA")
         return
       }
 

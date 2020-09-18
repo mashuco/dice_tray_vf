@@ -333,6 +333,28 @@
             this.$store.commit('notifyTwName','test')
             this.$store.commit('notifyTwPhoto','')
         }
+        this.fireBaseState()
+      },
+      fireBaseState(){
+        const uid = firebase.auth().currentUser.uid;
+        const userStatusDatabaseRef = firebase.database().ref('/status/' + uid);
+        const isOfflineForDatabase = {
+            state: 'offline',
+            last_changed: firebase.database.ServerValue.TIMESTAMP,
+        };
+        const isOnlineForDatabase = {
+            state: 'online',
+            last_changed: firebase.database.ServerValue.TIMESTAMP,
+        };
+
+        firebase.database().ref('.info/connected').on('value', function(snapshot) {
+            if (snapshot.val() == false) {
+                return;
+            };
+            userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(function() {
+                userStatusDatabaseRef.set(isOnlineForDatabase);
+            });
+        })
       },
       testfirebaseTicketMessageChanged(snap) {
       }, 
