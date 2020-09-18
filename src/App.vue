@@ -327,13 +327,13 @@
             this.$store.commit('notifyTwUID',twitter_user.uid)
             this.$store.commit('notifyTwName',twitter_user.displayName)
             this.$store.commit('notifyTwPhoto',twitter_user.photoURL)
+            this.fireBaseState(twitter_user.uid)
           })
         }else{
             this.$store.commit('notifyTwUID','test')
             this.$store.commit('notifyTwName','test')
             this.$store.commit('notifyTwPhoto','')
         }
-        this.fireBaseState(twitter_user.uid)
       },
       testfirebaseTicketMessageChanged(snap) {
       }, 
