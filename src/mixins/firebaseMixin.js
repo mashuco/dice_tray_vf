@@ -30,7 +30,6 @@ export default  {
       firebase.database().ref(item).push({message: 'now update'}, () => {('val') })
     },
     fireBaseState(uid){
-      //const uid = firebase.auth().currentUser.uid;
       const userStatusDatabaseRef = firebase.database().ref('/status/' + uid);
       const isOfflineForDatabase = {
           state: 'offline',
@@ -48,9 +47,8 @@ export default  {
           userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(function() {
               userStatusDatabaseRef.set(isOnlineForDatabase);
           });
-      })
+      });
     },
-    
   }
 }
 
