@@ -33,7 +33,7 @@ export default  {
         {
           ticketId:this.$store.getters.ticketId,
           trpgSessionId:this.$store.getters.trpgSessionId,
-          twUID:'',
+          twUID:'logout',
           updateDate:date.getTime()
         }
       );
@@ -58,7 +58,7 @@ export default  {
       console.log("this.$store.getters.ticketId")
       console.log(this.$store.getters.ticketId)
 
-      if(snap.val().twUID==null){
+      if(snap.val().twUID=="logout"){
         this.loadSession(this.$store.getters.trpgSessionId)
         console.log("AAAAAAAAAAAAAAAAAAAAAAA")
         return
