@@ -323,9 +323,6 @@
             this.$store.commit('notifyTwName',twitter_user.displayName)
             this.$store.commit('notifyTwPhoto',twitter_user.photoURL)
             this.fireBaseState(twitter_user.uid)
-            this.fireBaseState2()
-            
-            //this.ticketFireBaseOnDisconectWatch()
           })
         }else{
             this.$store.commit('notifyTwUID','test')

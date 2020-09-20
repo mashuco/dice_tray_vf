@@ -41,20 +41,12 @@ export default  {
       };
 
       firebase.database().ref('.info/connected').on('value', function(snapshot) {
-          if (snapshot.val() == false) {
-              return;
-          };
-          userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(function() {
-              userStatusDatabaseRef.set(isOnlineForDatabase);
-          });
-          firebase.database().ref('ticket').onDisconnect().set(
-            {
-            ticketId:this.$store.getters.ticketId,
-            trpgSessionId:this.$store.getters.trpgSessionId,
-            twUID:"",
-            updateDate:date.getTime()
-            }
-            )
+        if (snapshot.val() == false) {
+            return;
+        };
+        userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(function() {
+            userStatusDatabaseRef.set(isOnlineForDatabase);
+        });
       });
     },
 
