@@ -323,6 +323,7 @@
             this.$store.commit('notifyTwName',twitter_user.displayName)
             this.$store.commit('notifyTwPhoto',twitter_user.photoURL)
             this.fireBaseState(twitter_user.uid)
+            this.ticketFireBaseOnDisconectWatch()
           })
         }else{
             this.$store.commit('notifyTwUID','test')
@@ -361,7 +362,6 @@
       onSelectSession(str){
         if(!Vue.config.debug){
         　this.ticketFireBaseStateWatch()
-          this.ticketFireBaseOnDisconectWatch()
         }
         this.$store.commit('notifyTrpgSessionId',str)
         this.loadSession(str)

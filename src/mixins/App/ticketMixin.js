@@ -45,7 +45,7 @@ export default  {
       })
     }, 
     ticketFireBaseOnDisconectWatch(){
-        firebase.database().ref('ticket').onDisconnect().update(
+        firebase.database().ref('ticket').onDisconnect().set(
           {
             ticketId:this.$store.getters.ticketId,
             trpgSessionId:this.$store.getters.trpgSessionId,
