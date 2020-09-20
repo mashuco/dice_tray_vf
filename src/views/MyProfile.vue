@@ -57,7 +57,6 @@
 
 <script>
 import Vue from "vue";
-import axios from 'axios';
 import Cookies from 'js-cookie';
 import Dialog from '../components/Dialog'
 
@@ -88,7 +87,7 @@ export default {
       this.dialog = false
     },
     async loadProfile(){
-      await axios.get('/uEntry/?format=json&session_user_id='+this.$store.getters.sessionUserId).then(response => {
+      await this.$axios.get('/uEntry/?format=json&session_user_id='+this.$store.getters.sessionUserId).then(response => {
             this.profileData = response.data
       }).catch(error => {
         this.dialogMsgArr.push("通信エラー")
@@ -114,7 +113,7 @@ export default {
       if(this.img_file != null)
         formData.append("character_image", this.img_file);
  
-      await axios.patch(
+      await this.$axios.patch(
         '/userUp/'+this.$store.getters.sessionUserId+'/', 
         formData,
         {

@@ -1,8 +1,7 @@
 
 import Cookies from 'js-cookie'
-import axios from 'axios'
 
-export default async function (twUID,twName,twPhoto,sessionUserId){
+export default async function (axios,twUID,twName,twPhoto,sessionUserId){
   var csrftoken = Cookies.get('csrftoken')
   await axios.patch(
     '/userTwUp/'+sessionUserId+'/', 

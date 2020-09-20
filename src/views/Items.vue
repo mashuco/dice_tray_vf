@@ -41,21 +41,16 @@
 
 <script>
 import Vue from "vue";
-import axios from 'axios';
 import Cookies from 'js-cookie';
 
 export default {
   data() {
     return {
       itemData:[],
-      tw_user: {},  // twitterユーザー情報
+      tw_user: {},  
     };
   },  
   created(){
-    //if(this.$store.getters.sessionUserId == ""){
-    //  this.doTop();
-   // }
-
     this.userName = this.$store.getters.userName
     this.trpgSessionName = this.$store.getters.trpgSessionName
     this.trpgSessionId = this.$store.trpgSessionId
@@ -64,14 +59,11 @@ export default {
     this.load()
   },  
   methods: {
-    //doTop:function(){
-    //  this.$router.push("/")
-    //},
     doMain: function(evnet){
       this.$router.push("/main")
     },
     load:function(){
-      axios.get('/item/?format=json&item_owner='+this.$store.getters.sessionUserId).then(response => {
+      this.$axios.get('/item/?format=json&item_owner='+this.$store.getters.sessionUserId).then(response => {
         this.itemData = response.data
       })
     },

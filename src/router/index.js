@@ -6,13 +6,6 @@ Vue.use(VueRouter)
 
   const routes = [
     {
-      path: '/cards',
-      name: 'cards',
-      component: function () {
-        return import(/* webpackChunkName: "diceTray" */ '../views/Cards.vue')
-      }   
-    },
-    {
       path: '/items',
       name: 'items',
       component: function () {
@@ -58,7 +51,6 @@ Vue.use(VueRouter)
   ]
 
 const router = new VueRouter({
-  //mode: 'history',
   routes
 })
 

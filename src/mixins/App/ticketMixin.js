@@ -44,6 +44,15 @@ export default  {
         ref_message.limitToLast(10).on('child_changed', this.firebaseTicketMessageChanged)
       })
     }, 
+    ticketFireBaseOnDisconectWatch(){
+        firebase.database().ref('ticket').onDisconnect().update(
+          {
+            ticketId:this.$store.getters.ticketId,
+            trpgSessionId:this.$store.getters.trpgSessionId,
+            twUID:"",
+            updateDate:date.getTime()
+          });
+    }, 
     firebaseTicketMessageChanged(snap) {
       if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
         return

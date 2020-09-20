@@ -9,7 +9,13 @@ Vue.config.productionTip = false
 Vue.config.debug = true
 Vue.config.solo_mode = true
 
-axios.defaults.baseURL = process.env.VUE_APP_URL
+Vue.prototype.$axios = axios.create({ 
+  baseURL:  process.env.VUE_APP_URL,
+  auth: {
+    username: process.env.VUE_APP_BASIC_USER ,
+    password: process.env.VUE_APP_BASIC_PASS
+  }
+})
 
 new Vue({
   router,
@@ -17,3 +23,4 @@ new Vue({
   vuetify,
   render: function (h) { return h(App) }
 }).$mount('#app')
+

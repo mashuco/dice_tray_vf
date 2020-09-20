@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie'
-import axios from 'axios'
 import firebase from 'firebase/app'
 import "firebase/database"
 
@@ -19,7 +18,7 @@ export default  {
   methods:{
     async sendCommand(){
       var csrftoken = Cookies.get('csrftoken')
-      await axios.post('/uDiceRoll/', 
+      await this.$axios.post('/uDiceRoll/', 
       { 
         session_users:this.$store.getters.sessionUserId, 
         roll_dice_command:this.chatTextarea,
@@ -33,7 +32,6 @@ export default  {
         this.chatLoad()  
       })
       this.doFireBaseUpdate()
-      this.chatTextarea =""
     },
     doFireBaseUpdate() {
       var date = new Date()
@@ -50,7 +48,7 @@ export default  {
       this.$vuetify.goTo(99999 ,{ container:this.navDrawerContent})
     },
     async chatLoad(){
-      await axios.get('/uDiceLog/?format=json&session_users__trpg_session='+this.$store.getters.trpgSessionId).then(response => {
+      await this.$axios.get('/uDiceLog/?format=json&session_users__trpg_session='+this.$store.getters.trpgSessionId).then(response => {
         this.chatMessages = response.data
       })
       this.scrollToLastItem()
@@ -68,6 +66,8 @@ export default  {
         return
       }
       this.sendCommand() 
+      this.chatTextarea =""
+
     },
     chatFirebaseMessageChanged(snap) {
       if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
@@ -83,6 +83,7 @@ export default  {
         this.chatTextarea = this.diceNum+"d"+this.diceSelectedFace.id+">="+this.diceTarget
       }
       this.sendCommand() 
+
     },
   },
 

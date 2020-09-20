@@ -43,7 +43,6 @@
 
 <script>
 import Vue from "vue"
-import axios from 'axios'
 import Cookies from 'js-cookie'
 import Vuetify from 'vuetify/lib'
 import firebase from 'firebase/app'
@@ -83,7 +82,7 @@ export default {
     this.fireBaseAuthState()
   },  
   async loadSession(){
-    await axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
+    await this.$axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
           this.sessionData = response.data
     }).catch(error => {
       this.dialogMsgArr.push("通信エラー")
@@ -94,7 +93,7 @@ export default {
     }
   },
   async loadSceneAll(){
-    await axios.get('/scene/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
+    await this.$axios.get('/scene/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
         this.sceneAllData = response.data
     }).catch(error => {
       this.dialogMsgArr.push("通信エラー")
@@ -109,7 +108,7 @@ export default {
       var csrftoken = Cookies.get('csrftoken')
       const formData = new FormData();
       formData.append("trpg_session_now_scene", this.selectedScene.session_scene_id);
-      await axios.patch(
+      await this.$axios.patch(
         '/session/'+this.$store.getters.trpgSessionId+'/', 
         formData,
         {
@@ -125,7 +124,7 @@ export default {
   },
   async selectScene() {
     this.regServeScean()
-    await axios.get('/scene/?format=json&session_scene_id='+this.selectedScene.session_scene_id).then(response => {
+    await this.$axios.get('/scene/?format=json&session_scene_id='+this.selectedScene.session_scene_id).then(response => {
         this.sceneData = response.data
     }).catch(error => {
         this.dialogMsgArr.push("通信エラー")
@@ -157,7 +156,7 @@ export default {
     this.loadScene(snap.val().sessionSceneId)
   },
   async loadScene(sceneId){
-      await axios.get('/scene/?format=json&session_scene_id='+sceneId).then(response => {
+      await this.$axios.get('/scene/?format=json&session_scene_id='+sceneId).then(response => {
           this.sceneData = response.data
       }).catch(error => {
         this.dialogMsgArr.push("通信エラー")

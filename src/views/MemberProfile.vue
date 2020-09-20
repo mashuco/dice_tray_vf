@@ -37,14 +37,13 @@
 
 <script>
 import Vue from "vue";
-import axios from 'axios';
 import Cookies from 'js-cookie';
 
 export default {
   data() {
     return {
       profileData:[],
-      tw_user: {},  // twitterユーザー情報
+      tw_user: {},  
     };
   },  
   created(){
@@ -53,7 +52,7 @@ export default {
   },  
   methods: {
     loadAll:function(){
-      axios.get('/uEntry/?format=json&is_session_master=false&trpg_session='+this.$store.getters.trpgSessionId).then(response => {
+      this.$axios.get('/uEntry/?format=json&is_session_master=false&trpg_session='+this.$store.getters.trpgSessionId).then(response => {
         this.profileData = response.data
       }).catch(error => {
         this.dialogMsgArr.push("通信エラー")

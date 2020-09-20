@@ -222,7 +222,6 @@
 </template>
 <script>
   import Vue from "vue"
-  import axios from 'axios'
   import firebase from 'firebase/app'
   import "firebase/auth"
   import "firebase/database"
@@ -234,16 +233,14 @@
   import LoginPage from './components/App/LoginPage'
   import SessionSelectPage from './components/App/SessionSelectPage'
   import TicketSelectPage  from './components/App/TicketSelectPage'
-  import dataLoder from './services/App/dataLoder'
   import regTwitterInfo from './services/App/regTwitterInfo'
   import audioMixin from './mixins/App/audioMixin.js'
   import chatMixin from './mixins/App/chatMixin.js'
   import diceMixin from './mixins/App/diceMixin.js'
   import ticketMixin from './mixins/App/ticketMixin.js'
   import firebaseMixin from './mixins/firebaseMixin.js'
-  axios.defaults.baseURL = process.env.VUE_APP_URL
-
-  export default {
+ 
+ export default {
     mixins: [audioMixin,chatMixin,diceMixin,ticketMixin,firebaseMixin],
     components: {
       LoginPage,
@@ -277,7 +274,6 @@
       this.fireBaseAuthState()
     },
     mounted() {
-      //document.querySelector("meta[name='viewport']").setAttribute('content', "user-scalable=0")
       window.addEventListener('resize', this.handleResize)
       this.$store.watch(
           (state, getters) => getters.trpgSessionImg,
@@ -323,7 +319,6 @@
             var twitter_user = user ?user : {}
             const ref_message = firebase.database().ref('message')
             ref_message.limitToLast(10).on('child_changed',this.chatFirebaseMessageChanged)
-
             this.$store.commit('notifyTwUID',twitter_user.uid)
             this.$store.commit('notifyTwName',twitter_user.displayName)
             this.$store.commit('notifyTwPhoto',twitter_user.photoURL)
@@ -341,7 +336,7 @@
         this.login = true
       },
       doLogout() {
-        regTwitterInfo('','','', this.$store.getters.sessionUserId)
+        regTwitterInfo(this.$axios,'','','', this.$store.getters.sessionUserId)
         if(Vue.config.debug==false){
           this.ticketFireBaseStateUpdateTicektRelease()
           firebase.auth().signOut()
@@ -357,7 +352,6 @@
           this.ticketFireBaseStateUpdateTicektRelease()
           firebase.auth().signOut()
         }
-        //this.forcedLogout()
         this.entry = false
         this.login = false
         this.ChoiceSession=false
@@ -365,9 +359,10 @@
         this.audio.pause()
       },
       onSelectSession(str){
-        if(!Vue.config.debug)
+        if(!Vue.config.debug){
         　this.ticketFireBaseStateWatch()
-        
+          this.ticketFireBaseOnDisconectWatch()
+        }
         this.$store.commit('notifyTrpgSessionId',str)
         this.loadSession(str)
         this.ChoiceSession = true
@@ -375,9 +370,7 @@
       },
       async loadSession(str){
 
-
-        //await axios.get('/uEntry/?format=json&is_session_master=false&trpg_session='+str,
-        await axios.get('/uEntry/?format=json&trpg_session='+str,
+        await this.$axios.get('/uEntry/?format=json&trpg_session='+str,
         ).then(response => {
               this.sessionAllTicketData             = response.data
               this.sessionTicketDataWithOutGMMaster = response.data.filter(function(item,index){
@@ -390,7 +383,7 @@
         });
       },
       async loadAllSession(){
-          await axios.get('/session/?format=json'
+          await this.$axios.get('/session/?format=json'
           ).then(response => {
             this.sessionAllData = response.data
           }).catch(error => {
@@ -408,7 +401,7 @@
         this.$store.commit('notifySessionUserId',this.entyrInfo[0]['session_user_id'])
         this.entry = true
 
-        await axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId
+        await this.$axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId
         ).then(response => {
           this.sessionData = response.data
         }).catch(error => {
@@ -425,10 +418,14 @@
         if(this.$route.path!="/story")
           this.$router.push({ name: "story" })
 
-        this.sceneAllData  = await dataLoder.loadScene(this.$store.getters.trpgSessionId)
+        await this.$axios.get('/scene/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
+            this.sceneAllData = response.data
+        })
+
         this.chatLoad()
 
         regTwitterInfo(
+          this.$axios,
           this.$store.getters.twUID,
           this.$store.getters.twName,
           this.$store.getters.twPhoto,

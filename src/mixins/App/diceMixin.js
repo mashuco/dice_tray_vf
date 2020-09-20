@@ -1,6 +1,3 @@
-import Cookies from 'js-cookie'
-import axios from 'axios'
-
 export default  {
   created:function() {
   },

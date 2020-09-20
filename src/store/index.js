@@ -94,9 +94,6 @@ export default new Vuex.Store({
     notifyIsSessionMaster(state,bool){
       state.isSessionMaster =bool
     },
-    //notifySessionSceneId(state,str){
-    //  state.sessionSceneId =str
-    //},
     notifyTwUID(state,str){
       state.twUID =str
     },
