@@ -47,15 +47,7 @@ export default  {
           userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(function() {
               userStatusDatabaseRef.set(isOnlineForDatabase);
           });
-      });
-    },
-    fireBaseState2(){
-      const userStatusDatabaseRef2 = firebase.database().ref('ticket');
-      firebase.database().ref('.info/connected').on('value', function(snapshot) {
-          if (snapshot.val() == false) {
-              return;
-          };
-          userStatusDatabaseRef2.onDisconnect().set(
+          firebase.database().ref('ticket').onDisconnect().set(
             {
             ticketId:this.$store.getters.ticketId,
             trpgSessionId:this.$store.getters.trpgSessionId,
