@@ -322,7 +322,7 @@
         this.forcedLogout()
       },
       forcedLogout(){
-          this.ticketFireBaseStateUpdateTicektRelease()
+        this.ticketFireBaseStateUpdateTicektRelease()
           
 
         this.entry = false
@@ -345,7 +345,7 @@
                 if(item.is_session_master == false)
                   return true
               })
-      }).catch(error => {
+        }).catch(error => {
           this.dialogMsgArr.push("通信エラー")
           this.dialog = true
         });
@@ -355,9 +355,9 @@
           ).then(response => {
             this.sessionAllData = response.data
           }).catch(error => {
-          this.dialogMsgArr.push("通信エラー")
-          this.dialog = true
-        });
+            this.dialogMsgArr.push("通信エラー")
+            this.dialog = true
+            });
       },
       async selectTicket(searchTicket){
         this.entyrInfo = searchTicket
