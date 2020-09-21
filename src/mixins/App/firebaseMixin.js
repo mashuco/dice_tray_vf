@@ -100,7 +100,7 @@ export default  {
       firebase.auth().signOut()
     },
     ticketFireBaseStateWatch(){
-      if(!Vue.config.debug)
+      if(Vue.config.debug==true)
         return
 
       firebase.auth().onAuthStateChanged(user => {
