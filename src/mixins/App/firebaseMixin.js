@@ -133,12 +133,14 @@ export default  {
         return
       }
 
+      console.log("DDD")
       if(snap.val().ticketId==this.$store.getters.ticketId) {
         this.dialogMsgArr =[]
         this.dialogMsgArr.push("このチケットは他ユーザーに取得されました")
         this.dialogMsgArr.push("強制ログアウトします")
         this.dialogLogout = true
       }
+      console.log("EEE")
       this.loadSession(this.$store.getters.trpgSessionId)
     }
   }
