@@ -70,7 +70,7 @@ export default  {
       });
     },
     async ticketFireBaseStateUpdate() {
-      if(Vue.config.debug==false)
+      if(Vue.config.debug==true)
         return
 
       var date = new Date()
@@ -85,7 +85,7 @@ export default  {
       );
     },
     async ticketFireBaseStateUpdateTicektRelease() {
-      if(Vue.config.debug==false)
+      if(Vue.config.debug==true)
         return
 
       var date = new Date()
