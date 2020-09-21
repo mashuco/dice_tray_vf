@@ -311,8 +311,6 @@
         this.windowWidth = window.innerWidth;
         this.windowHeight = window.innerHeight;
       },
-      testfirebaseTicketMessageChanged(snap) {
-      }, 
       async doLogin() {
         this.login = true
       },

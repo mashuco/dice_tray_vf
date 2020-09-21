@@ -105,7 +105,7 @@ export default  {
 
       firebase.auth().onAuthStateChanged(user => {
         const ref_message = firebase.database().ref('ticket')
-        ref_message.limitToLast(10).on('child_changed', this.firebaseTicketMessageChanged)
+        ref_message.limitToLast(10).on('child_changed', this.ticketFirebaseMessageChanged)
       })
     }, 
     ticketFireBaseOnDisconectWatch(){
@@ -117,13 +117,12 @@ export default  {
             updateDate:date.getTime()
           });
     }, 
-    firebaseTicketMessageChanged(snap) {
+    ticketFirebaseMessageChanged(snap) {
       if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
         return
 
       if(snap.val().twUID==this.$store.getters.twUID) 
         return
-
 
       if(snap.val().twUID=="logout"){
         this.loadSession(this.$store.getters.trpgSessionId)
