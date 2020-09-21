@@ -378,6 +378,14 @@
         this.$store.commit('notifyFirebaseSceanKeyId',this.sessionData[0]['firebase_scean_key_id'])
         this.$store.commit('notifyTicketId',this.entyrInfo[0]['ticket_no'])
 
+        await regTwitterInfo( 
+          this.$axios,
+          this.$store.getters.twUID,
+          this.$store.getters.twName,
+          this.$store.getters.twPhoto,
+          this.$store.getters.sessionUserId
+        )
+
         await this.ticketFireBaseStateUpdate()
 
         if(this.$route.path!="/story")
@@ -389,13 +397,7 @@
 
         this.chatLoad()
 
-        regTwitterInfo(
-          this.$axios,
-          this.$store.getters.twUID,
-          this.$store.getters.twName,
-          this.$store.getters.twPhoto,
-          this.$store.getters.sessionUserId
-        )
+
 
     },
     doStory(){
