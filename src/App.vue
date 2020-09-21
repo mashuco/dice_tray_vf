@@ -312,24 +312,6 @@
         this.windowWidth = window.innerWidth;
         this.windowHeight = window.innerHeight;
       },
-      fireBaseAuthState(){
-        if(!Vue.config.debug){
-          this.fireBaseMyIni()
-          firebase.auth().onAuthStateChanged(user => {
-            var twitter_user = user ?user : {}
-            const ref_message = firebase.database().ref('message')
-            ref_message.limitToLast(10).on('child_changed',this.chatFirebaseMessageChanged)
-            this.$store.commit('notifyTwUID',twitter_user.uid)
-            this.$store.commit('notifyTwName',twitter_user.displayName)
-            this.$store.commit('notifyTwPhoto',twitter_user.photoURL)
-            this.fireBaseState(twitter_user.uid)
-          })
-        }else{
-            this.$store.commit('notifyTwUID','test')
-            this.$store.commit('notifyTwName','test')
-            this.$store.commit('notifyTwPhoto','')
-        }
-      },
       testfirebaseTicketMessageChanged(snap) {
       }, 
       async doLogin() {
@@ -337,21 +319,12 @@
       },
       doLogout() {
         regTwitterInfo(this.$axios,'','','', this.$store.getters.sessionUserId)
-        if(Vue.config.debug==false){
-          this.ticketFireBaseStateUpdateTicektRelease()
-          firebase.auth().signOut()
-        }
-        this.entry = false
-        this.login = false
-        this.ChoiceSession=false
-        this.ticket_no=''
-        this.audio.pause()
+        this.forcedLogout()
       },
       forcedLogout(){
-        if(Vue.config.debug==false){
           this.ticketFireBaseStateUpdateTicektRelease()
-          firebase.auth().signOut()
-        }
+          
+
         this.entry = false
         this.login = false
         this.ChoiceSession=false
@@ -359,16 +332,12 @@
         this.audio.pause()
       },
       onSelectSession(str){
-        if(!Vue.config.debug){
-        　this.ticketFireBaseStateWatch()
-        }
+      　this.ticketFireBaseStateWatch()
         this.$store.commit('notifyTrpgSessionId',str)
         this.loadSession(str)
         this.ChoiceSession = true
-
       },
       async loadSession(str){
-
         await this.$axios.get('/uEntry/?format=json&trpg_session='+str,
         ).then(response => {
               this.sessionAllTicketData             = response.data
@@ -391,7 +360,6 @@
         });
       },
       async selectTicket(searchTicket){
-
         this.entyrInfo = searchTicket
         this.$store.commit('notifyTrpgSessionId',this.entyrInfo[0]['trpg_session'])
         this.$store.commit('notifyTrpgSessionName',this.entyrInfo[0]['trpg_session_name'])
@@ -409,10 +377,9 @@
         });
         this.$store.commit('notifyFirebaseMessageKeyId',this.sessionData[0]['firebase_message_key_id'])
         this.$store.commit('notifyFirebaseSceanKeyId',this.sessionData[0]['firebase_scean_key_id'])
-
         this.$store.commit('notifyTicketId',this.entyrInfo[0]['ticket_no'])
-        if(!Vue.config.debug)
-          await this.ticketFireBaseStateUpdate()
+
+        await this.ticketFireBaseStateUpdate()
 
         if(this.$route.path!="/story")
           this.$router.push({ name: "story" })

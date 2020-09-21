@@ -16,6 +16,9 @@ export default  {
   },
   methods:{
     async ticketFireBaseStateUpdate() {
+      if(Vue.config.debug==false)
+        return
+
       var date = new Date()
       firebase.database().ref('ticket').child(this.$store.getters.firebaseMessageKeyId).update(
         {
@@ -28,17 +31,24 @@ export default  {
       );
     },
     async ticketFireBaseStateUpdateTicektRelease() {
+      if(Vue.config.debug==false)
+        return
+
       var date = new Date()
       firebase.database().ref('ticket').child(this.$store.getters.firebaseMessageKeyId).update(
-        {
-          ticketId:this.$store.getters.ticketId,
-          trpgSessionId:this.$store.getters.trpgSessionId,
-          twUID:'logout',
-          updateDate:date.getTime()
+      {
+        ticketId:this.$store.getters.ticketId,
+        trpgSessionId:this.$store.getters.trpgSessionId,
+        twUID:'logout',
+        updateDate:date.getTime()
         }
-      );
+      )
+      firebase.auth().signOut()
     },
     ticketFireBaseStateWatch(){
+      if(!Vue.config.debug)
+        return
+
       firebase.auth().onAuthStateChanged(user => {
         const ref_message = firebase.database().ref('ticket')
         ref_message.limitToLast(10).on('child_changed', this.firebaseTicketMessageChanged)

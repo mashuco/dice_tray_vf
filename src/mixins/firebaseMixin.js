@@ -26,6 +26,24 @@ export default  {
        }
       firebase.initializeApp(firebaseConfig);  
     },
+    fireBaseAuthState(){
+      if(!Vue.config.debug){
+        this.fireBaseMyIni()
+        firebase.auth().onAuthStateChanged(user => {
+          var twitter_user = user ?user : {}
+          const ref_message = firebase.database().ref('message')
+          ref_message.limitToLast(10).on('child_changed',this.chatFirebaseMessageChanged)
+          this.$store.commit('notifyTwUID',twitter_user.uid)
+          this.$store.commit('notifyTwName',twitter_user.displayName)
+          this.$store.commit('notifyTwPhoto',twitter_user.photoURL)
+          this.fireBaseState(twitter_user.uid)
+        })
+      }else{
+          this.$store.commit('notifyTwUID','test')
+          this.$store.commit('notifyTwName','test')
+          this.$store.commit('notifyTwPhoto','')
+      }
+    },
     fireBaseMyInsertMessage(item,val) {
       firebase.database().ref(item).push({message: 'now update'}, () => {('val') })
     },
