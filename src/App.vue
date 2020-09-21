@@ -323,8 +323,6 @@
       },
       forcedLogout(){
         this.ticketFireBaseStateUpdateTicektRelease()
-          
-
         this.entry = false
         this.login = false
         this.ChoiceSession=false
