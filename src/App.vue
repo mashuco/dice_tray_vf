@@ -344,6 +344,10 @@
           this.dialogMsgArr.push("通信エラー")
           this.dialog = true
         });
+        console.log("loadSession")
+        console.log("this.sessionTicketDataWithOutGMMaster")
+        console.log(this.sessionTicketDataWithOutGMMaster)
+
       },
       async loadAllSession(){
           await this.$axios.get('/session/?format=json'

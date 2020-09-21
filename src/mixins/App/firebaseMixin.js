@@ -128,6 +128,7 @@ export default  {
 
 
       console.log("CCC")
+      
       if(snap.val().twUID=="logout"){
         this.loadSession(this.$store.getters.trpgSessionId)
         return
