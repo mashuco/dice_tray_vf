@@ -237,8 +237,7 @@
   import audioMixin from './mixins/App/audioMixin.js'
   import chatMixin from './mixins/App/chatMixin.js'
   import diceMixin from './mixins/App/diceMixin.js'
-  import ticketMixin from './mixins/App/ticketMixin.js'
-  import firebaseMixin from './mixins/firebaseMixin.js'
+  import firebaseMixin from './mixins/App/firebaseMixin.js'
  
  export default {
     mixins: [audioMixin,chatMixin,diceMixin,ticketMixin,firebaseMixin],
