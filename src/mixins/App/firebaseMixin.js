@@ -29,34 +29,27 @@ export default  {
       firebase.initializeApp(firebaseConfig);  
     },
     fireBaseAuthState(){
-       if(Vue.config.debug==true){
-        this.$store.commit('notifyTwUID','test')
-        this.$store.commit('notifyTwName','test')
-        this.$store.commit('notifyTwPhoto','')
-        return        
+      if(!Vue.config.debug){
+        this.fireBaseMyIni()
+        firebase.auth().onAuthStateChanged(user => {
+          var twitter_user = user ?user : {}
+          const ref_message = firebase.database().ref('message')
+          ref_message.limitToLast(10).on('child_changed',this.chatFirebaseMessageChanged)
+          this.$store.commit('notifyTwUID',twitter_user.uid)
+          this.$store.commit('notifyTwName',twitter_user.displayName)
+          this.$store.commit('notifyTwPhoto',twitter_user.photoURL)
+          this.fireBaseState(twitter_user.uid)
+        })
+      }else{
+          this.$store.commit('notifyTwUID','test')
+          this.$store.commit('notifyTwName','test')
+          this.$store.commit('notifyTwPhoto','')
       }
-
-      this.fireBaseMyIni()
-      firebase.auth().onAuthStateChanged(user => {
-        var twitter_user = user ?user : {}
-        const ref_message = firebase.database().ref('message')
-        ref_message.limitToLast(10).on('child_changed',this.chatFirebaseMessageChanged)
-        this.$store.commit('notifyTwUID',twitter_user.uid)
-        this.$store.commit('notifyTwName',twitter_user.displayName)
-        this.$store.commit('notifyTwPhoto',twitter_user.photoURL)
-        this.fireBaseState(twitter_user.uid)
-      })
     },
     fireBaseMyInsertMessage(item,val) {
-      if(Vue.config.debug==true)
-        return
-
       firebase.database().ref(item).push({message: 'now update'}, () => {('val') })
     },
     fireBaseState(uid){
-      if(Vue.config.debug==true)
-        return
-
       const userStatusDatabaseRef = firebase.database().ref('/status/' + uid);
       const isOfflineForDatabase = {
           state: 'offline',
@@ -68,7 +61,7 @@ export default  {
       };
 
       firebase.database().ref('.info/connected').on('value', function(snapshot) {
-        if (snapshot.val() == true) {
+        if (snapshot.val() == false) {
             return;
         };
         userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(function() {
@@ -77,7 +70,7 @@ export default  {
       });
     },
     async ticketFireBaseStateUpdate() {
-      if(Vue.config.debug==true)
+      if(Vue.config.debug==false)
         return
 
       var date = new Date()
@@ -92,7 +85,7 @@ export default  {
       );
     },
     async ticketFireBaseStateUpdateTicektRelease() {
-      if(Vue.config.debug==true)
+      if(Vue.config.debug==false)
         return
 
       var date = new Date()
@@ -107,35 +100,30 @@ export default  {
       firebase.auth().signOut()
     },
     ticketFireBaseStateWatch(){
-      if(!Vue.config.debug==true)
+      if(!Vue.config.debug)
         return
 
       firebase.auth().onAuthStateChanged(user => {
         const ref_message = firebase.database().ref('ticket')
-        ref_message.limitToLast(10).on('child_changed', this.ticketFirebaseMessageChanged)
+        ref_message.limitToLast(10).on('child_changed', this.firebaseTicketMessageChanged)
       })
     }, 
     ticketFireBaseOnDisconectWatch(){
-      if(Vue.config.debug==true)
-        return
-
-      firebase.database().ref('ticket').onDisconnect().set(
-        {
-          ticketId:this.$store.getters.ticketId,
-          trpgSessionId:this.$store.getters.trpgSessionId,
-          twUID:"",
-          updateDate:date.getTime()
-        });
+        firebase.database().ref('ticket').onDisconnect().set(
+          {
+            ticketId:this.$store.getters.ticketId,
+            trpgSessionId:this.$store.getters.trpgSessionId,
+            twUID:"",
+            updateDate:date.getTime()
+          });
     }, 
-    ticketFirebaseMessageChanged(snap) {
-      if(Vue.config.debug==true)
-        return
-
+    firebaseTicketMessageChanged(snap) {
       if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
         return
 
       if(snap.val().twUID==this.$store.getters.twUID) 
         return
+
 
       if(snap.val().twUID=="logout"){
         this.loadSession(this.$store.getters.trpgSessionId)
