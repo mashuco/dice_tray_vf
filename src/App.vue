@@ -240,7 +240,7 @@
   import firebaseMixin from './mixins/App/firebaseMixin.js'
  
  export default {
-    mixins: [audioMixin,chatMixin,diceMixin,ticketMixin,firebaseMixin],
+    mixins: [audioMixin,chatMixin,diceMixin,firebaseMixin],
     components: {
       LoginPage,
       SessionSelectPage,
