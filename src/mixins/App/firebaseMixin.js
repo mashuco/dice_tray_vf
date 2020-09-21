@@ -29,13 +29,13 @@ export default  {
       firebase.initializeApp(firebaseConfig);  
     },
     fireBaseAuthState(){
-       if(Vue.config.debug==false){
+       if(Vue.config.debug==true){
         this.$store.commit('notifyTwUID','test')
         this.$store.commit('notifyTwName','test')
         this.$store.commit('notifyTwPhoto','')
         return        
       }
-      
+
       this.fireBaseMyIni()
       firebase.auth().onAuthStateChanged(user => {
         var twitter_user = user ?user : {}
@@ -48,13 +48,13 @@ export default  {
       })
     },
     fireBaseMyInsertMessage(item,val) {
-      if(Vue.config.debug==false)
+      if(Vue.config.debug==true)
         return
 
       firebase.database().ref(item).push({message: 'now update'}, () => {('val') })
     },
     fireBaseState(uid){
-      if(Vue.config.debug==false)
+      if(Vue.config.debug==true)
         return
 
       const userStatusDatabaseRef = firebase.database().ref('/status/' + uid);
@@ -68,7 +68,7 @@ export default  {
       };
 
       firebase.database().ref('.info/connected').on('value', function(snapshot) {
-        if (snapshot.val() == false) {
+        if (snapshot.val() == true) {
             return;
         };
         userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(function() {
@@ -77,7 +77,7 @@ export default  {
       });
     },
     async ticketFireBaseStateUpdate() {
-      if(Vue.config.debug==false)
+      if(Vue.config.debug==true)
         return
 
       var date = new Date()
@@ -92,7 +92,7 @@ export default  {
       );
     },
     async ticketFireBaseStateUpdateTicektRelease() {
-      if(Vue.config.debug==false)
+      if(Vue.config.debug==true)
         return
 
       var date = new Date()
@@ -107,7 +107,7 @@ export default  {
       firebase.auth().signOut()
     },
     ticketFireBaseStateWatch(){
-      if(!Vue.config.debug)
+      if(!Vue.config.debug==true)
         return
 
       firebase.auth().onAuthStateChanged(user => {
@@ -116,8 +116,8 @@ export default  {
       })
     }, 
     ticketFireBaseOnDisconectWatch(){
-      if(Vue.config.debug==false)
-      return
+      if(Vue.config.debug==true)
+        return
 
       firebase.database().ref('ticket').onDisconnect().set(
         {
@@ -128,7 +128,7 @@ export default  {
         });
     }, 
     ticketFirebaseMessageChanged(snap) {
-      if(Vue.config.debug==false)
+      if(Vue.config.debug==true)
         return
 
       if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
