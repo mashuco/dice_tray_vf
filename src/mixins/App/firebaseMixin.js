@@ -118,13 +118,16 @@ export default  {
           });
     }, 
     firebaseTicketMessageChanged(snap) {
+      console.log("AAA")
       if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
         return
 
+      console.log("BBB")
       if(snap.val().twUID==this.$store.getters.twUID) 
         return
 
 
+      console.log("CCC")
       if(snap.val().twUID=="logout"){
         this.loadSession(this.$store.getters.trpgSessionId)
         return
