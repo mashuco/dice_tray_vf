@@ -41,7 +41,6 @@ export default  {
         this.$store.commit('notifyTwName',twitter_user.displayName)
         this.$store.commit('notifyTwPhoto',twitter_user.photoURL)
         this.fbcost(twitter_user.uid)
-        this.registFbLoginStatus(twitter_user.uid)
       })
 
     },
@@ -65,8 +64,8 @@ export default  {
         });
       });
     },
-    registFbLoginStatus(uid){
-      const userStatusDatabaseRef = firebase.database().ref('/login/' +'/'+this.$store.getters.trpgSessionId+'/'+uid);
+    fireBaseRegistLoginStatus(uid){
+      const userStatusDatabaseRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/'+uid);
       const isOfflineForDatabase = {
         state: 'offline',
         last_changed: firebase.database.ServerValue.TIMESTAMP,

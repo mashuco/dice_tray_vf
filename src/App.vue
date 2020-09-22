@@ -376,6 +376,7 @@
           this.$store.getters.twPhoto,
           this.$store.getters.sessionUserId
         )
+        this.fireBaseRegistLoginStatus(this.$store.getters.twUID)
 
         await this.fireBaseTicketStateUpdate()
         this.fireBaseTicketDisconectWatch()
