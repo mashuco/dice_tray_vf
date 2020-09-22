@@ -69,7 +69,7 @@ export default  {
         });
       });
     },
-    async ticketFireBaseStateUpdate() {
+    async fireBaseTicketStateUpdate() {
       if(Vue.config.debug==true)
         return
 
@@ -84,7 +84,7 @@ export default  {
 
       );
     },
-    async ticketFireBaseStateUpdateTicektRelease() {
+    async fireBaseTicektRelease() {
       if(Vue.config.debug==true)
         return
 
@@ -99,13 +99,13 @@ export default  {
       )
       firebase.auth().signOut()
     },
-    ticketFireBaseStateWatch(){
+    firebaseTicketStateWatch(){
       if(Vue.config.debug==true)
         return
 
       firebase.auth().onAuthStateChanged(user => {
         const ref_message = firebase.database().ref('ticket')
-        ref_message.limitToLast(10).on('child_changed', this.firebaseTicketMessageChanged)
+        ref_message.limitToLast(10).on('child_changed', this.firebaseTicketStateChanged)
       })
     }, 
     ticketFireBaseOnDisconectWatch(){
@@ -117,31 +117,25 @@ export default  {
             updateDate:date.getTime()
           });
     }, 
-    firebaseTicketMessageChanged(snap) {
-      console.log("AAA")
+    firebaseTicketStateChanged(snap) {
       if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
         return
 
-      console.log("BBB")
       if(snap.val().twUID==this.$store.getters.twUID) 
         return
-
-
-      console.log("CCC")
-      
+     
       if(snap.val().twUID=="logout"){
         this.loadSession(this.$store.getters.trpgSessionId)
         return
       }
 
-      console.log("DDD")
       if(snap.val().ticketId==this.$store.getters.ticketId) {
         this.dialogMsgArr =[]
         this.dialogMsgArr.push("このチケットは他ユーザーに取得されました")
         this.dialogMsgArr.push("強制ログアウトします")
         this.dialogLogout = true
       }
-      console.log("EEE")
+
       this.loadSession(this.$store.getters.trpgSessionId)
     }
   }

@@ -319,7 +319,7 @@
         this.forcedLogout()
       },
       forcedLogout(){
-        this.ticketFireBaseStateUpdateTicektRelease()
+        this.fireBaseTicektRelease()
         this.entry = false
         this.login = false
         this.ChoiceSession=false
@@ -327,7 +327,7 @@
         this.audio.pause()
       },
       onSelectSession(str){
-      　this.ticketFireBaseStateWatch()
+      　this.firebaseTicketStateWatch()
         this.$store.commit('notifyTrpgSessionId',str)
         this.loadSession(str)
         this.ChoiceSession = true
@@ -386,7 +386,7 @@
           this.$store.getters.sessionUserId
         )
 
-        await this.ticketFireBaseStateUpdate()
+        await this.fireBaseTicketStateUpdate()
 
         if(this.$route.path!="/story")
           this.$router.push({ name: "story" })
