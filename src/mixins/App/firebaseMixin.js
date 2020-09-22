@@ -89,7 +89,7 @@ export default  {
     fireBaseLiveUpdateLoginUsers(){
       var fbRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/')
       fbRef.on('value', function(snapshot) {
-        if(snapshot)
+        if(snapshot.val())
           this.loginUsers=snapshot.val()
       })
       console.log("this.loginUsers")
