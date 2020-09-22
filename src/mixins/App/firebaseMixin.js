@@ -45,7 +45,7 @@ export default  {
       })
 
     },
-    fireBaseState(uid){
+    fbcost(uid){
       const userStatusDatabaseRef = firebase.database().ref('/status/' + uid);
       const isOfflineForDatabase = {
           state: 'offline',
