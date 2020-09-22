@@ -92,8 +92,8 @@ export default  {
       fbRef.on('value', function(snapshot) {
         //if(snapshot.val()!=null)
           //this.loginUsers=snapshot.val()
-          console.log("snapshot")
-          console.log(snapshot)
+          console.log("snapshot.val()")
+          console.log(snapshot.val())
     
       })
     },
