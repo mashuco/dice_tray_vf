@@ -67,23 +67,13 @@ export default  {
     },
     fireBaseRegistLoginStatus(uid){
       const userStatusDatabaseRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/'+uid);
-      const isOfflineForDatabase = {
-        state: 'offline',
-        last_changed: firebase.database.ServerValue.TIMESTAMP,
-      };
-      const isOnlineForDatabase = {
-          state: 'online',
-         last_changed: firebase.database.ServerValue.TIMESTAMP,
-      };
 
       firebase.database().ref('.info/connected').on('value', function(snapshot) {
         if (snapshot.val() == false) {
-            return;
-        };
-        userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(function() {
-            userStatusDatabaseRef.set(isOnlineForDatabase);
-        });
-      });
+            return
+        }
+        userStatusDatabaseRef.onDisconnect().remove()
+      })
 
     },
     fireBaseLiveUpdateLoginUsers(){
