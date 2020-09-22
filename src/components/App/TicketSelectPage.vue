@@ -53,9 +53,9 @@ export default {
     ticketData:{
       type:Array
     },
-    ticketDataWithoutGM:{
-      type:Array
-    }
+    //ticketDataWithoutGM:{
+    //  type:Array
+    //}
   },
   components: {
     Dialog,
@@ -71,7 +71,14 @@ export default {
           }
           return true
         }
+      },
+      ticketDataWithoutGM:function(){
+        return this.ticketData.filter(function(item,index){
+          if(item.is_session_master == false)
+            return true
+        })
       }
+
   },
   data() {
     return {
