@@ -66,7 +66,7 @@ export default  {
       });
     },
     fireBaseRegistLoginStatus(uid){
-      const userStatusDatabaseRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId)
+      const userStatusDatabaseRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/'+uid)
       const isOnlineForDatabase = {
           state: 'online',
          last_changed: firebase.database.ServerValue.TIMESTAMP,
