@@ -66,14 +66,20 @@ export default  {
       });
     },
     fireBaseRegistLoginStatus(uid){
-      const userStatusDatabaseRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/'+uid);
+      const userStatusDatabaseRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId)
+      const isOnlineForDatabase = {
+          state: 'online',
+         last_changed: firebase.database.ServerValue.TIMESTAMP,
+      };
 
       firebase.database().ref('.info/connected').on('value', function(snapshot) {
         if (snapshot.val() == false) {
-            return
-        }
-        userStatusDatabaseRef.onDisconnect().remove()
-      })
+            return;
+        };
+        userStatusDatabaseRef.onDisconnect().remove().then(function() {
+            userStatusDatabaseRef.set(isOnlineForDatabase);
+        });
+      });
 
     },
     fireBaseLiveUpdateLoginUsers(){
