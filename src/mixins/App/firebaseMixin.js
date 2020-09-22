@@ -16,7 +16,14 @@ export default  {
     
   },
   methods:{
-    ini(){
+    fireBaseAuth(){
+      if(Vue.config.debug){
+        this.$store.commit('notifyTwUID','test')
+        this.$store.commit('notifyTwName','test')
+        this.$store.commit('notifyTwPhoto','')
+        return
+      }
+
       var firebaseConfig = {
         apiKey:process.env.VUE_APP_FIREBASE_CONFIG_APIKEY ,
         authDomain:process.env.VUE_APP_FIREBASE_CONFIG_AUTHDOMAIN ,
@@ -27,24 +34,16 @@ export default  {
         appId:process.env.VUE_APP_FIREBASE_CONFIG_APPID
        }
       firebase.initializeApp(firebaseConfig);  
-    },
-    fireBaseAuth(){
-      if(!Vue.config.debug){
-        this.ini()
-        firebase.auth().onAuthStateChanged(user => {
-          var twitter_user = user ?user : {}
-          const ref_message = firebase.database().ref('message')
-          ref_message.limitToLast(10).on('child_changed',this.chatFirebaseMessageChanged)
-          this.$store.commit('notifyTwUID',twitter_user.uid)
-          this.$store.commit('notifyTwName',twitter_user.displayName)
-          this.$store.commit('notifyTwPhoto',twitter_user.photoURL)
-          this.fireBaseState(twitter_user.uid)
-        })
-      }else{
-          this.$store.commit('notifyTwUID','test')
-          this.$store.commit('notifyTwName','test')
-          this.$store.commit('notifyTwPhoto','')
-      }
+      firebase.auth().onAuthStateChanged(user => {
+        var twitter_user = user ?user : {}
+        const ref_message = firebase.database().ref('message')
+        ref_message.limitToLast(10).on('child_changed',this.chatFirebaseMessageChanged)
+        this.$store.commit('notifyTwUID',twitter_user.uid)
+        this.$store.commit('notifyTwName',twitter_user.displayName)
+        this.$store.commit('notifyTwPhoto',twitter_user.photoURL)
+        this.fbcost(twitter_user.uid)
+      })
+
     },
     fireBaseState(uid){
       const userStatusDatabaseRef = firebase.database().ref('/status/' + uid);
@@ -78,7 +77,6 @@ export default  {
           twUID:this.$store.getters.twUID,
           updateDate:date.getTime()
         }
-
       );
     },
     async fireBaseTicektRelease() {
@@ -102,19 +100,10 @@ export default  {
 
       firebase.auth().onAuthStateChanged(user => {
         const ref_message = firebase.database().ref('ticket')
-        ref_message.limitToLast(10).on('child_changed', this.firebaseTicketStateChanged)
+        ref_message.limitToLast(10).on('child_changed', this.ticketStateWatchChanged)
       })
     }, 
-    ticketFireBaseDisconectWatch(){
-        firebase.database().ref('ticket').onDisconnect().set(
-          {
-            ticketId:this.$store.getters.ticketId,
-            trpgSessionId:this.$store.getters.trpgSessionId,
-            twUID:"",
-            updateDate:date.getTime()
-          });
-    }, 
-    firebaseTicketStateChanged(snap) {
+    ticketStateWatchChanged(snap) {
       if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
         return
 
@@ -134,7 +123,17 @@ export default  {
       }
 
       this.loadSession(this.$store.getters.trpgSessionId)
-    }
+    },
+    ticketFireBaseDisconectWatch(){
+      firebase.database().ref('ticket').onDisconnect().set(
+        {
+          ticketId:this.$store.getters.ticketId,
+          trpgSessionId:this.$store.getters.trpgSessionId,
+          twUID:"",
+          updateDate:date.getTime()
+        });
+    }, 
+
   }
 }
 
