@@ -93,7 +93,7 @@ export default  {
         //if(snapshot.val()!=null)
           //this.loginUsers=snapshot.val()
           console.log("snapshot")
-          console.log(snapshot.val)
+          console.log(snapshot)
     
       })
     },
