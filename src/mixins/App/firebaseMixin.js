@@ -7,7 +7,8 @@ export default  {
   },
   data(){
     return {
-      dialogLogout:false,       
+      dialogLogout:false,
+      loginUsers:[]   
     }
   },
   mounted(){
@@ -84,6 +85,14 @@ export default  {
         });
       });
 
+    },
+    fireBaseLiveUpdateLoginUsers(){
+      var fbRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/')
+      fbRef.on('value', function(snapshot) {
+        this.loginUsers=snapshot.val()
+      })
+      console.log("this.loginUsers")
+      console.log(this.loginUsers)
     },
     async fireBaseChatMessageStateWatch(){
       if(Vue.config.debug)

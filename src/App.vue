@@ -380,7 +380,8 @@
 
         await this.fireBaseTicketStateUpdate()
         this.fireBaseTicketDisconectWatch()
-
+        this.fireBaseLiveUpdateLoginUsers()
+        
         if(this.$route.path!="/story")
           this.$router.push({ name: "story" })
 
