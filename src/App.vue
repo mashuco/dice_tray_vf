@@ -173,7 +173,7 @@
               </v-list-item>
             </v-list> 
           </v-sheet>
-        </v-layout>>
+        </v-layout>
       </v-container>
     </v-navigation-drawer>
     <v-main  :style="{backgroundImage:`url('${bgImg}')`}" class="bg-img" >
@@ -387,7 +387,8 @@
         )
 
         await this.fireBaseTicketStateUpdate()
-
+        this.fireBaseTicketDisconectWatch()
+        
         if(this.$route.path!="/story")
           this.$router.push({ name: "story" })
 

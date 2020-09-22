@@ -67,7 +67,7 @@ export default  {
     async fireBaseChatMessageStateWatch(){
       if(Vue.config.debug)
         return
-        
+
       const ref_message = firebase.database().ref('message')
       ref_message.limitToLast(10).on('child_changed',this.chatFirebaseMessageChanged)
     },
@@ -129,7 +129,9 @@ export default  {
       }
       this.loadSession(this.$store.getters.trpgSessionId)
     },
-    ticketFireBaseDisconectWatch(){
+    fireBaseTicketDisconectWatch(){
+
+      console.log("fbDisconec!")
       firebase.database().ref('ticket').onDisconnect().set(
         {
           ticketId:this.$store.getters.ticketId,
