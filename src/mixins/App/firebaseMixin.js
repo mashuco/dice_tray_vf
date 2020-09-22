@@ -34,10 +34,9 @@ export default  {
         appId:process.env.VUE_APP_FIREBASE_CONFIG_APPID
        }
       firebase.initializeApp(firebaseConfig);  
+
       firebase.auth().onAuthStateChanged(user => {
         var twitter_user = user ?user : {}
-        const ref_message = firebase.database().ref('message')
-        ref_message.limitToLast(10).on('child_changed',this.chatFirebaseMessageChanged)
         this.$store.commit('notifyTwUID',twitter_user.uid)
         this.$store.commit('notifyTwName',twitter_user.displayName)
         this.$store.commit('notifyTwPhoto',twitter_user.photoURL)
@@ -65,8 +64,15 @@ export default  {
         });
       });
     },
+    async fireBaseChatMessageStateWatch(){
+      if(Vue.config.debug)
+        return
+        
+      const ref_message = firebase.database().ref('message')
+      ref_message.limitToLast(10).on('child_changed',this.chatFirebaseMessageChanged)
+    },
     async fireBaseTicketStateUpdate() {
-      if(Vue.config.debug==true)
+      if(Vue.config.debug)
         return
 
       var date = new Date()
@@ -80,7 +86,7 @@ export default  {
       );
     },
     async fireBaseTicektRelease() {
-      if(Vue.config.debug==true)
+      if(Vue.config.debug)
         return
 
       var date = new Date()
@@ -95,7 +101,7 @@ export default  {
       firebase.auth().signOut()
     },
     fireBaseTicketStateWatch(){
-      if(Vue.config.debug==true)
+      if(Vue.config.debug)
         return
 
       firebase.auth().onAuthStateChanged(user => {
@@ -121,7 +127,6 @@ export default  {
         this.dialogMsgArr.push("強制ログアウトします")
         this.dialogLogout = true
       }
-
       this.loadSession(this.$store.getters.trpgSessionId)
     },
     ticketFireBaseDisconectWatch(){

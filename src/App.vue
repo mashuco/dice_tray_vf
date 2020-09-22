@@ -395,6 +395,7 @@
             this.sceneAllData = response.data
         })
 
+        this.fireBaseChatMessageStateWatch()
         this.chatLoad()
 
 
