@@ -204,7 +204,6 @@
    <TicketSelectPage
       v-on:select="selectTicket" 
       :ticketData = "sessionAllTicketData"
-      :ticketDataWithoutGM ="sessionTicketDataWithOutGMMaster"
     />
   </v-app>
   <v-app v-else-if="login">
@@ -253,7 +252,6 @@
         sessionData:[],
         sessionAllData:[],
         sessionAllTicketData:[],
-        sessionTicketDataWithOutGMMaster:[],
         sceneAllData:[],
         login:false,
         ChoiceSession:false,
@@ -336,17 +334,10 @@
         await this.$axios.get('/uEntry/?format=json&trpg_session='+str,
         ).then(response => {
               this.sessionAllTicketData             = response.data
-              this.sessionTicketDataWithOutGMMaster = response.data.filter(function(item,index){
-                if(item.is_session_master == false)
-                  return true
-              })
         }).catch(error => {
           this.dialogMsgArr.push("通信エラー")
           this.dialog = true
         });
-        console.log("loadSession")
-        console.log("this.sessionTicketDataWithOutGMMaster")
-        console.log(this.sessionTicketDataWithOutGMMaster)
 
       },
       async loadAllSession(){
@@ -388,7 +379,7 @@
 
         await this.fireBaseTicketStateUpdate()
         this.fireBaseTicketDisconectWatch()
-        
+
         if(this.$route.path!="/story")
           this.$router.push({ name: "story" })
 
