@@ -87,14 +87,15 @@ export default  {
 
     },
     fireBaseLiveUpdateLoginUsers(){
-      console.log('/login/'+this.$store.getters.trpgSessionId+'/')
+      console.log('/login/'+this.$store.getters.trpgSessionId)
       var fbRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/')
       fbRef.on('value', function(snapshot) {
-        if(snapshot.val()!=null)
-          this.loginUsers=snapshot.val()
+        //if(snapshot.val()!=null)
+          //this.loginUsers=snapshot.val()
+          console.log("snapshot")
+          console.log(snapshot.val)
+    
       })
-      console.log("this.loginUsers")
-      console.log(this.loginUsers)
     },
     async fireBaseChatMessageStateWatch(){
       if(Vue.config.debug)
