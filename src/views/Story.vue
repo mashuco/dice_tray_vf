@@ -79,7 +79,7 @@ export default {
     if(Vue.config.debug)
       return
       
-    this.fireBaseAuthState()
+    this.fireBaseAuth()
   },  
   async loadSession(){
     await this.$axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
@@ -142,7 +142,7 @@ export default {
       }
     );
 },
-  fireBaseAuthState(){
+  fireBaseAuth(){
       firebase.auth().onAuthStateChanged(user => {
         const ref_message = firebase.database().ref('scene')
         ref_message.limitToLast(10).on('child_changed', this.firebaseMessageChanged)

@@ -270,7 +270,7 @@
     created() {
       this.$vuetify.theme.dark = true
       this.loadAllSession()
-      this.fireBaseAuthState()
+      this.fireBaseAuth()
     },
     mounted() {
       window.addEventListener('resize', this.handleResize)
@@ -327,7 +327,7 @@
         this.audio.pause()
       },
       onSelectSession(str){
-      　this.firebaseTicketStateWatch()
+      　this.fireBaseTicketStateWatch()
         this.$store.commit('notifyTrpgSessionId',str)
         this.loadSession(str)
         this.ChoiceSession = true

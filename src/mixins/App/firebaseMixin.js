@@ -16,7 +16,7 @@ export default  {
     
   },
   methods:{
-    fireBaseMyIni(){
+    ini(){
       var firebaseConfig = {
         apiKey:process.env.VUE_APP_FIREBASE_CONFIG_APIKEY ,
         authDomain:process.env.VUE_APP_FIREBASE_CONFIG_AUTHDOMAIN ,
@@ -28,9 +28,9 @@ export default  {
        }
       firebase.initializeApp(firebaseConfig);  
     },
-    fireBaseAuthState(){
+    fireBaseAuth(){
       if(!Vue.config.debug){
-        this.fireBaseMyIni()
+        this.ini()
         firebase.auth().onAuthStateChanged(user => {
           var twitter_user = user ?user : {}
           const ref_message = firebase.database().ref('message')
@@ -45,9 +45,6 @@ export default  {
           this.$store.commit('notifyTwName','test')
           this.$store.commit('notifyTwPhoto','')
       }
-    },
-    fireBaseMyInsertMessage(item,val) {
-      firebase.database().ref(item).push({message: 'now update'}, () => {('val') })
     },
     fireBaseState(uid){
       const userStatusDatabaseRef = firebase.database().ref('/status/' + uid);
@@ -99,7 +96,7 @@ export default  {
       )
       firebase.auth().signOut()
     },
-    firebaseTicketStateWatch(){
+    fireBaseTicketStateWatch(){
       if(Vue.config.debug==true)
         return
 
@@ -108,7 +105,7 @@ export default  {
         ref_message.limitToLast(10).on('child_changed', this.firebaseTicketStateChanged)
       })
     }, 
-    ticketFireBaseOnDisconectWatch(){
+    ticketFireBaseDisconectWatch(){
         firebase.database().ref('ticket').onDisconnect().set(
           {
             ticketId:this.$store.getters.ticketId,
