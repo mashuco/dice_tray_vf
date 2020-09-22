@@ -130,8 +130,8 @@ export default  {
       this.loadSession(this.$store.getters.trpgSessionId)
     },
     fireBaseTicketDisconectWatch(){
-
       console.log("fbDisconec!")
+      var date = new Date()
       firebase.database().ref('ticket').onDisconnect().set(
         {
           ticketId:this.$store.getters.ticketId,
