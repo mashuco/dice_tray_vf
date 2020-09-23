@@ -85,29 +85,23 @@ export default  {
     fireBaseLiveUpdateLoginUsers(){
       console.log('/login/'+this.$store.getters.trpgSessionId)
       this.loginUsers = [];
-console.log("AA")              
       var fbRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/')
-      fbRef.on('value',this.test)
-    console.log("DD")              
-    console.log(this.loginUsers)
-        
+      fbRef.on('value',this.UpdateLoginUsers)
     },
-    test(data){
-        if (data) {
-          this.loginUsers=[]
-console.log("BB")              
-console.log(this.loginUsers)
-const rootList = data.val();
-            const key = data.key;
-            if(rootList != null) {
-console.log("CC")              
-                Object.keys(rootList).forEach((val, key) => {
-                    rootList[val].id = val;
-                    this.loginUsers.push(rootList[val].id)
-                })
-            }
-    
-        }
+    UpdateLoginUsers(data){
+      if (!data)
+        return
+
+      this.loginUsers=[]
+      const rootList = data.val();
+      const key = data.key;
+      if(!rootList) 
+        return
+      Object.keys(rootList).forEach((val, key) => {
+        rootList[val].id = val;
+        this.loginUsers.push(rootList[val].id)
+      })
+      }
     },
     async fireBaseChatMessageStateWatch(){
       if(Vue.config.debug)
