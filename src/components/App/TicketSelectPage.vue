@@ -59,7 +59,6 @@ export default {
   },
   computed: {
       nowEntry: function () {
-console.log("AAAA")
         return function(str){
           var ticket = this.ticketData.filter(function(item,index){
             if(item.ticket_no == str)
@@ -67,12 +66,10 @@ console.log("AAAA")
           })
           if(ticket[0].tw_UID.length == 0)
             return false
-console.log("XXXXX")
 
           if(this.loginUsers.find(item => item === ticket[0].tw_UID)==null)
             return false
           
-console.log("ZZZZ")
           return true
         }
       },
@@ -116,7 +113,7 @@ console.log("ZZZZ")
           alert('存在しないチケットです')
           return
       }
-      if(this.searchTicket[0].tw_name !=''){
+      if(this.searchTicket[0].tw_name !='' && this.nowEntry(item.ticket_no)){
         this.dialogMsgArr =[]
         this.dialogMsgArr.push(this.searchTicket[0].tw_name +"がエントリー中です。利用しますか？")
         this.dialog =true
