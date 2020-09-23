@@ -99,7 +99,7 @@ export default  {
     
         }
     })
-    console.log(list)
+    console.log(this.loginUsers)
         
     },
     async fireBaseChatMessageStateWatch(){
