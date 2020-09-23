@@ -8,7 +8,7 @@ export default  {
   data(){
     return {
       dialogLogout:false,
-      loginUsers:null   
+      loginUsers:[]   
     }
   },
   mounted(){
@@ -87,13 +87,11 @@ export default  {
       var fbRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/')
       fbRef.on('value', function(snapshot) {
         //if(snapshot.val()!=null)
-          console.log("snapshot.val()")
-          console.log(snapshot.val())
-        this.test(snapshot.val())
+          this.loginUsers=snapshot.val()
+          console.log("sthis.loginUsers")
+          console.log(this.loginUsers)
+    
       })
-    },
-    test(arr){
-      this.loginUsers=arr
     },
     async fireBaseChatMessageStateWatch(){
       if(Vue.config.debug)
