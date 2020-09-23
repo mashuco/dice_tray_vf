@@ -89,14 +89,16 @@ export default  {
       fbRef.on('value',this.UpdateLoginUsers)
     },
     UpdateLoginUsers(data){
-      if (!data)
+      if (data==nul)
         return
+console.log("CCC")
 
       this.loginUsers=[]
       const rootList = data.val();
       const key = data.key;
-      if(!rootList) 
+      if(rootList==null) 
         return
+console.log("DDD")
       Object.keys(rootList).forEach((val, key) => {
         rootList[val].id = val;
         this.loginUsers.push(rootList[val].id)
