@@ -85,9 +85,10 @@ export default  {
       });
 
     },
-    fireBaseLiveUpdateLoginUsers(){
+    fireBaseLiveUpdateLoginUsers(){      
       if(Vue.config.debug)
         return
+console.log("fireBaseLiveUpdateLoginUsers")
 
       this.loginUsers = [];
       var fbRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/')
