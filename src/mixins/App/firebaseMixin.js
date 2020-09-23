@@ -94,6 +94,7 @@ export default  {
       fbRef.on('value',this.UpdateLoginUsers)
     },
     UpdateLoginUsers(data){
+      console.log("FBMIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
       this.loginUsers=[]
       const rootList = data.val();
       const key = data.key;
@@ -105,7 +106,6 @@ export default  {
         this.loginUsers.push(rootList[val].id)
       })
 
-console.log("FBMIX")
 console.log("this.loginUsers")
 console.log(this.loginUsers)
     },
