@@ -87,7 +87,13 @@ export default  {
       this.loginUsers = [];
 console.log("AA")              
       var fbRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/')
-      fbRef.on("value", (data)=> {
+      fbRef.on('value',this.test)
+  console.log("DD")              
+    console.log(this.loginUsers)
+        
+    },
+    test(data){
+      {
         if (data) {
           this.loginUsers=[]
 console.log("BB")              
@@ -103,11 +109,7 @@ console.log("CC")
             }
     
         }
-    })
-    console.log("DD")              
-    console.log(this.loginUsers)
-        
-    },
+    }
     async fireBaseChatMessageStateWatch(){
       if(Vue.config.debug)
         return
