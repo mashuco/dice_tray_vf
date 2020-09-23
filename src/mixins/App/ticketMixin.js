@@ -1,3 +1,5 @@
+import regTwitterInfo from '../../services/App/regTwitterInfo'
+
 export default  {
     created:function() {
     },
