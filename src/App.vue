@@ -330,6 +330,10 @@
         this.$store.commit('notifyTrpgSessionId',str)
         this.loadSession(str)
         this.ChoiceSession = true
+
+        this.fireBaseTicketDisconectWatch()
+        this.fireBaseLiveUpdateLoginUsers()
+
       },
       async loadSession(str){
         await this.$axios.get('/uEntry/?format=json&trpg_session='+str,
@@ -380,8 +384,6 @@
         this.fireBaseRegistLoginStatus(this.$store.getters.twUID)
 
         await this.fireBaseTicketStateUpdate()
-        this.fireBaseTicketDisconectWatch()
-        this.fireBaseLiveUpdateLoginUsers()
 
         if(this.$route.path!="/story")
           this.$router.push({ name: "story" })
