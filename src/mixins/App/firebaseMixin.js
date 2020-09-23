@@ -104,6 +104,10 @@ export default  {
         rootList[val].id = val;
         this.loginUsers.push(rootList[val].id)
       })
+
+console.log("FBMIX")
+console.log("this.loginUsers")
+console.log(this.loginUsers)
     },
     async fireBaseChatMessageStateWatch(){
       if(Vue.config.debug)
