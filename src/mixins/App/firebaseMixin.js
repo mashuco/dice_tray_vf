@@ -89,8 +89,10 @@ console.log("AA")
       var fbRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/')
       fbRef.on("value", (data)=> {
         if (data) {
+          this.loginUsers=[]
 console.log("BB")              
-          const rootList = data.val();
+console.log(this.loginUsers)
+const rootList = data.val();
             const key = data.key;
             if(rootList != null) {
 console.log("CC")              
@@ -102,6 +104,7 @@ console.log("CC")
     
         }
     })
+    console.log("DD")              
     console.log(this.loginUsers)
         
     },
