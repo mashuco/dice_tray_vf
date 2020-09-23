@@ -73,6 +73,8 @@ console.log(ticket)
 
 console.log("ticket[0]")
 console.log(ticket[0])
+console.log("this.loginUsers")
+console.log(this.loginUsers)
 
           if(this.loginUsers.find(item => item === ticket[0].tw_UID)==null)
             return false
