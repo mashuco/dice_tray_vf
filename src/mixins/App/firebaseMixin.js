@@ -85,13 +85,23 @@ export default  {
     fireBaseLiveUpdateLoginUsers(){
       console.log('/login/'+this.$store.getters.trpgSessionId)
       var fbRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/')
-      fbRef.on('value', function(snapshot) {
-        //if(snapshot.val()!=null)
-          //this.loginUsers=snapshot.val()
-          console.log("snapshot.val()")
-          console.log(snapshot.val())
+      fbRef.on("value", (data)=> {
+        if (data) {
+            const rootList = data.val();
+            const key = data.key;
+            let list = [];
+            // データオブジェクトを配列に変更する
+            if(rootList != null) {
+                Object.keys(rootList).forEach((val, key) => {
+                    rootList[val].id = val;
+                    list.push(rootList[val]);
+                })
+            }
     
-      })
+        }
+    })
+    console.log(list)
+        
     },
     async fireBaseChatMessageStateWatch(){
       if(Vue.config.debug)
