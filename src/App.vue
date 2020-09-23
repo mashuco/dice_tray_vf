@@ -200,7 +200,7 @@
       </v-container>
     </v-main>
   </v-app>
-  <v-app v-else-if="">
+  <v-app v-else-if="choiceSession">
    <TicketSelectPage
       v-on:select="doSelectTicket" 
       :ticketData = "sessionAllTicketData"
@@ -351,7 +351,6 @@
           this.dialogMsgArr.push("通信エラー")
           this.dialog = true
         });
-
       },
       async loadAllSession(){
           await this.$axios.get('/session/?format=json'
