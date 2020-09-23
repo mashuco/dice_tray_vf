@@ -31,7 +31,7 @@
         >
         </v-img>
         </v-list-item-avatar>
-        <v-card-subtitle v-text="item.tw_name" class="py-0 my-0"/>
+        <v-card-subtitle v-if="nowEntry(item.ticket_no)" v-text="item.tw_name" class="py-0 my-0"/>
       </v-card>
       </v-list-item>
   </v-list>
