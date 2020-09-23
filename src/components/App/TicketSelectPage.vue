@@ -24,11 +24,7 @@
         <v-card-subtitle  v-if="nowEntry(item.ticket_no)" class="pa-1 my-0" v-text="'エントリーユーザー中のユーザーがいます'">
         </v-card-subtitle>
         <v-list-item-avatar>
-        <v-img
-          :src="item.tw_photo"
-          max-height="30" 
-          contain
-        >
+        <v-img v-if="nowEntry(item.ticket_no)" :src="item.tw_photo"  max-height="30"  contain>
         </v-img>
         </v-list-item-avatar>
         <v-card-subtitle v-if="nowEntry(item.ticket_no)" v-text="item.tw_name" class="py-0 my-0"/>
