@@ -86,12 +86,12 @@ export default  {
       console.log('/login/'+this.$store.getters.trpgSessionId)
       var fbRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/')
       fbRef.on("value", (data)=> {
+        this.loginUsers = [];
         if (data) {
-          const rootList = data.val();
+            const rootList = data.val();
             const key = data.key;
             if(rootList != null) {
-              this.loginUsers = [];
-              Object.keys(rootList).forEach((val, key) => {
+                Object.keys(rootList).forEach((val, key) => {
                     rootList[val].id = val;
                     this.loginUsers.push(rootList[val])
                 })
