@@ -21,7 +21,7 @@
         height="250px" 
       >
         <v-card-title class="pa-0 my-0" v-text="'チケット名:'+item.name"/>
-        <v-card-subtitle  v-if="nowEntry(item.ticket_no)" class="pa-1 my-0" v-text="'エントリーユーザー中のユーザーがいます'">
+        <v-card-subtitle  v-if="nowEntry(item.ticket_no)" class="pa-1 my-0" v-text="nowEntryAlertText">
         </v-card-subtitle>
         <v-list-item-avatar>
         <v-img v-if="nowEntry(item.ticket_no)" :src="item.tw_photo"  max-height="30"  contain>
@@ -73,6 +73,9 @@ export default {
           return true
         }
       },
+      nowEntryAlertText(){
+        return 'エントリーユーザー中のユーザーがいます'
+      },     
       ticketDataWithoutGM:function(){
         var result = this.ticketData.filter(function(item,index){
           if(item.is_session_master == false)
@@ -112,11 +115,14 @@ export default {
       if(this.searchTicket.length == 0){
           alert('存在しないチケットです')
           return
-          
+
       }
-      if(this.searchTicket[0].tw_name !='' && this.nowEntry(this.searchTicket[0].ticket_no)){
+      if(this.searchTicket[0].tw_name !='' 
+         && this.nowEntry(this.searchTicket[0].ticket_no)){
         this.dialogMsgArr =[]
-        this.dialogMsgArr.push(this.searchTicket[0].tw_name +"がエントリー中です。利用しますか？")
+        if(this.searchTicket[0].tw_name != this.$store.getters.tw_name){
+          this.dialogMsgArr.push(this.searchTicket[0].tw_name +"がエントリー中です。利用しますか？")
+        }
         this.dialog =true
         return
       }
