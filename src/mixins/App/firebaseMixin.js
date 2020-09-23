@@ -159,7 +159,7 @@ export default  {
         return
      
       if(snap.val().twUID=="logout"){
-        this.loadSession(this.$store.getters.trpgSessionId)
+        this.loadSelectedSessionInfo(this.$store.getters.trpgSessionId)
         return
       }
 
@@ -169,7 +169,7 @@ export default  {
         this.dialogMsgArr.push("強制ログアウトします")
         this.dialogLogout = true
       }
-      this.loadSession(this.$store.getters.trpgSessionId)
+      this.loadSelectedSessionInfo(this.$store.getters.trpgSessionId)
     },
     fireBaseTicketDisconectWatch(){
       if(Vue.config.debug)
