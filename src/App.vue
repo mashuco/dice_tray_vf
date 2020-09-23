@@ -339,6 +339,9 @@
       },
       selectedUserCheck(){
 
+        if(this.loginUsers.find(item => item === ticket[0].tw_UID)==null)
+
+        this.autoSelectTicketForSelecedUser()
       },
       autoSelectTicketForSelecedUser(){
         this.doSelectTicket(selectedTicket)

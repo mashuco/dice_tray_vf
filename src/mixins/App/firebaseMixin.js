@@ -88,14 +88,12 @@ export default  {
     fireBaseLiveUpdateLoginUsers(){      
       if(Vue.config.debug)
         return
-console.log("fireBaseLiveUpdateLoginUsers")
 
       this.loginUsers = [];
       var fbRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/')
       fbRef.on('value',this.UpdateLoginUsers)
     },
     UpdateLoginUsers(data){
-      console.log("FBMIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
       this.loginUsers=[]
       const rootList = data.val();
       const key = data.key;
@@ -107,8 +105,6 @@ console.log("fireBaseLiveUpdateLoginUsers")
         this.loginUsers.push(rootList[val].id)
       })
 
-console.log("this.loginUsers")
-console.log(this.loginUsers)
     },
     async fireBaseChatMessageStateWatch(){
       if(Vue.config.debug)
