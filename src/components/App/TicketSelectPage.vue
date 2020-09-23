@@ -63,6 +63,7 @@ export default {
   },
   computed: {
       nowEntry: function () {
+console.log("AAAA")
         return function(str){
           var ticket = this.ticketData.filter(function(item,index){
             if(item.ticket_no == str)
