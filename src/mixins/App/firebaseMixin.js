@@ -89,7 +89,7 @@ export default  {
       fbRef.on('value',this.UpdateLoginUsers)
     },
     UpdateLoginUsers(data){
-      if (data==nul)
+      if (data==null)
         return
 console.log("CCC")
 
