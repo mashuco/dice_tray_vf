@@ -200,23 +200,23 @@
       </v-container>
     </v-main>
   </v-app>
-  <v-app v-else-if="ChoiceSession">
+  <v-app v-else-if="">
    <TicketSelectPage
-      v-on:select="selectTicket" 
+      v-on:select="doSelectTicket" 
       :ticketData = "sessionAllTicketData"
       :loginUsers = "loginUsers"
     />
   </v-app>
   <v-app v-else-if="login">
     <SessionSelectPage 
-      v-on:clickSubmit="onSelectSession" 
+      v-on:clickSubmit="doSelectSession" 
       :sessionData = "sessionAllData"
     />
   </v-app>
   <v-app v-else>
     <LoginPage 
       v-on:clickSubmit="doLogin" 
-      :authloading ="TwAuthloading"
+      :authloading ="twAuthloading"
     />
   </v-app>
 </template>
@@ -249,19 +249,21 @@
     },
     data() {
       return {
-        drawer: true,
+        login:false,
+        choiceSession:false,
+        entry:false,
+
         sessionData:[],
         sessionAllData:[],
         sessionAllTicketData:[],
         sceneAllData:[],
-        login:false,
-        ChoiceSession:false,
-        entry:false,
+
         bgImg:'',
+        drawer: true,
         navDrawerContent :null,
         windowWidth: window.innerWidth,
         windowHeight: window.innerHeight,
-        TwAuthloading:false,
+        twAuthloading:false,
         dialog:false,
         dialogMsgArr:[]
       };
@@ -302,8 +304,6 @@
       this.doLogout()
     },
     methods: {
-      checkLoginTwId(){
-      },
       handleResize: function() {
         if(this.drawer==true)
           return
@@ -321,21 +321,29 @@
         this.fireBaseTicektRelease()
         this.entry = false
         this.login = false
-        this.ChoiceSession=false
+        this.choiceSession=false
         this.ticket_no=''
         this.audio.pause()
       },
-      onSelectSession(str){
-      　this.fireBaseTicketStateWatch()
+      doSelectSession(str){
+        this.choiceSession = true
         this.$store.commit('notifyTrpgSessionId',str)
-        this.loadSession(str)
-        this.ChoiceSession = true
 
+        this.loadSelectedSessionInfo(str)
+ 
+      　this.fireBaseTicketStateWatch()
         this.fireBaseTicketDisconectWatch()
         this.fireBaseLiveUpdateLoginUsers()
 
+        this.selectedUserCheck()
       },
-      async loadSession(str){
+      selectedUserCheck(){
+
+      },
+      autoSelectTicketForSelecedUser(){
+        this.doSelectTicket(selectedTicket)
+      },
+      async loadSelectedSessionInfo(str){
         await this.$axios.get('/uEntry/?format=json&trpg_session='+str,
         ).then(response => {
               this.sessionAllTicketData             = response.data
@@ -354,7 +362,7 @@
             this.dialog = true
             });
       },
-      async selectTicket(searchTicket){
+      async doSelectTicket(searchTicket){
         this.entyrInfo = searchTicket
         this.$store.commit('notifyTrpgSessionId',this.entyrInfo[0]['trpg_session'])
         this.$store.commit('notifyTrpgSessionName',this.entyrInfo[0]['trpg_session_name'])

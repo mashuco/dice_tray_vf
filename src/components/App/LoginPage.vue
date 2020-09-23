@@ -7,7 +7,7 @@
       <v-btn 
         block x-large color="#009688"  
         @click="submit" 
-        :loading="TwAuthloading"
+        :loading="twAuthloading"
       >Twitterでログイン</v-btn>
     </v-row>
   </v-container>
@@ -24,15 +24,15 @@ export default {
   },
   data() {
     return {
-      TwAuthloading:false
+      twAuthloading:false
     }
   },
   methods: {
     async submit() {
-     this.TwAuthloading = true
+     this.twAuthloading = true
       if(Vue.config.debug){
         alert('AUTO LOGIN')
-        this.TwAuthloading =false
+        this.twAuthloading =false
        
         this.$emit('clickSubmit')
         return
@@ -40,7 +40,7 @@ export default {
       const provider = new firebase.auth.TwitterAuthProvider()
       await firebase.auth().signInWithPopup(provider)
 
-      this.TwAuthloading = false
+      this.twAuthloading = false
        
       this.$emit('clickSubmit')
     },
