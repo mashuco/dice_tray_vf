@@ -24,7 +24,7 @@
         <v-card-subtitle  v-if="nowEntry(item.ticket_no)" class="pa-1 my-0" v-text="nowEntryAlertText">
         </v-card-subtitle>
         <v-list-item-avatar>
-        <v-img v-if="nowEntry(item.ticket_no)" :src="item.tw_photo"  max-height="30"  contain/>
+        <v-img  :src="item.tw_photo"  max-height="30" contain/>
         </v-list-item-avatar>
         <v-card-subtitle v-if="nowEntry(item.ticket_no)" v-text="item.tw_name" class="py-0 my-0"/>
       </v-card>
@@ -59,26 +59,16 @@ export default {
   computed: {
       nowEntry: function () {
         return function(str){
-//console.log("nowEntry")
-//console.log(str)
           var ticket = this.ticketData.filter(function(item,index){
             if(item.ticket_no == str)
                 return true
           })
-//console.log("ticket")
-//console.log(ticket)
           if(ticket[0].tw_UID.length == 0)
             return false
 
-//console.log("ticket[0]")
-//console.log(ticket[0])
-//console.log("this.loginUsers")
-//console.log(this.loginUsers)
-
           if(this.loginUsers.find(item => item === ticket[0].tw_UID)==null)
             return false
-//console.log("END")
-          
+         
           return true
         }
       },
