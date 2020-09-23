@@ -204,6 +204,7 @@
    <TicketSelectPage
       v-on:select="selectTicket" 
       :ticketData = "sessionAllTicketData"
+      :loginUsers = "loginUsers"
     />
   </v-app>
   <v-app v-else-if="login">
@@ -381,7 +382,7 @@
         await this.fireBaseTicketStateUpdate()
         this.fireBaseTicketDisconectWatch()
         this.fireBaseLiveUpdateLoginUsers()
-        
+
         if(this.$route.path!="/story")
           this.$router.push({ name: "story" })
 
@@ -391,9 +392,6 @@
 
         this.fireBaseChatMessageStateWatch()
         this.chatLoad()
-
-
-
     },
     doStory(){
       if(this.is_mdAndUp == false)

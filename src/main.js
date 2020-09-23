@@ -7,7 +7,6 @@ import axios from 'axios'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 Vue.config.productionTip = false
 Vue.config.debug = true
-Vue.config.solo_mode = true
 
 Vue.prototype.$axios = axios.create({ 
   baseURL:  process.env.VUE_APP_URL,

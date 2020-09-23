@@ -45,14 +45,15 @@
 </template>
 <script>
 import Dialog from '../Dialog'
-import firebase from 'firebase/app'
-import "firebase/database"
 
 export default {
   props: {
     ticketData:{
       type:Array
     },
+    loginUsers:{
+      type:Array
+    }
     //ticketDataWithoutGM:{
     //  type:Array
     //}
@@ -64,19 +65,26 @@ export default {
       nowEntry: function () {
         return function(str){
           var ticket = this.ticketData.filter(function(item,index){
-            if(item.ticket_no == str)return true
+            if(item.ticket_no == str)
+                return true
           })
-          if(ticket[0].tw_UID.length == 0){
+          if(ticket[0].tw_UID.length == 0)
             return false
-          }
+console.log("XXXXX")
+
+          if(this.loginUsers.find(item => item === ticket[0].tw_UID)==null)
+            return false
+          
+console.log("ZZZZ")
           return true
         }
       },
       ticketDataWithoutGM:function(){
-        return this.ticketData.filter(function(item,index){
+        var result = this.ticketData.filter(function(item,index){
           if(item.is_session_master == false)
             return true
         })
+        return result
       }
 
   },

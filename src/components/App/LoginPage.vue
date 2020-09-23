@@ -30,12 +30,12 @@ export default {
   methods: {
     async submit() {
      this.TwAuthloading = true
-
       if(Vue.config.debug){
         alert('AUTO LOGIN')
         this.TwAuthloading =false
        
         this.$emit('clickSubmit')
+        return
       }
       const provider = new firebase.auth.TwitterAuthProvider()
       await firebase.auth().signInWithPopup(provider)

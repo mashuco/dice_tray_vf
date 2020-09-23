@@ -66,6 +66,9 @@ export default  {
       });
     },
     fireBaseRegistLoginStatus(uid){
+      if(Vue.config.debug)
+        return
+
       const userStatusDatabaseRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/'+uid)
       const isOnlineForDatabase = {
           state: 'online',
@@ -83,22 +86,20 @@ export default  {
 
     },
     fireBaseLiveUpdateLoginUsers(){
-      console.log('/login/'+this.$store.getters.trpgSessionId)
+      if(Vue.config.debug)
+        return
+
       this.loginUsers = [];
       var fbRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/')
       fbRef.on('value',this.UpdateLoginUsers)
     },
     UpdateLoginUsers(data){
-      if (data==null)
-        return
-console.log("CCC")
-
       this.loginUsers=[]
       const rootList = data.val();
       const key = data.key;
       if(rootList==null) 
         return
-console.log("DDD")
+
       Object.keys(rootList).forEach((val, key) => {
         rootList[val].id = val;
         this.loginUsers.push(rootList[val].id)
@@ -170,7 +171,9 @@ console.log("DDD")
       this.loadSession(this.$store.getters.trpgSessionId)
     },
     fireBaseTicketDisconectWatch(){
-      console.log("fbDisconec!")
+      if(Vue.config.debug)
+        return
+
       var date = new Date()
       firebase.database().ref('ticket').onDisconnect().set(
         {
