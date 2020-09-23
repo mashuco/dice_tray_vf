@@ -113,7 +113,7 @@ export default {
           alert('存在しないチケットです')
           return
       }
-      if(this.searchTicket[0].tw_name !='' && this.nowEntry(item.ticket_no)){
+      if(this.searchTicket[0].tw_name !='' && this.nowEntry(this.searchTicket[0].ticket_no)){
         this.dialogMsgArr =[]
         this.dialogMsgArr.push(this.searchTicket[0].tw_name +"がエントリー中です。利用しますか？")
         this.dialog =true
