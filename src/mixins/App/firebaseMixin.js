@@ -101,7 +101,6 @@ export default  {
         rootList[val].id = val;
         this.loginUsers.push(rootList[val].id)
       })
-      }
     },
     async fireBaseChatMessageStateWatch(){
       if(Vue.config.debug)
