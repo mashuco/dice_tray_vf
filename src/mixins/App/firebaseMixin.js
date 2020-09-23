@@ -84,16 +84,16 @@ export default  {
     },
     fireBaseLiveUpdateLoginUsers(){
       console.log('/login/'+this.$store.getters.trpgSessionId)
-      this.loginUsers = [];
       var fbRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/')
       fbRef.on("value", (data)=> {
         if (data) {
-            const rootList = data.val();
+          this.loginUsers = [];
+          const rootList = data.val();
             const key = data.key;
             if(rootList != null) {
                 Object.keys(rootList).forEach((val, key) => {
                     rootList[val].id = val;
-                    this.loginUsers.push(rootList[val]);
+                    this.loginUsers.push(rootList[val])
                 })
             }
     
