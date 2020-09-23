@@ -60,25 +60,25 @@ export default {
   computed: {
       nowEntry: function () {
         return function(str){
-console.log("nowEntry")
-console.log(str)
+//console.log("nowEntry")
+//console.log(str)
           var ticket = this.ticketData.filter(function(item,index){
             if(item.ticket_no == str)
                 return true
           })
-console.log("ticket")
-console.log(ticket)
+//console.log("ticket")
+//console.log(ticket)
           if(ticket[0].tw_UID.length == 0)
             return false
 
-console.log("ticket[0]")
-console.log(ticket[0])
-console.log("this.loginUsers")
-console.log(this.loginUsers)
+//console.log("ticket[0]")
+//console.log(ticket[0])
+//console.log("this.loginUsers")
+//console.log(this.loginUsers)
 
           if(this.loginUsers.find(item => item === ticket[0].tw_UID)==null)
             return false
-console.log("END")
+//console.log("END")
           
           return true
         }
