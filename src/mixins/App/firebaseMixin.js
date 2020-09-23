@@ -85,7 +85,7 @@ export default  {
     fireBaseLiveUpdateLoginUsers(){
       console.log('/login/'+this.$store.getters.trpgSessionId)
       var fbRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/')
-      fbRef.on("value", (data)=> {
+      fbRef.on("child_added", (data)=> {
         this.loginUsers = [];
         if (data) {
             const rootList = data.val();
