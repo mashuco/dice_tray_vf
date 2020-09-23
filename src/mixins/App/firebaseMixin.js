@@ -86,11 +86,11 @@ export default  {
       console.log('/login/'+this.$store.getters.trpgSessionId)
       var fbRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/')
       fbRef.on('value', function(snapshot) {
-        //if(snapshot.val()!=null)
+        if(snapshot != null){
           this.loginUsers=snapshot.val()
           console.log("sthis.loginUsers")
           console.log(this.loginUsers)
-    
+        }
       })
     },
     async fireBaseChatMessageStateWatch(){
