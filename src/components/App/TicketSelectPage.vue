@@ -23,8 +23,8 @@
         <v-card-title class="pa-0 my-0" v-text="'チケット名:'+item.name"/>
         <v-card-subtitle  v-if="nowEntry(item.ticket_no)" class="pa-1 my-0" v-text="nowEntryAlertText">
         </v-card-subtitle>
-        <v-list-item-avatar>
-        <v-img  :src="item.tw_photo"  max-height="30" contain/>
+        <v-list-item-avatar :src="item.tw_photo">
+        <v-img   max-height="30" contain/>
         </v-list-item-avatar>
         <v-card-subtitle v-if="nowEntry(item.ticket_no)" v-text="item.tw_name" class="py-0 my-0"/>
       </v-card>
@@ -73,7 +73,7 @@ export default {
         }
       },
       nowEntryAlertText(){
-        return 'エントリーユーザー中のユーザーがいます'
+        return 'エントリー中のユーザーがいます'
       },     
       ticketDataWithoutGM:function(){
         var result = this.ticketData.filter(function(item,index){
