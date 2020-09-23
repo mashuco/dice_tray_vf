@@ -112,6 +112,7 @@ export default {
       if(this.searchTicket.length == 0){
           alert('存在しないチケットです')
           return
+          
       }
       if(this.searchTicket[0].tw_name !='' && this.nowEntry(this.searchTicket[0].ticket_no)){
         this.dialogMsgArr =[]
