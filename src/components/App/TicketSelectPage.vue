@@ -131,10 +131,9 @@ export default {
     callBack(agree){
 
       this.dialog = false
-      if(agree === false)
+      //if(agree === false)
         return
-
-      this.$emit('select',this.searchTicket)
+      //this.$emit('select',this.searchTicket)
 
     },
   }
