@@ -65,7 +65,7 @@ export default {
     load:function(){
       this.$axios.get('/item/?format=json&item_owner='+this.$store.getters.sessionUserId).then(response => {
         this.itemData = response.data
-      })
+        }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true})
     },
   }
 }

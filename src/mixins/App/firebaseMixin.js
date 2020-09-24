@@ -21,7 +21,7 @@ export default  {
       if(Vue.config.debug){
         this.$store.commit('notifyTwUID','test')
         this.$store.commit('notifyTwName','test')
-        this.$store.commit('notifyTwPhoto','')
+        this.$store.commit('notifyTwPhoto',this.diceImgPath)
         return
       }
 
@@ -86,9 +86,11 @@ export default  {
 
     },
     fireBaseLiveUpdateLoginUsers(){      
-      if(Vue.config.debug)
+      if(Vue.config.debug){
+        this.loginUsers = ['test'];
         return
-
+      }
+      
       this.loginUsers = [];
       var fbRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/')
       fbRef.on('value',this.UpdateLoginUsers)

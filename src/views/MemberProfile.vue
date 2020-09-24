@@ -54,10 +54,7 @@ export default {
     loadAll:function(){
       this.$axios.get('/uEntry/?format=json&is_session_master=false&trpg_session='+this.$store.getters.trpgSessionId).then(response => {
         this.profileData = response.data
-      }).catch(error => {
-        this.dialogMsgArr.push("通信エラー")
-        this.dialog = true
-      });
+        }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true})
     },
   }
 }

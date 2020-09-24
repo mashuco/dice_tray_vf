@@ -279,10 +279,10 @@
     mounted() {
       window.addEventListener('resize', this.handleResize)
       this.$store.watch(
-          (state, getters) => getters.trpgSessionImg,
-          (newValue, oldValue) => {
-            this.bgImg = this.$store.getters.trpgSessionImg
-          }
+        (state, getters) => getters.trpgSessionImg,
+        (newValue, oldValue) => {
+          this.bgImg = this.$store.getters.trpgSessionImg
+        }
       )
     },
     computed: {
@@ -343,19 +343,13 @@
         await this.$axios.get('/uEntry/?format=json&trpg_session='+str,
         ).then(response => {
               this.sessionAllTicketData             = response.data
-        }).catch(error => {
-          this.dialogMsgArr.push("通信エラー")
-          this.dialog = true
-        });
+          }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true});
       },
       async loadAllSession(){
           await this.$axios.get('/session/?format=json'
           ).then(response => {
             this.sessionAllData = response.data
-          }).catch(error => {
-            this.dialogMsgArr.push("通信エラー")
-            this.dialog = true
-            });
+          }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true});
       },
       async doSelectTicket(searchTicket){
         this.selectTicket(searchTicket)

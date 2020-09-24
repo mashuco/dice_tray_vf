@@ -83,11 +83,8 @@ export default {
   },  
   async loadSession(){
     await this.$axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
-          this.sessionData = response.data
-    }).catch(error => {
-      this.dialogMsgArr.push("通信エラー")
-      this.dialog = true
-    });
+      this.sessionData = response.data
+    }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true})
     if(this.$store.getters.nowScene==''){
       this.$store.commit('notifyNowScene',this.sessionData[0]['trpg_session_now_scene'])
     }
@@ -95,41 +92,31 @@ export default {
   async loadSceneAll(){
     await this.$axios.get('/scene/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
         this.sceneAllData = response.data
-    }).catch(error => {
-      this.dialogMsgArr.push("通信エラー")
-      this.dialog = true
-    });
+    }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true})
     this.selectedScene   ={ 
       scene_name:this.sceneAllData[0]['scene_name'], 
       session_scene_id: this.sceneAllData[0]['session_scene_id']
     }
   },
   async regServeScean(){
-      var csrftoken = Cookies.get('csrftoken')
-      const formData = new FormData();
-      formData.append("trpg_session_now_scene", this.selectedScene.session_scene_id);
-      await this.$axios.patch(
-        '/session/'+this.$store.getters.trpgSessionId+'/', 
-        formData,
-        {
-          headers: {
-            'X-CSRFToken': csrftoken,
-             'content-type': 'multipart/form-data',
-          },
-        }
-      ).catch(error => {
-        this.dialogMsgArr.push("通信エラー")
-        this.dialog = true
-      });
+    var csrftoken = Cookies.get('csrftoken')
+    const formData = new FormData();
+    formData.append("trpg_session_now_scene", this.selectedScene.session_scene_id);
+    await this.$axios.patch(
+      '/session/'+this.$store.getters.trpgSessionId+'/', 
+      formData,
+      {
+        headers: {
+          'X-CSRFToken': csrftoken,
+            'content-type': 'multipart/form-data',
+        },
+      }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true})
   },
   async selectScene() {
     this.regServeScean()
     await this.$axios.get('/scene/?format=json&session_scene_id='+this.selectedScene.session_scene_id).then(response => {
-        this.sceneData = response.data
-    }).catch(error => {
-        this.dialogMsgArr.push("通信エラー")
-        this.dialog = true
-      });
+     this.sceneData = response.data
+    }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true})
     this.loadScene(this.selectedScene.session_scene_id)
     if(Vue.config.debug)
       return
@@ -156,20 +143,17 @@ export default {
     this.loadScene(snap.val().sessionSceneId)
   },
   async loadScene(sceneId){
-      await this.$axios.get('/scene/?format=json&session_scene_id='+sceneId).then(response => {
-          this.sceneData = response.data
-      }).catch(error => {
-        this.dialogMsgArr.push("通信エラー")
-        this.dialog = true
-      });
-      this.$store.commit('notifyNowScene',sceneId)
-      this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
-      this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
-     
-      this.selectedScene   ={ 
-        scene_name:this.sceneData[0]['scene_name'], 
-        session_scene_id: this.sceneData[0]['session_scene_id']
-      }
+    await this.$axios.get('/scene/?format=json&session_scene_id='+sceneId).then(response => {
+      this.sceneData = response.data
+    }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true})
+    this.$store.commit('notifyNowScene',sceneId)
+    this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
+    this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
+    
+    this.selectedScene   ={ 
+      scene_name:this.sceneData[0]['scene_name'], 
+      session_scene_id: this.sceneData[0]['session_scene_id']
+    }
   },
   
  }

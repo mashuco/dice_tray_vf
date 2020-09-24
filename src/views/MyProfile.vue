@@ -89,10 +89,7 @@ export default {
     async loadProfile(){
       await this.$axios.get('/uEntry/?format=json&session_user_id='+this.$store.getters.sessionUserId).then(response => {
             this.profileData = response.data
-      }).catch(error => {
-        this.dialogMsgArr.push("通信エラー")
-        this.dialog = true
-      });
+      }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true})
       this.character_name = this.profileData[0]['character_name']
       this.character_profile = this.profileData[0]['character_profile']  
       this.character_image = this.profileData[0]['character_image']  

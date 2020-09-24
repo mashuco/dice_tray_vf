@@ -1,4 +1,5 @@
 import regTwitterInfo from '../../services/App/regTwitterInfo'
+import Vue from "vue"
 
 export default  {
     created:function() {
@@ -23,6 +24,9 @@ export default  {
           this.autoSelectTicketForSelecedUser(selectedTicket)
        },
       autoSelectTicketForSelecedUser(selectedTicket){
+        if(Vue.config.debug)
+          return
+
         this.doSelectTicket(selectedTicket)
         this.dialogMsgArr.push("使用中のチケット")
         this.dialogMsgArr.push("["+selectedTicket[0].ticket_no+":"+selectedTicket[0].character_name+"]でログインしました")
@@ -40,10 +44,7 @@ export default  {
         await this.$axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId
         ).then(response => {
           this.sessionData = response.data
-        }).catch(error => {
-          this.dialogMsgArr.push("通信エラー")
-          this.dialog = true
-        });
+        }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true})
         this.$store.commit('notifyFirebaseMessageKeyId',this.sessionData[0]['firebase_message_key_id'])
         this.$store.commit('notifyFirebaseSceanKeyId',this.sessionData[0]['firebase_scean_key_id'])
         this.$store.commit('notifyTicketId',this.entyrInfo[0]['ticket_no'])
