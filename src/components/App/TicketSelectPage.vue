@@ -22,8 +22,8 @@
         height="250px" 
       >
         <v-card-title class="pa-0 my-0" v-text="'チケット名:'+item.name"/>
-        <v-card-subtitle  v-if="nowEntry(item.ticket_no)" class="pa-1 my-0" v-text="nowEntryAlertText">
-        </v-card-subtitle>
+        <v-card-subtitle  v-text="item.handout" class="py-0 my-0"/>
+        <v-card-subtitle  v-if="nowEntry(item.ticket_no)" class="pa-1 my-0" v-text="nowEntryAlertText"/>
         <v-list-item-avatar v-if="nowEntry(item.ticket_no)">
           <v-img :src="item.tw_photo"  max-height="30" contain/>
         </v-list-item-avatar>
