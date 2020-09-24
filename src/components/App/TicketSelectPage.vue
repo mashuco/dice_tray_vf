@@ -5,6 +5,7 @@
       v-on:clickSubmit="callBack"
       title="確認"
       :msgArr='dialogMsgArr'
+      :notification='true'
     ></Dialog>
   </v-dialog>
   チケットの選択
@@ -121,7 +122,6 @@ export default {
         this.dialogMsgArr =[]
         if(this.searchTicket[0].tw_name != this.$store.getters.tw_name){
           this.dialogMsgArr.push(this.searchTicket[0].tw_name +"がエントリー中です。")
-          this.dialogNotification=true
         }
         this.dialog =true
         return
