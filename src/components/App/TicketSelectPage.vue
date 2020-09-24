@@ -120,7 +120,8 @@ export default {
          && this.nowEntry(this.searchTicket[0].ticket_no)){
         this.dialogMsgArr =[]
         if(this.searchTicket[0].tw_name != this.$store.getters.tw_name){
-          this.dialogMsgArr.push(this.searchTicket[0].tw_name +"がエントリー中です。利用しますか？")
+          this.dialogMsgArr.push(this.searchTicket[0].tw_name +"がエントリー中です。")
+          this.dialogNotification=true
         }
         this.dialog =true
         return
