@@ -154,6 +154,8 @@ export default  {
       })
     }, 
     ticketStateWatchChanged(snap) {
+      console.log(snap.val().trpgSessionId)
+      console.log(snap.val().trpgSessionId)
       if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
         return
 
@@ -167,10 +169,10 @@ export default  {
 
       if(snap.val().ticketId==this.$store.getters.ticketId) {
         this.dialogMsgArr =[]
-        this.dialogMsgArr.push(" snap.val().twUID::::"+ snap.val().twUID)
-        this.dialogMsgArr.push("this.$store.getters.twUID:::"+this.$store.getters.twUID)
-        this.dialogMsgArr.push("snap.val().ticketId:::"+snap.val().ticketId)
-        this.dialogMsgArr.push("this.$store.getters.ticketId::::"+this.$store.getters.ticketId)
+        //this.dialogMsgArr.push(" snap.val().twUID::::"+ snap.val().twUID)
+        //this.dialogMsgArr.push("this.$store.getters.twUID:::"+this.$store.getters.twUID)
+        //this.dialogMsgArr.push("snap.val().ticketId:::"+snap.val().ticketId)
+        //this.dialogMsgArr.push("this.$store.getters.ticketId::::"+this.$store.getters.ticketId)
         
         this.dialogMsgArr.push("このチケットは他ユーザーに取得されました")
         this.dialogMsgArr.push("強制ログアウトします")
