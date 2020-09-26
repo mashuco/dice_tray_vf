@@ -1,21 +1,13 @@
-# dice_tray_vf
 
-## Project setup
-```
-npm install
-```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
 
-![エビフライトライアングル](http://i.imgur.com/Jjwsc.jpg "サンプル")
+
+
+グループSNE・株式会社ＫＡＤＯＫＡＷＡが権利を有する「ソード・ワールド2.5 ファンキット」の素材を使用しています。
+(C)GroupSNE
+(C)KADOKAWA
+富士見書房公式 TRPG ONLINE 	https://fujimi-trpg-online.jp/
+イラスト：黒井ススム
+
