@@ -38,9 +38,13 @@ export default  {
 
       firebase.auth().onAuthStateChanged(user => {
         var twitter_user = user ?user : {}
+        if(twitter_user == null)
+          return
+
         this.$store.commit('notifyTwUID',twitter_user.uid)
         this.$store.commit('notifyTwName',twitter_user.displayName)
         this.$store.commit('notifyTwPhoto',twitter_user.photoURL)
+        console.log(twitter_user)
         this.fbcost(twitter_user.uid)
       })
 
