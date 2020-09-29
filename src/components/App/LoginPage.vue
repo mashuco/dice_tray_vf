@@ -38,8 +38,28 @@ export default {
         return
       }
       const provider = new firebase.auth.TwitterAuthProvider()
-      await firebase.auth().signInWithPopup(provider)
-
+      await firebase.auth().signInWithPopup(provider) .then(
+          result => {
+            var token = result.credential.token;
+            var secret = result.credential.secret;
+console.log("token") 
+console.log(token) 
+console.log("secret")      
+console.log(secret)      
+            var user = result.user;
+            if (user) {
+              const currentUser = {
+                displayName: user.displayName,
+                photoURL: user.photoURL
+              };
+            } else {
+              alert("有効なアカウントではありません");
+            }
+          },            
+          err => {
+            alert(err.message);
+          }
+        );
       this.twAuthloading = false
        
       this.$emit('clickSubmit')
