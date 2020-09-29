@@ -48,9 +48,9 @@ export default {
 console.log("result!!!!!")
 console.log(result)
 
-console.log(this.$store.getters.TwToken)
-console.log(this.$store.getters.TwSecretToken)
-console.log(this.$store.getters.TwUser)
+console.log(this.$store.getters.twToken)
+console.log(this.$store.getters.twSecretToken)
+console.log(this.$store.getters.twUser)
 console.log("result.credential.accessToken")
 console.log(result.credential.accessToken)
 
