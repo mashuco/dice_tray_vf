@@ -13,6 +13,9 @@ export default new Vuex.Store({
     userName:'',
     sessionUserId:'',
     isSessionMaster:false,
+    twToken:'',
+    twSecretToken:'',
+    twUser:[],
     twUID :'',
     twName:'',
     twPhoto:'',
@@ -44,6 +47,15 @@ export default new Vuex.Store({
       return state.sessionUserId
     },
     isSessionMaster(state){
+      return state.isSessionMaster
+    },
+    twToken(state){
+      return state.isSessionMaster
+    },
+    twSecretToken(state){
+      return state.isSessionMaster
+    },
+    twUser(state){
       return state.isSessionMaster
     },
     twUID(state){
@@ -93,6 +105,15 @@ export default new Vuex.Store({
     },
     notifyIsSessionMaster(state,bool){
       state.isSessionMaster =bool
+    },
+    notifyTwToken(state,str){
+      state.twToken  =str
+    },
+    notifyTwSecretToken(state,str){
+      state.twSecretToken  =str
+    },
+    notifyTwUser(state,arr){
+      state.twUser = arr
     },
     notifyTwUID(state,str){
       state.twUID =str
