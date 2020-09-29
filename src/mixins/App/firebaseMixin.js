@@ -35,38 +35,6 @@ export default  {
         appId:process.env.VUE_APP_FIREBASE_CONFIG_APPID
        }
       firebase.initializeApp(firebaseConfig);  
-
-      firebase.auth().onAuthStateChanged(user => {
-//        var twitter_user = user ?user : {}
-//        if(twitter_user == null)
-//          return
-//
-//        this.$store.commit('notifyTwUID',twitter_user.uid)
-//        this.$store.commit('notifyTwName',twitter_user.displayName)
-//        this.$store.commit('notifyTwPhoto',twitter_user.photoURL)
-        this.fbcost(twitter_user.uid)
-      })
-
-    },
-    fbcost(uid){
-      const userStatusDatabaseRef = firebase.database().ref('/status/' + uid);
-      const isOfflineForDatabase = {
-          state: 'offline',
-          last_changed: firebase.database.ServerValue.TIMESTAMP,
-      };
-      const isOnlineForDatabase = {
-          state: 'online',
-          last_changed: firebase.database.ServerValue.TIMESTAMP,
-      };
-
-      firebase.database().ref('.info/connected').on('value', function(snapshot) {
-        if (snapshot.val() == false) {
-            return;
-        };
-        userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(function() {
-            userStatusDatabaseRef.set(isOnlineForDatabase);
-        });
-      });
     },
     fireBaseRegistLoginStatus(uid){
       if(Vue.config.debug)
