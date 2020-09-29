@@ -45,6 +45,9 @@ export default {
           this.$store.commit('notifyTwSecretToken',result.credential.secret)  
           this.$store.commit('notifyTwUser',result.user)  
 
+console.log("result!!!!!")
+console.log(result)
+
 console.log(this.$store.getters.TwToken)
 console.log(this.$store.getters.TwSecretToken)
 console.log(this.$store.getters.TwUser)
