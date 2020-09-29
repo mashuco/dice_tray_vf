@@ -55,8 +55,8 @@ export default {
           this.twAuthloading = false
 console.log("this.$store.getters.twToken")
 console.log(this.$store.getters.twToken)
-console.log("this.$store.getter.twSecretToken")
-console.log(this.$store.getter.twSecretToken)
+console.log("this.$store.getters.twSecretToken")
+console.log(this.$store.getters.twSecretToken)
 
 
 
