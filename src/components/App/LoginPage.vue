@@ -17,6 +17,7 @@
 import Vue from 'vue'
 import firebase from 'firebase/app'
 import "firebase/auth"
+import Cookies from 'js-cookie'
 
 export default {
   props: {
