@@ -50,13 +50,13 @@ export default new Vuex.Store({
       return state.isSessionMaster
     },
     twToken(state){
-      return state.isSessionMaster
+      return state.twToken
     },
     twSecretToken(state){
-      return state.isSessionMaster
+      return state.twSecretToken
     },
     twUser(state){
-      return state.isSessionMaster
+      return state.twUser
     },
     twUID(state){
       return state.twUID
