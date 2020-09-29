@@ -47,7 +47,11 @@ export default {
           }
           this.$store.commit('notifyTwToken',result.credential.accessToken)
           this.$store.commit('notifyTwSecretToken',result.credential.secret)  
-          this.$store.commit('notifyTwUser',result.user)  
+          this.$store.commit('notifyTwUser',result.user)
+          this.$store.commit('notifyTwUID',result.user.uid)
+          this.$store.commit('notifyTwName',result.user.displayName)
+          this.$store.commit('notifyTwPhoto',result.user.photoURL)
+
           this.twAuthloading = false
           this.$emit('clickSubmit',true)
         }
