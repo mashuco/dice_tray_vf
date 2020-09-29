@@ -40,7 +40,7 @@ export default {
       const provider = new firebase.auth.TwitterAuthProvider()
       await firebase.auth().signInWithPopup(provider).then(
         result => {
-          if (result.user=!true){
+          if (result.user == null){
               this.twAuthloading = false
               this.$emit('clickSubmit',false)
               return
