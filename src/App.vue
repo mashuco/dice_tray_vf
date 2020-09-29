@@ -313,7 +313,9 @@
         this.windowWidth = window.innerWidth;
         this.windowHeight = window.innerHeight;
       },
-      async doLogin() {
+      async doLogin(state) {
+        if(state!=true)
+          return
         this.login = true
       },
       doLogout() {

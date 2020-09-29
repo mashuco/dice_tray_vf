@@ -34,43 +34,24 @@ export default {
         alert('AUTO LOGIN')
         this.twAuthloading =false
        
-        this.$emit('clickSubmit')
+        this.$emit('clickSubmit',true)
         return
       }
       const provider = new firebase.auth.TwitterAuthProvider()
-      await firebase.auth().signInWithPopup(provider) .then(
+      await firebase.auth().signInWithPopup(provider).then(
         result => {
-       
+          if (result.user=!true){
+              this.twAuthloading = false
+              this.$emit('clickSubmit',false)
+              return
+          }
           this.$store.commit('notifyTwToken',result.credential.accessToken)
           this.$store.commit('notifyTwSecretToken',result.credential.secret)  
           this.$store.commit('notifyTwUser',result.user)  
-
-console.log("result!!!!!")
-console.log(result)
-
-console.log(this.$store.getters.twToken)
-console.log(this.$store.getters.twSecretToken)
-console.log(this.$store.getters.twUser)
-console.log("result.credential.accessToken")
-console.log(result.credential.accessToken)
-
-          var user = result.user;
-          if (user) {
-            const currentUser = {
-              displayName: user.displayName,
-              photoURL: user.photoURL
-            };
-          } else {
-            alert("有効なアカウントではありません");
-          }
-        },            
-        err => {
-          alert(err.message);
+          this.twAuthloading = false
+          this.$emit('clickSubmit',true)
         }
-      );
-      this.twAuthloading = false
-       
-      this.$emit('clickSubmit')
+      )
     },
   }
 }
