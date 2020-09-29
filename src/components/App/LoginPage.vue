@@ -46,7 +46,10 @@ console.log("token")
 console.log(token) 
 console.log("secret")      
 console.log(secret)      
-            var user = result.user;
+console.log("result!!!!!")
+console.log(result)
+
+var user = result.user;
             if (user) {
               const currentUser = {
                 displayName: user.displayName,
