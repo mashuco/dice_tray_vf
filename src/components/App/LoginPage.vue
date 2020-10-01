@@ -78,7 +78,7 @@ console.log("response.data.key")
 console.log(response.data.key)
 console.log("this.$store.getters.twLinkedAuthKey")
 console.log(this.$store.getters.twLinkedAuthKey)
-          
+        return  
       })
     },
 
