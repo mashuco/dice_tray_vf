@@ -73,8 +73,7 @@ console.log(result.credential)
         headers: {'X-CSRFToken': csrftoken,},}
       ).then(response => {
 
-        //this.$store.commit('notifyTwLinkedAuthKey',response.data[0].key)
-console.log("response.data")
+        this.$store.commit('notifyTwLinkedAuthKey',response.data.key)console.log("response.data")
 console.log(response.data)
 console.log("this.$store.getters.twLinkedAuthKey")
 console.log(this.$store.getters.twLinkedAuthKey)
