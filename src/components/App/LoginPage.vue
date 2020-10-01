@@ -46,8 +46,8 @@ export default {
               this.$emit('clickSubmit',false)
               return
           }
-          this.$store.commit('notifyTwToken',result.credential.accessToken)
-          this.$store.commit('notifyTwSecretToken',result.credential.secret)  
+          //this.$store.commit('notifyTwToken',result.credential.accessToken)
+          //this.$store.commit('notifyTwSecretToken',result.credential.secret)  
           this.$store.commit('notifyTwUser',result.user)
           this.$store.commit('notifyTwUID',result.user.uid)
           this.$store.commit('notifyTwName',result.user.displayName)
@@ -77,8 +77,9 @@ console.log(this.$store.getters.twSecretToken)
         headers: {'X-CSRFToken': csrftoken,},}
       ).then(response => {
 
-        this.$store.commit('notifyTwLinkedAuthKey',response.data[0].key)
-
+        //this.$store.commit('notifyTwLinkedAuthKey',response.data[0].key)
+console.log("response.data[0]")
+console.log(response.data[0])
 console.log("this.$store.getters.twLinkedAuthKey")
 console.log(this.$store.getters.twLinkedAuthKey)
           
