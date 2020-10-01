@@ -319,6 +319,14 @@
          this.axsiosInitial()         
          this.loadAllSession()
       },
+      async loadAllSession(){
+          await this.$axios.get('/session/?format=json'
+          ).then(response => {
+            this.sessionAllData = response.data
+          }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true});
+  console.log(this.sessionAllData)
+  console.log("this.sessionAllData")
+      },      
       doLogout() {
         regTwitterInfo(this.$axios,'','','', this.$store.getters.sessionUserId)
         this.forcedLogout()
