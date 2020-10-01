@@ -273,7 +273,7 @@
     },
     created() {
       this.$vuetify.theme.dark = true
-      this.loadAllSession()
+      //this.loadAllSession()
       this.fireBaseAuth()
     },
     mounted() {
@@ -313,13 +313,9 @@
         this.windowWidth = window.innerWidth;
         this.windowHeight = window.innerHeight;
       },
-      async doLogin(state) {
-
-console.log("doLogin")      
-console.log("state")      
-console.log(state)      
-  
-        this.login = state
+      doLogin(state) {
+         this.login = state
+         this.loadAllSession()
       },
       doLogout() {
         regTwitterInfo(this.$axios,'','','', this.$store.getters.sessionUserId)
@@ -355,6 +351,8 @@ console.log(state)
           ).then(response => {
             this.sessionAllData = response.data
           }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true});
+console.log(this.sessionAllData)
+console.log("this.sessionAllData")
       },
       async doSelectTicket(searchTicket){
         this.selectTicket(searchTicket)
