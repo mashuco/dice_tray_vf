@@ -47,12 +47,6 @@ export default  {
       this.navDrawerContent = this.$refs['myNavDrawer'].$el.querySelector('div.v-navigation-drawer__content');
       this.$vuetify.goTo(99999 ,{ container:this.navDrawerContent})
     },
-    async chatLoad(){
-      await this.$axios.get('/uDiceLog/?format=json&session_users__trpg_session='+this.$store.getters.trpgSessionId).then(response => {
-        this.chatMessages = response.data
-      })
-      this.scrollToLastItem()
-    },
     chatMessage(msg,rollSum,rollResult,SuccessOrFailure) {
       if(rollSum == "") 
       return msg
