@@ -240,9 +240,10 @@
   import diceMixin from './mixins/App/diceMixin.js'
   import ticketMixin from './mixins/App/ticketMixin.js'
   import firebaseMixin from './mixins/App/firebaseMixin.js'
+  import axsiosMixin from './mixins/App/axsiosMixin.js'
  
  export default {
-    mixins: [ticketMixin,audioMixin,chatMixin,diceMixin,firebaseMixin],
+    mixins: [ticketMixin,audioMixin,chatMixin,diceMixin,firebaseMixin,axsiosMixin],
     components: {
       LoginPage,
       SessionSelectPage,
