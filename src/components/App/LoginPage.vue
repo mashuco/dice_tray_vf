@@ -60,25 +60,28 @@ console.log("this.$store.getters.twToken")
 console.log(this.$store.getters.twToken)
 console.log("this.$store.getters.twSecretToken")
 console.log(this.$store.getters.twSecretToken)
-          this.getKey()
-
+          this.getKey(result.credential.accessToken,result.credential.secret)
 
           this.$emit('clickSubmit',true)
         }
       )
     },
-    async getKey(){
+    async getKey(twToken,twSecretToken){
       var csrftoken = Cookies.get('csrftoken')
       await this.$axios.post('/twitter/', 
       { 
-        access_token:this.$store.getters.twToken, 
-        token_secret:this.$store.getters.twSecretToken,
+        access_token:twToken, 
+        token_secret:twSecretToken,
       },
       {
         headers: {'X-CSRFToken': csrftoken,},}
       ).then(response => {
-console.log("twresponse")
-console.log(response)
+
+        this.$store.commit('notifyTwLinkedAuthKey',response.data[0].key)
+
+console.log("this.$store.getters.twLinkedAuthKey")
+console.log(this.$store.getters.twLinkedAuthKey)
+          
       })
     },
 

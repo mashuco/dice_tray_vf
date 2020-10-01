@@ -15,6 +15,7 @@ export default new Vuex.Store({
     isSessionMaster:false,
     twToken:'',
     twSecretToken:'',
+    twLinkedAuthKey:'',
     twUser:[],
     twUID :'',
     twName:'',
@@ -54,6 +55,9 @@ export default new Vuex.Store({
     },
     twSecretToken(state){
       return state.twSecretToken
+    },
+    twSecretTwLinkedAuthKey(state){
+      return state.twLinkedAuthKey
     },
     twUser(state){
       return state.twUser
@@ -112,6 +116,9 @@ export default new Vuex.Store({
     notifyTwSecretToken(state,str){
       state.twSecretToken  =str
     },
+    notifyTwLinkedAuthKey(state,bool){
+      state.twLinkedAuthKey =bool
+    },    
     notifyTwUser(state,arr){
       state.twUser = arr
     },
