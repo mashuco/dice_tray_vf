@@ -54,8 +54,6 @@ export default {
           this.$store.commit('notifyTwPhoto',result.user.photoURL)
 
           this.twAuthloading = false
-console.log("resultcredential")       
-console.log(result.credential)
           this.getKey(result.credential.accessToken,result.credential.secret)
 
           this.$emit('clickSubmit',true)

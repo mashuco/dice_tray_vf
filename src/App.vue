@@ -314,9 +314,12 @@
         this.windowHeight = window.innerHeight;
       },
       async doLogin(state) {
-        if(state!=true)
-          return
-        this.login = true
+
+console.log("doLogin")      
+console.log("state")      
+console.log(state)      
+  
+        this.login = state
       },
       doLogout() {
         regTwitterInfo(this.$axios,'','','', this.$store.getters.sessionUserId)
