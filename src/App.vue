@@ -274,6 +274,7 @@
     created() {
       this.$vuetify.theme.dark = true
       //this.loadAllSession()
+      this.axsiosInitial()
       this.fireBaseAuth()
     },
     mounted() {
