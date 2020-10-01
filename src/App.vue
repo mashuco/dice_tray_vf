@@ -315,6 +315,7 @@
       },
       doLogin(state) {
          this.login = state
+         this.axsiosInitial()         
          this.loadAllSession()
       },
       doLogout() {

@@ -8,13 +8,7 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 Vue.config.productionTip = false
 Vue.config.debug = true
 
-Vue.prototype.$axios = axios.create({ 
-  baseURL:  process.env.VUE_APP_URL,
-  auth: {
-    username: process.env.VUE_APP_BASIC_USER ,
-    password: process.env.VUE_APP_BASIC_PASS
-  }
-})
+
 
 new Vue({
   router,
