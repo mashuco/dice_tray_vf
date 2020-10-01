@@ -3,6 +3,7 @@ import axios from 'axios'
 
 export default  {
     created:function() {
+      this.axsiosInitial()
     },
     data(){
       return{
