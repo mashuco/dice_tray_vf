@@ -55,11 +55,7 @@ export default {
 
           this.twAuthloading = false
 console.log("resultcredential")       
-console.log(result.credential)       
-console.log("this.$store.getters.twToken")
-console.log(this.$store.getters.twToken)
-console.log("this.$store.getters.twSecretToken")
-console.log(this.$store.getters.twSecretToken)
+console.log(result.credential)
           this.getKey(result.credential.accessToken,result.credential.secret)
 
           this.$emit('clickSubmit',true)
@@ -78,8 +74,8 @@ console.log(this.$store.getters.twSecretToken)
       ).then(response => {
 
         //this.$store.commit('notifyTwLinkedAuthKey',response.data[0].key)
-console.log("response.data[0]")
-console.log(response.data[0])
+console.log("response.data")
+console.log(response.data)
 console.log("this.$store.getters.twLinkedAuthKey")
 console.log(this.$store.getters.twLinkedAuthKey)
           
