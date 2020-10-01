@@ -326,7 +326,7 @@
           }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true});
   console.log(this.sessionAllData)
   console.log("this.sessionAllData")
-      },      
+      },
       doLogout() {
         regTwitterInfo(this.$axios,'','','', this.$store.getters.sessionUserId)
         this.forcedLogout()
@@ -349,6 +349,12 @@
       　this.fireBaseTicketStateWatch()
         this.fireBaseTicketDisconectWatch()
         this.fireBaseLiveUpdateLoginUsers()
+      },
+      async loadSelectedSessionInfo(str){
+        await this.$axios.get('/uEntry/?format=json&trpg_session='+str,
+        ).then(response => {
+              this.sessionAllTicketData             = response.data
+          }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true});
       },
       async doSelectTicket(searchTicket){
         this.selectTicket(searchTicket)

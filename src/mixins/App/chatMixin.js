@@ -54,6 +54,12 @@ export default  {
       return msg +"\n"+ rollResult+">>"+rollSum
       return msg +"\n"+ rollResult+">>"+rollSum+">>"+ (SuccessOrFailure?"成功":"失敗")
     },
+    async chatLoad(){
+      await this.$axios.get('/uDiceLog/?format=json&session_users__trpg_session='+this.$store.getters.trpgSessionId).then(response => {
+        this.chatMessages = response.data
+      })
+      this.scrollToLastItem()
+    },
     chatOnDiceRoll:function(event){
       if(this.chatTextarea===""){
         alert('コマンドを入力してください')
