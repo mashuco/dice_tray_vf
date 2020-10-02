@@ -328,7 +328,7 @@
 {
     headers: {
      "Content-Type": "application/json",
-      authorization: "Token: " + this.$store.getters.twLinkedAuthKey
+      authorization: "Token " + this.$store.getters.twLinkedAuthKey
     }
   }          
           
