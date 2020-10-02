@@ -56,7 +56,6 @@ export default {
           this.twAuthloading = false
           this.getKey(result.credential.accessToken,result.credential.secret)
 
-          this.$emit('clickSubmit',true)
         }
       )
     },
@@ -76,7 +75,7 @@ console.log("response.data.key")
 console.log(response.data.key)
 console.log("this.$store.getters.twLinkedAuthKey")
 console.log(this.$store.getters.twLinkedAuthKey)
-        return  
+        this.$emit('clickSubmit',true)
       })
     },
 
