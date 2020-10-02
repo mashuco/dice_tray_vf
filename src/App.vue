@@ -322,6 +322,7 @@
       },
       async loadAllSession(){
 console.log("loadAllSession!")
+console.log(this.$store.getters.twLinkedAuthKey)
           await this.$axios.get('/session/?format=json'
             , {
               headers: {
