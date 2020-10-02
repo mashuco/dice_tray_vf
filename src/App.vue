@@ -324,7 +324,7 @@
           await this.$axios.get('/session/?format=json',
 {
     headers: {
-      Authorization: "Token: " + this.$store.getters.twLinkedAuthKey
+      authorization: "Token: " + this.$store.getters.twLinkedAuthKey
     }
   }          
           
