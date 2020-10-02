@@ -7,10 +7,10 @@ export default  {
     axios.defaults.headers.common['Authorization'] =`Bearer ${tmp}`
     Vue.prototype.$axios = axios.create({ 
       baseURL:  process.env.VUE_APP_URL,
-      auth: {
-        username: process.env.VUE_APP_BASIC_USER ,
-        password: process.env.VUE_APP_BASIC_PASS
-      }, 
+      //auth: {
+      //  username: process.env.VUE_APP_BASIC_USER ,
+      //  password: process.env.VUE_APP_BASIC_PASS
+      //}, 
       headers: {
         "Content-Type": "application/json",
       }
