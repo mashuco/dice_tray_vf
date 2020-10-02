@@ -326,7 +326,7 @@ console.log(this.$store.getters.twLinkedAuthKey)
           await this.$axios.get('/session/?format=json'
             , {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.twLinkedAuthKey}`,
+                Authorization: `Token ${this.$store.getters.twLinkedAuthKey}`,
               }
             }
           ).then(response => {
