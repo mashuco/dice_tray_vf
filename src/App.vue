@@ -321,9 +321,13 @@
          this.loadAllSession()
       },
       async loadAllSession(){
+        console.log("loaddAll!")
+        console.log(this.$store.getters.twLinkedAuthKey)
+
           await this.$axios.get('/session/?format=json',
 {
     headers: {
+     "Content-Type": "application/json",
       authorization: "Token: " + this.$store.getters.twLinkedAuthKey
     }
   }          
