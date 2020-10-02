@@ -317,11 +317,17 @@
       },
       doLogin(state) {
          this.login = state
-         axsiosServ.axsiosInitial(this.$store.getters.twLinkedAuthKey)         
+         axsiosServ.axsiosInitial(this.$store.getters.twLinkedAuthKey)
          this.loadAllSession()
       },
       async loadAllSession(){
+console.log("loadAllSession!")
           await this.$axios.get('/session/?format=json'
+            , {
+              headers: {
+                Authorization: `Bearer ${this.$store.getters.twLinkedAuthKey}`,
+              }
+            }
           ).then(response => {
             this.sessionAllData = response.data
           }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true});
