@@ -1,4 +1,4 @@
-import regTwitterInfo from '../../services/App/regTwitterInfo'
+import twitterInfoServ from '../../services/twitterInfoServ'
 import Vue from "vue"
 
 export default  {
@@ -48,6 +48,14 @@ export default  {
         this.$store.commit('notifyFirebaseMessageKeyId',this.sessionData[0]['firebase_message_key_id'])
         this.$store.commit('notifyFirebaseSceanKeyId',this.sessionData[0]['firebase_scean_key_id'])
         this.$store.commit('notifyTicketId',this.entyrInfo[0]['ticket_no'])
+       
+        await twitterInfoServ.regist(
+          this.$axios, 
+          this.$store.getters.twUID,
+          this.$store.getters.twName,
+          this.$store.getters.twPhoto,
+          this.$store.getters.sessionUserId
+        )
 
         await regTwitterInfo( 
           this.$axios,

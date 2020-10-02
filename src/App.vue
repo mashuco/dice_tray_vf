@@ -234,16 +234,16 @@
   import LoginPage from './components/App/LoginPage'
   import SessionSelectPage from './components/App/SessionSelectPage'
   import TicketSelectPage  from './components/App/TicketSelectPage'
-  import regTwitterInfo from './services/App/regTwitterInfo'
+  import twitterInfoServ from './services/twitterInfoServ'
+  import axsiosServ from './services/axsiosServ'
   import audioMixin from './mixins/App/audioMixin.js'
   import chatMixin from './mixins/App/chatMixin.js'
   import diceMixin from './mixins/App/diceMixin.js'
   import ticketMixin from './mixins/App/ticketMixin.js'
   import firebaseMixin from './mixins/App/firebaseMixin.js'
-  import axsiosMixin from './mixins/App/axsiosMixin.js'
  
  export default {
-    mixins: [ticketMixin,audioMixin,chatMixin,diceMixin,firebaseMixin,axsiosMixin],
+    mixins: [ticketMixin,audioMixin,chatMixin,diceMixin,firebaseMixin],
     components: {
       LoginPage,
       SessionSelectPage,
@@ -275,6 +275,7 @@
     created() {
       this.$vuetify.theme.dark = true
       //this.loadAllSession()
+      axsiosServ.axsiosInitial()         
       this.fireBaseAuth()
     },
     mounted() {
@@ -316,7 +317,7 @@
       },
       doLogin(state) {
          this.login = state
-         this.axsiosInitial()         
+         axsiosServ.axsiosInitial(this.$store.getters.twLinkedAuthKey)         
          this.loadAllSession()
       },
       async loadAllSession(){
@@ -328,7 +329,7 @@
   console.log("this.sessionAllData")
       },
       doLogout() {
-        regTwitterInfo(this.$axios,'','','', this.$store.getters.sessionUserId)
+        twitterInfoServ.regist(this.$axios,'','','', this.$store.getters.sessionUserId)
         this.forcedLogout()
       },
       forcedLogout(){

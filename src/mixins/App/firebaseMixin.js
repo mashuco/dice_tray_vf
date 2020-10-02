@@ -58,7 +58,7 @@ export default  {
     },
     fireBaseLiveUpdateLoginUsers(){      
       if(Vue.config.debug){
-        this.loginUsers = ['test'];
+        //this.loginUsers = ['test'];
         return
       }
       
