@@ -10,8 +10,7 @@ export default  {
         password: process.env.VUE_APP_BASIC_PASS
       }, 
       headers: {
-        "Content-Type": "application/json",
-        'Authorization': 'Token '+twLinkedAuthKey,
+        'authorization': 'Token '+twLinkedAuthKey,
       }
     })            
   }
