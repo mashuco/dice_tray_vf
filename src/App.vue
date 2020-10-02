@@ -321,7 +321,14 @@
          this.loadAllSession()
       },
       async loadAllSession(){
-          await this.$axios.get('/session/?format=json').then(response => {
+          await this.$axios.get('/session/?format=json',
+{
+    headers: {
+      Authorization: "Token: " + this.$store.getters.twLinkedAuthKey
+    }
+  }          
+          
+          ).then(response => {
             this.sessionAllData = response.data
           }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true});
       },
