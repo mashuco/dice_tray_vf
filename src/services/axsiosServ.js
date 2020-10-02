@@ -3,7 +3,6 @@ import axios from 'axios'
 
 export default  {
   axsiosInitial(){
-    //axios.defaults.headers.common['Authorization'] = "Token " + twLinkedAuthKey
     Vue.prototype.$axios = axios.create({ 
       baseURL:  process.env.VUE_APP_URL,
       //auth: {
@@ -16,7 +15,7 @@ export default  {
     })            
   },
   axsiosInitialTw(twLinkedAuthKey){
-    //axios.defaults.headers.common['Authorization'] = "Token " + twLinkedAuthKey
+    axios.defaults.headers.common['authorization'] = "Token " + twLinkedAuthKey
     Vue.prototype.$axios = axios.create({ 
       baseURL:  process.env.VUE_APP_URL,
       //auth: {
