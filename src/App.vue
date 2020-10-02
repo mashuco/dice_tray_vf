@@ -321,19 +321,9 @@
          this.loadAllSession()
       },
       async loadAllSession(){
-console.log("loadAllSession!")
-console.log(this.$store.getters.twLinkedAuthKey)
-          await this.$axios.get('/session/?format=json'
-            , {
-              headers: {
-                Authorization: `Token ${this.$store.getters.twLinkedAuthKey}`,
-              }
-            }
-          ).then(response => {
+          await this.$axios.get('/session/?format=json').then(response => {
             this.sessionAllData = response.data
           }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true});
-  console.log(this.sessionAllData)
-  console.log("this.sessionAllData")
       },
       doLogout() {
         twitterInfoServ.regist(this.$axios,'','','', this.$store.getters.sessionUserId)

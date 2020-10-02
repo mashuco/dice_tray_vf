@@ -83,13 +83,7 @@ export default {
   },  
   async loadSession(){
     console.log("loadSession!")
-    await this.$axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId
-    , {
-      headers: {
-        Authorization: `Bearer ${this.$store.getters.twLinkedAuthKey}`,
-      }
-    }
-    ).then(response => {
+    await this.$axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
       this.sessionData = response.data
     }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true})
     if(this.$store.getters.nowScene==''){
