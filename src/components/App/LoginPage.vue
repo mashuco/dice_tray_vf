@@ -71,8 +71,8 @@ export default {
       ).then(response => {
 
         this.$store.commit('notifyTwLinkedAuthKey',response.data.key)
-console.log("response.data")
-console.log(response.data)
+console.log("response")
+console.log(response)
 console.log("response.data.key")
 console.log(response.data.key)
 console.log("this.$store.getters.twLinkedAuthKey")
