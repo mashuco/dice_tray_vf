@@ -57,13 +57,6 @@ export default  {
           this.$store.getters.sessionUserId
         )
 
-        await regTwitterInfo( 
-          this.$axios,
-          this.$store.getters.twUID,
-          this.$store.getters.twName,
-          this.$store.getters.twPhoto,
-          this.$store.getters.sessionUserId
-        )
         this.fireBaseRegistLoginStatus(this.$store.getters.twUID)
 
         await this.fireBaseTicketStateUpdate()
