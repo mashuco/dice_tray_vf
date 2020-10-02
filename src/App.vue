@@ -317,7 +317,7 @@
       },
       doLogin(state) {
          this.login = state
-         axsiosServ.axsiosInitial(this.$store.getters.twLinkedAuthKey)
+         axsiosServ.axsiosInitialTw(this.$store.getters.twLinkedAuthKey)
          this.loadAllSession()
       },
       async loadAllSession(){
