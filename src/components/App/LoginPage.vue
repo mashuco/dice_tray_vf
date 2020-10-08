@@ -55,8 +55,7 @@ export default {
         this.$emit('clickSubmit',true)
         return
       }
-      console.log("TWWWWWWWWWWWWW")
-      if(this.$store.getters.nonLogin==true){
+      if(this.testModeCheckbox==true){
         this.$store.commit('notifyTwUID','test')
         this.$store.commit('notifyTwName','test')
         this.$store.commit('notifyTwPhoto',this.diceImgPath)
