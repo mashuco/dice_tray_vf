@@ -11,7 +11,7 @@
       >{{this.buttonText}}</v-btn>
       <v-checkbox
         v-model="testModeCheckbox"
-        label="Twitterログインしない(テスト)"
+        label="Twitterログインしない(test User)"
       ></v-checkbox>   
     </v-row>
   </v-container>
@@ -55,6 +55,7 @@ export default {
         this.$emit('clickSubmit',true)
         return
       }
+      console.log("TWWWWWWWWWWWWW")
       if(this.$store.getters.nonLogin==true){
         this.$store.commit('notifyTwUID','test')
         this.$store.commit('notifyTwName','test')
