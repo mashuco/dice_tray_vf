@@ -47,7 +47,7 @@ export default {
   methods: {
     async submit() {
      this.twAuthloading = true
-      if(Vue.config.debug)
+      if(Vue.config.debug==true)
       {
         alert('AUTO LOGIN')
         this.twAuthloading =false
@@ -55,12 +55,13 @@ export default {
         this.$emit('clickSubmit',true)
         return
       }
-      if(this.$store.getters.nonLogin){
+      if(this.$store.getters.nonLogin==true){
         this.$store.commit('notifyTwUID','test')
         this.$store.commit('notifyTwName','test')
         this.$store.commit('notifyTwPhoto',this.diceImgPath)
         this.twAuthloading = false
         this.getKeyTestMode()
+        return
       }
       const provider = new firebase.auth.TwitterAuthProvider()
       await firebase.auth().signInWithPopup(provider).then(
