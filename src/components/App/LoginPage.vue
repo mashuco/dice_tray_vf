@@ -8,7 +8,11 @@
         block x-large color="#009688"  
         @click="submit" 
         :loading="twAuthloading"
-      >Twitterでログイン</v-btn>
+      >{{this.buttonText}}</v-btn>
+      <v-checkbox
+        v-model="testModeCheckbox"
+        label="Twitterログインしない(テスト)"
+      ></v-checkbox>   
     </v-row>
   </v-container>
 </template>
@@ -25,13 +29,25 @@ export default {
   },
   data() {
     return {
-      twAuthloading:false
+      twAuthloading:false,
+      testModeCheckbox:false,
+    }
+  },
+  computed:{
+    buttonText(){
+      if(this.testModeCheckbox==false){
+        return 'Twitterでログイン'
+      this.$store.commit('notifyNonLogin',false)
+      }
+      this.$store.commit('notifyNonLogin',true)
+      return 'ログイン'
     }
   },
   methods: {
     async submit() {
      this.twAuthloading = true
-      if(Vue.config.debug){
+      if(Vue.config.debug ||this.$store.getters.nonLogin)
+      {
         alert('AUTO LOGIN')
         this.twAuthloading =false
        

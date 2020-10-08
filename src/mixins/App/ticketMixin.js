@@ -24,7 +24,7 @@ export default  {
           this.autoSelectTicketForSelecedUser(selectedTicket)
        },
       autoSelectTicketForSelecedUser(selectedTicket){
-        if(Vue.config.debug)
+        if(Vue.config.debug ||this.$store.getters.nonLogin)
           return
 
         this.doSelectTicket(selectedTicket)

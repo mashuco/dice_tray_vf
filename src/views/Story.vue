@@ -76,7 +76,7 @@ export default {
     this.loadScene(this.$store.getters.nowScene)
     this.isSessionMaster =  this.$store.getters.isSessionMaster
 
-    if(Vue.config.debug)
+    if(Vue.config.debug ||this.$store.getters.nonLogin)
       return
       
     this.fireBaseMessageStateWatch()
@@ -119,7 +119,7 @@ export default {
      this.sceneData = response.data
     }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true})
     this.loadScene(this.selectedScene.session_scene_id)
-    if(Vue.config.debug)
+    if(Vue.config.debug ||this.$store.getters.nonLogin)
       return
 
     firebase.database().ref('scene').child(this.$store.getters.firebaseSceanKeyId).update(

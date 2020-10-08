@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    nonLogin:false,
     ticketId:'',
     trpgSessionId:'',
     trpgSessionName:'',
@@ -24,6 +25,9 @@ export default new Vuex.Store({
     firebaseSceanKeyId:''
   },
   getters: {
+    nonLogin(state){
+      return state.nonLogin
+    },
     ticketId(state){
       return state.ticketId
     },
@@ -78,6 +82,9 @@ export default new Vuex.Store({
    
   },
   mutations: {
+    notifyNonLogin(state,bool){
+      state.nonLogin = bool
+    },
     notifyTicketId(state,str){
       state.ticketId = str
     },

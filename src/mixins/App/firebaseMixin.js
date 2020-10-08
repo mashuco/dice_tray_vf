@@ -18,7 +18,8 @@ export default  {
   },
   methods:{
     fireBaseAuth(){
-      if(Vue.config.debug){
+      if(Vue.config.debug ||this.$store.getters.nonLogin)
+      {
         this.$store.commit('notifyTwUID','test')
         this.$store.commit('notifyTwName','test')
         this.$store.commit('notifyTwPhoto',this.diceImgPath)
@@ -37,7 +38,7 @@ export default  {
       firebase.initializeApp(firebaseConfig);  
     },
     fireBaseRegistLoginStatus(uid){
-      if(Vue.config.debug)
+      if(Vue.config.debug ||this.$store.getters.nonLogin)
         return
 
       const userStatusDatabaseRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/'+uid)
@@ -57,7 +58,8 @@ export default  {
 
     },
     fireBaseLiveUpdateLoginUsers(){      
-      if(Vue.config.debug){
+      if(Vue.config.debug ||this.$store.getters.nonLogin)
+      {
         //this.loginUsers = ['test'];
         return
       }
@@ -80,14 +82,14 @@ export default  {
 
     },
     async fireBaseChatMessageStateWatch(){
-      if(Vue.config.debug)
+      if(Vue.config.debug ||this.$store.getters.nonLogin)
         return
 
       const ref_message = firebase.database().ref('message')
       ref_message.limitToLast(10).on('child_changed',this.chatFirebaseMessageChanged)
     },
     async fireBaseTicketStateUpdate() {
-      if(Vue.config.debug)
+      if(Vue.config.debug ||this.$store.getters.nonLogin)
         return
 
       var date = new Date()
@@ -101,7 +103,7 @@ export default  {
       );
     },
     async fireBaseTicektRelease() {
-      if(Vue.config.debug)
+      if(Vue.config.debug ||this.$store.getters.nonLogin)
         return
 
       var date = new Date()
@@ -116,7 +118,7 @@ export default  {
       firebase.auth().signOut()
     },
     fireBaseTicketStateWatch(){
-      if(Vue.config.debug)
+      if(Vue.config.debug ||this.$store.getters.nonLogin)
         return
 
       firebase.auth().onAuthStateChanged(user => {
@@ -152,7 +154,7 @@ export default  {
       this.loadSelectedSessionInfo(this.$store.getters.trpgSessionId)
     },
     fireBaseTicketDisconectWatch(){
-      if(Vue.config.debug)
+      if(Vue.config.debug ||this.$store.getters.nonLogin)
         return
 
       var date = new Date()

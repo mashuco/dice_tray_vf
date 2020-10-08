@@ -10,7 +10,7 @@
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <v-icon class="mx-4" large>mdi-biohazard</v-icon>
         <v-toolbar-title class="mr-12 align-center">
-          <span class="title">Xamaru</span>
+          <span class="title">Xamaru(β)</span>
         </v-toolbar-title>
         <v-toolbar-items>
           <v-menu class ="menu">
