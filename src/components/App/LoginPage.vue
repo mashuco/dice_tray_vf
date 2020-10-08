@@ -31,6 +31,7 @@ export default {
     return {
       twAuthloading:false,
       testModeCheckbox:false,
+      diceImgPath: require('@/assets/142187.png'),
     }
   },
   computed:{
@@ -46,13 +47,20 @@ export default {
   methods: {
     async submit() {
      this.twAuthloading = true
-      if(Vue.config.debug ||this.$store.getters.nonLogin)
+      if(Vue.config.debug)
       {
         alert('AUTO LOGIN')
         this.twAuthloading =false
        
         this.$emit('clickSubmit',true)
         return
+      }
+      if(this.$store.getters.nonLogin){
+        this.$store.commit('notifyTwUID','test')
+        this.$store.commit('notifyTwName','test')
+        this.$store.commit('notifyTwPhoto',this.diceImgPath)
+        this.twAuthloading = false
+        this.getKeyTestMode()
       }
       const provider = new firebase.auth.TwitterAuthProvider()
       await firebase.auth().signInWithPopup(provider).then(
@@ -75,6 +83,20 @@ export default {
         }
       )
     },
+    async getKeyTestMode(){
+      var csrftoken = Cookies.get('csrftoken')
+      await this.$axios.post('/rest-auth/login/', 
+      { 
+        username:process.env.VUE_APP_TEST_USER_NAME, 
+        password:process.env.VUE_APP_TEST_USER_PASS,
+      },
+      {
+        headers: {'X-CSRFToken': csrftoken,},}
+      ).then(response => {
+        this.$store.commit('notifyTwLinkedAuthKey',response.data.key)
+        this.$emit('clickSubmit',true)
+      })
+    },
     async getKey(twToken,twSecretToken){
       var csrftoken = Cookies.get('csrftoken')
       await this.$axios.post('/twitter/', 
@@ -87,12 +109,6 @@ export default {
       ).then(response => {
 
         this.$store.commit('notifyTwLinkedAuthKey',response.data.key)
-console.log("response")
-console.log(response)
-console.log("response.data.key")
-console.log(response.data.key)
-console.log("this.$store.getters.twLinkedAuthKey")
-console.log(this.$store.getters.twLinkedAuthKey)
         this.$emit('clickSubmit',true)
       })
     },
