@@ -82,7 +82,6 @@ export default {
     this.fireBaseMessageStateWatch()
   },  
   async loadSession(){
-    console.log("loadSession!")
     await this.$axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
       this.sessionData = response.data
     }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true})

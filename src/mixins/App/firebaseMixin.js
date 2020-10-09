@@ -127,8 +127,6 @@ export default  {
       })
     }, 
     ticketStateWatchChanged(snap) {
-      console.log(snap.val().trpgSessionId)
-      console.log(snap.val().trpgSessionId)
       if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
         return
 
