@@ -32,7 +32,6 @@
     </v-list>
 </v-container>
 
-
 </template>
 
 <script>

@@ -85,20 +85,14 @@ export default {
       )
     },
     async getKeyTestMode(){
-      console.log("process.env.VUE_APP_TEST_USER_NAME")
-      console.log(process.env.VUE_APP_TEST_USER_NAME)
-      console.log("process.env.VUE_APP_TEST_USER_PASS")
-      console.log(process.env.VUE_APP_TEST_USER_PASS)
-      
       var csrftoken = Cookies.get('csrftoken')
       await this.$axios.post('/rest-auth/login/', 
       { 
         username:process.env.VUE_APP_TEST_USER_NAME, 
         password:process.env.VUE_APP_TEST_USER_PASS,
       },
-     {
-         headers: {'X-CSRFToken': csrftoken,      },
-     }
+      {
+        headers: {'X-CSRFToken': csrftoken,},}
       ).then(response => {
         this.$store.commit('notifyTwLinkedAuthKey',response.data.key)
         this.$emit('clickSubmit',true)
@@ -114,6 +108,7 @@ export default {
       {
         headers: {'X-CSRFToken': csrftoken,},}
       ).then(response => {
+
         this.$store.commit('notifyTwLinkedAuthKey',response.data.key)
         this.$emit('clickSubmit',true)
       })
