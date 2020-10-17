@@ -11,7 +11,7 @@
       >
         <v-card color="#385F73" width="100%" height="320px">
                 <v-img  class="character_image_m　pa-0 my-3"  
-                  :src="item.character_image"   
+                  :src="process.env.VUE_APP_IMG_URL+item.character_image_no_url"   
                   max-height="150" 
                   contain
                 >
