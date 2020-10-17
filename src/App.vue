@@ -159,7 +159,9 @@
             <v-list three-line >
               <v-list-item v-for="item in chatMessages
               " :key="item.text" link >
-                <img class="character_image_s" :src="item.character_image"/>
+                <img class="character_image_s" 
+                 :src="process.env.VUE_APP_IMG_URL+item.character_image_no_url"   
+                />
                 <v-list-item-content>
                   <v-textarea
                     outlined
