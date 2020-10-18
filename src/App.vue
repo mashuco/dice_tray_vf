@@ -159,8 +159,8 @@
             <v-list three-line >
               <v-list-item v-for="item in chatMessages
               " :key="item.text" link >
-                <img class="character_image_s" 
-                 :src="process.env.VUE_APP_IMG_URL+item.character_image_no_url"   
+                <img class="character_image_s"
+                 :src="img_urlPrefix+item.character_image"   
                 />
                 <v-list-item-content>
                   <v-textarea
@@ -237,7 +237,8 @@
   import SessionSelectPage from './components/App/SessionSelectPage'
   import TicketSelectPage  from './components/App/TicketSelectPage'
   import twitterInfoServ from './services/twitterInfoServ'
-  import axsiosServ from './services/axsiosServ'
+  import axsiosUtil from './utils/axsiosUtil'
+  import mediaUtil from './utils/mediaUtil'
   import audioMixin from './mixins/App/audioMixin.js'
   import chatMixin from './mixins/App/chatMixin.js'
   import diceMixin from './mixins/App/diceMixin.js'
@@ -277,7 +278,7 @@
     created() {
       this.$vuetify.theme.dark = true
       //this.loadAllSession()
-      axsiosServ.axsiosInitial()         
+      axsiosUtil.axsiosInitial()         
       this.fireBaseAuth()
     },
     mounted() {
@@ -290,6 +291,9 @@
       )
     },
     computed: {
+      img_urlPrefix(){
+          return mediaUtil.imgUrlPrefix()
+      },
       navigation_wide(){
         if(this.$vuetify.breakpoint.mdAndUp)
           return '30%'
@@ -319,7 +323,7 @@
       },
       doLogin(state) {
          this.login = state
-         axsiosServ.axsiosInitialTw(this.$store.getters.twLinkedAuthKey)
+         axsiosUtil.axsiosInitialTw(this.$store.getters.twLinkedAuthKey)
          this.loadAllSession()
       },
       async loadAllSession(){

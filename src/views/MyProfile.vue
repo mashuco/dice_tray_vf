@@ -21,7 +21,7 @@
         </v-card-text>
         <v-card-subtitle class="pa-0 ma-0">
           <v-img 
-            :src="character_image"  
+            :src="img_urlPrefix+character_image"   
             max-height="180" 
             contain />
           <v-file-input
@@ -58,6 +58,7 @@
 <script>
 import Vue from "vue";
 import Cookies from 'js-cookie';
+import mediaUtil from '../utils/mediaUtil'
 import Dialog from '../components/Dialog'
 
 export default {
@@ -78,10 +79,16 @@ export default {
   },
   components: {
     Dialog,
+    
   },  
   created(){
     this.loadProfile()
   },
+  computed: {
+    img_urlPrefix(){
+        return mediaUtil.imgUrlPrefix()
+    },
+  },  
   methods: {
     dialogClose(){
       this.dialog = false
