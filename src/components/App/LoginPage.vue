@@ -1,7 +1,7 @@
 <template>
   <v-container >
     <v-row
-      style="height: 300px;"
+      style="height: 300px"
       justify="center" align-content="center"
     >
       <v-btn 

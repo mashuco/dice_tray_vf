@@ -160,7 +160,7 @@
               <v-list-item v-for="item in chatMessages
               " :key="item.text" link >
                 <img class="character_image_s"
-                 :src="img_urlPrefix+item.character_image"   
+                :src="media_img_url(item.character_image)"   
                 />
                 <v-list-item-content>
                   <v-textarea
@@ -273,7 +273,7 @@
         dialog:false,
         dialogMsgArr:[],
         dialogNotification:false
-      };
+      }
     },
     created() {
       this.$vuetify.theme.dark = true
@@ -291,9 +291,6 @@
       )
     },
     computed: {
-      img_urlPrefix(){
-          return mediaUtil.imgUrlPrefix()
-      },
       navigation_wide(){
         if(this.$vuetify.breakpoint.mdAndUp)
           return '30%'
@@ -315,11 +312,24 @@
       this.doLogout()
     },
     methods: {
+    media_url_prefix(){
+      if(str==null)
+        return ""
+
+      return mediaUtil.urlPrefix()
+    },
+    media_img_url(str){
+      if(str==null)
+        return ""
+
+      return mediaUtil.urlPrefix()+str
+    },
+
       handleResize: function() {
         if(this.drawer==true)
           return
-        this.windowWidth = window.innerWidth;
-        this.windowHeight = window.innerHeight;
+        this.windowWidth = window.innerWidth
+        this.windowHeight = window.innerHeight
       },
       doLogin(state) {
          this.login = state
@@ -328,15 +338,9 @@
       },
       async loadAllSession(){
           await this.$axios.get('/session/?format=json'
-//,{
-//    headers: {
-//      authorization: "Token " + this.$store.getters.twLinkedAuthKey
-//    }
-//  }          
-          
           ).then(response => {
             this.sessionAllData = response.data
-          }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true});
+          }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true})
       },
       doLogout() {
         twitterInfoServ.regist(this.$axios,'','','', this.$store.getters.sessionUserId)
@@ -365,7 +369,7 @@
         await this.$axios.get('/uEntry/?format=json&trpg_session='+str,
         ).then(response => {
               this.sessionAllTicketData             = response.data
-          }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true});
+          }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true})
       },
       async doSelectTicket(searchTicket){
         this.selectTicket(searchTicket)
@@ -392,5 +396,5 @@
   }
 </script>
 <style>
-  @import "./css/styles.css";
+  @import "./css/styles.css"
 </style>

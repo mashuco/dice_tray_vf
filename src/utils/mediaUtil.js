@@ -1,5 +1,5 @@
 export default  {
-  imgUrlPrefix(){
+  urlPrefix(){
       return process.env.VUE_APP_IMG_URL
   },
 }

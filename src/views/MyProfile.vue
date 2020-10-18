@@ -21,7 +21,7 @@
         </v-card-text>
         <v-card-subtitle class="pa-0 ma-0">
           <v-img 
-            :src="img_urlPrefix+character_image"   
+            :src="media_url_prefix+character_image"   
             max-height="180" 
             contain />
           <v-file-input
@@ -56,8 +56,8 @@
 </template>
 
 <script>
-import Vue from "vue";
-import Cookies from 'js-cookie';
+import Vue from "vue"
+import Cookies from 'js-cookie'
 import mediaUtil from '../utils/mediaUtil'
 import Dialog from '../components/Dialog'
 
@@ -75,7 +75,7 @@ export default {
       dialog:false,
       registLoading:false,
       dailogNotification:false
-    };
+    }
   },
   components: {
     Dialog,
@@ -85,8 +85,8 @@ export default {
     this.loadProfile()
   },
   computed: {
-    img_urlPrefix(){
-        return mediaUtil.imgUrlPrefix()
+    media_url_prefix(){
+        return mediaUtil.urlPrefix()
     },
   },  
   methods: {
@@ -111,11 +111,11 @@ export default {
       this.dialogMsgArr =[]
 
       var csrftoken = Cookies.get('csrftoken')
-      const formData = new FormData();
-      formData.append("character_name", this.character_name);
-      formData.append("character_profile",  this.character_profile);
+      const formData = new FormData()
+      formData.append("character_name", this.character_name)
+      formData.append("character_profile",  this.character_profile)
       if(this.img_file != null)
-        formData.append("character_image", this.img_file);
+        formData.append("character_image", this.img_file)
  
       await this.$axios.patch(
         '/userUp/'+this.$store.getters.sessionUserId+'/', 

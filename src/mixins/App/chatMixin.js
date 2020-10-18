@@ -41,10 +41,10 @@ export default  {
           trpgSessionId:this.$store.getters.trpgSessionId,
           updateDate:date.getTime()
         }
-      );
+      )
     },
     scrollToLastItem() {
-      this.navDrawerContent = this.$refs['myNavDrawer'].$el.querySelector('div.v-navigation-drawer__content');
+      this.navDrawerContent = this.$refs['myNavDrawer'].$el.querySelector('div.v-navigation-drawer__content')
       this.$vuetify.goTo(99999 ,{ container:this.navDrawerContent})
     },
     chatMessage(msg,rollSum,rollResult,SuccessOrFailure) {

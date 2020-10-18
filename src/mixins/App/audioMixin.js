@@ -1,4 +1,3 @@
-import {Howl, Howler} from 'howler';
 export default  {
   created:function() {
     this.audio=   new Audio()

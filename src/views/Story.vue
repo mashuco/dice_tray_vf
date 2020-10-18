@@ -47,6 +47,7 @@ import Cookies from 'js-cookie'
 import Vuetify from 'vuetify/lib'
 import firebase from 'firebase/app'
 import "firebase/database"
+import mediaUtil from '../utils/mediaUtil'
 
 export default {
  data() {
@@ -56,13 +57,18 @@ export default {
       sceneData:[],
       selectedScene: {scene_name:'',session_scene_id:''},
       isSessionMaster: false,
-    };
-  },
-  created(){
+    }
+ },
+ created(){
 
     this.loadStory()
  },
  mounted() {
+ },
+ computed: {
+    media_url_prefix(){
+        return mediaUtil.urlPrefix()
+    }, 
  },
  methods: {
   doTop:function(){
@@ -100,8 +106,8 @@ export default {
   },
   async regServeScean(){
     var csrftoken = Cookies.get('csrftoken')
-    const formData = new FormData();
-    formData.append("trpg_session_now_scene", this.selectedScene.session_scene_id);
+    const formData = new FormData()
+    formData.append("trpg_session_now_scene", this.selectedScene.session_scene_id)
     await this.$axios.patch(
       '/session/'+this.$store.getters.trpgSessionId+'/', 
       formData,
@@ -127,7 +133,7 @@ export default {
         sessionUserId:this.$store.getters.sessionUserId,
         trpgSessionId:this.$store.getters.trpgSessionId
       }
-    );
+    )
   },
   fireBaseMessageStateWatch(){
       firebase.auth().onAuthStateChanged(user => {
@@ -147,8 +153,8 @@ export default {
       this.sceneData = response.data
     }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true})
     this.$store.commit('notifyNowScene',sceneId)
-    this.$store.commit('notifyTrpgSessionImg',this.sceneData[0]['scene_image'])
-    this.$store.commit('notifyTrpgSessionBgm',this.sceneData[0]['scene_bgm'])
+    this.$store.commit('notifyTrpgSessionImg',this.media_url_prefix+this.sceneData[0]['scene_image'])
+    this.$store.commit('notifyTrpgSessionBgm',this.media_url_prefix+this.sceneData[0]['scene_bgm'])
     
     this.selectedScene   ={ 
       scene_name:this.sceneData[0]['scene_name'], 

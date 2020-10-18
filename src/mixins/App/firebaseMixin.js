@@ -35,7 +35,7 @@ export default  {
         messagingSenderId:process.env.VUE_APP_FIREBASE_CONFIG_MESSAGINGSENDERID ,
         appId:process.env.VUE_APP_FIREBASE_CONFIG_APPID
        }
-      firebase.initializeApp(firebaseConfig);  
+      firebase.initializeApp(firebaseConfig)  
     },
     fireBaseRegistLoginStatus(uid){
       if(Vue.config.debug ||this.$store.getters.nonLogin)
@@ -45,38 +45,38 @@ export default  {
       const isOnlineForDatabase = {
           state: 'online',
          last_changed: firebase.database.ServerValue.TIMESTAMP,
-      };
+      }
 
       firebase.database().ref('.info/connected').on('value', function(snapshot) {
         if (snapshot.val() == false) {
-            return;
-        };
+            return
+        }
         userStatusDatabaseRef.onDisconnect().remove().then(function() {
-            userStatusDatabaseRef.set(isOnlineForDatabase);
-        });
-      });
+            userStatusDatabaseRef.set(isOnlineForDatabase)
+        })
+      })
 
     },
     fireBaseLiveUpdateLoginUsers(){      
       if(Vue.config.debug ||this.$store.getters.nonLogin)
       {
-        //this.loginUsers = ['test'];
+        //this.loginUsers = ['test']
         return
       }
       
-      this.loginUsers = [];
+      this.loginUsers = []
       var fbRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/')
       fbRef.on('value',this.UpdateLoginUsers)
     },
     UpdateLoginUsers(data){
       this.loginUsers=[]
-      const rootList = data.val();
-      const key = data.key;
+      const rootList = data.val()
+      const key = data.key
       if(rootList==null) 
         return
 
       Object.keys(rootList).forEach((val, key) => {
-        rootList[val].id = val;
+        rootList[val].id = val
         this.loginUsers.push(rootList[val].id)
       })
 
@@ -100,7 +100,7 @@ export default  {
           twUID:this.$store.getters.twUID,
           updateDate:date.getTime()
         }
-      );
+      )
     },
     async fireBaseTicektRelease() {
       if(Vue.config.debug ||this.$store.getters.nonLogin)
@@ -162,7 +162,7 @@ export default  {
           trpgSessionId:this.$store.getters.trpgSessionId,
           twUID:"",
           updateDate:date.getTime()
-        });
+        })
     }, 
 
   }

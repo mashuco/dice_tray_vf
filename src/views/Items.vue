@@ -40,15 +40,15 @@
 </template>
 
 <script>
-import Vue from "vue";
-import Cookies from 'js-cookie';
+import Vue from "vue"
+import Cookies from 'js-cookie'
 
 export default {
   data() {
     return {
       itemData:[],
       tw_user: {},  
-    };
+    }
   },  
   created(){
     this.userName = this.$store.getters.userName

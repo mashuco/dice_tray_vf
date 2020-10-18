@@ -11,7 +11,7 @@
       >
         <v-card color="#385F73" width="100%" height="320px">
                 <v-img  class="character_image_m　pa-0 my-3"  
-                 :src="img_urlPrefix+item.character_image"   
+                 :src="media_url_prefix+item.character_image"   
                   max-height="150" 
                   contain
                 >
@@ -35,8 +35,8 @@
 </template>
 
 <script>
-import Vue from "vue";
-import Cookies from 'js-cookie';
+import Vue from "vue"
+import Cookies from 'js-cookie'
 import mediaUtil from '../utils/mediaUtil'
 
 
@@ -45,15 +45,15 @@ export default {
     return {
       profileData:[],
       tw_user: {},  
-    };
+    }
   },  
   created(){
     
     this.loadAll()
   },  
   computed: {
-    img_urlPrefix(){
-        return mediaUtil.imgUrlPrefix()
+    media_url_prefix(){
+        return mediaUtil.urlPrefix()
     },
   },
   methods: {
