@@ -21,7 +21,7 @@
         </v-card-text>
         <v-card-subtitle class="pa-0 ma-0">
           <v-img 
-            :src="media_url_prefix+character_image"   
+            :src="media_img_url(character_image)"   
             max-height="180" 
             contain />
           <v-file-input
@@ -85,11 +85,14 @@ export default {
     this.loadProfile()
   },
   computed: {
-    media_url_prefix(){
-        return mediaUtil.urlPrefix()
-    },
   },  
   methods: {
+    media_img_url(str){
+      if(str==null)
+        return ""
+
+      return mediaUtil.urlPrefix()+str
+    },
     dialogClose(){
       this.dialog = false
     },

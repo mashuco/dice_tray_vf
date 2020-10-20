@@ -11,7 +11,7 @@
       >
         <v-card color="#385F73" width="100%" height="320px">
                 <v-img  class="character_image_m　pa-0 my-3"  
-                 :src="media_url_prefix+item.character_image"   
+                 :src="media_img_url(item.character_image)"   
                   max-height="150" 
                   contain
                 >
@@ -52,11 +52,14 @@ export default {
     this.loadAll()
   },  
   computed: {
-    media_url_prefix(){
-        return mediaUtil.urlPrefix()
-    },
   },
   methods: {
+    media_img_url(str){
+      if(str==null)
+        return ""
+
+      return mediaUtil.urlPrefix()+str
+    },
     loadAll:function(){
       this.$axios.get('/uEntry/?format=json&is_session_master=false&trpg_session='+this.$store.getters.trpgSessionId).then(response => {
         this.profileData = response.data

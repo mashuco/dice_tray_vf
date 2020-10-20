@@ -312,19 +312,18 @@
       this.doLogout()
     },
     methods: {
-    media_url_prefix(){
-      if(str==null)
-        return ""
+      media_url_prefix(){
+        if(str==null)
+          return ""
 
-      return mediaUtil.urlPrefix()
-    },
-    media_img_url(str){
-      if(str==null)
-        return ""
+        return mediaUtil.urlPrefix()
+      },
+      media_img_url(str){
+        if(str==null)
+          return ""
 
-      return mediaUtil.urlPrefix()+str
-    },
-
+        return mediaUtil.urlPrefix()+str
+      },
       handleResize: function() {
         if(this.drawer==true)
           return
