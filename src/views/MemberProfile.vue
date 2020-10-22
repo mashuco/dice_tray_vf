@@ -11,7 +11,7 @@
       >
         <v-card color="#385F73" width="100%" height="320px">
                 <v-img  class="character_image_m　pa-0 my-3"  
-                 :src="media_img_url(item.character_image)"   
+                 :src="mediaImgUrl(item.character_image)"   
                   max-height="150" 
                   contain
                 >
@@ -37,7 +37,7 @@
 <script>
 import Vue from "vue"
 import Cookies from 'js-cookie'
-import mediaUtil from '../utils/mediaUtil'
+import mediaUtils from '../utils/mediaUtils'
 
 
 export default {
@@ -48,17 +48,13 @@ export default {
     }
   },  
   created(){
-    
     this.loadAll()
   },  
   computed: {
   },
   methods: {
-    media_img_url(str){
-      if(str==null)
-        return ""
-
-      return mediaUtil.urlPrefix()+str
+    mediaImgUrl(str){
+      return mediaUtils.mediaImgUrl(str)
     },
     loadAll:function(){
       this.$axios.get('/uEntry/?format=json&is_session_master=false&trpg_session='+this.$store.getters.trpgSessionId).then(response => {

@@ -47,7 +47,7 @@ import Cookies from 'js-cookie'
 import Vuetify from 'vuetify/lib'
 import firebase from 'firebase/app'
 import "firebase/database"
-import mediaUtil from '../utils/mediaUtil'
+import mediaUtils from '../utils/mediaUtils'
 
 export default {
  data() {
@@ -67,7 +67,7 @@ export default {
  },
  computed: {
     media_url_prefix(){
-        return mediaUtil.urlPrefix()
+        return mediaUtils.urlPrefix()
     }, 
  },
  methods: {

@@ -160,7 +160,7 @@
               <v-list-item v-for="item in chatMessages
               " :key="item.text" link >
                 <img class="character_image_s"
-                :src="media_img_url(item.character_image)"   
+                :src="mediaImgUrl(item.character_image)"   
                 />
                 <v-list-item-content>
                   <v-textarea
@@ -237,8 +237,8 @@
   import SessionSelectPage from './components/App/SessionSelectPage'
   import TicketSelectPage  from './components/App/TicketSelectPage'
   import twitterInfoServ from './services/twitterInfoServ'
-  import axsiosUtil from './utils/axsiosUtil'
-  import mediaUtil from './utils/mediaUtil'
+  import axsiosUtils from './utils/axsiosUtils'
+  import mediaUtils from './utils/mediaUtils'
   import audioMixin from './mixins/App/audioMixin.js'
   import chatMixin from './mixins/App/chatMixin.js'
   import diceMixin from './mixins/App/diceMixin.js'
@@ -278,7 +278,7 @@
     created() {
       this.$vuetify.theme.dark = true
       //this.loadAllSession()
-      axsiosUtil.axsiosInitial()         
+      axsiosUtils.axsiosInitial()         
       this.fireBaseAuth()
     },
     mounted() {
@@ -315,14 +315,10 @@
       media_url_prefix(){
         if(str==null)
           return ""
-
-        return mediaUtil.urlPrefix()
+        return mediaUtils.urlPrefix()
       },
-      media_img_url(str){
-        if(str==null)
-          return ""
-
-        return mediaUtil.urlPrefix()+str
+      mediaImgUrl(str){
+        return mediaUtils.mediaImgUrl(str)
       },
       handleResize: function() {
         if(this.drawer==true)
@@ -332,7 +328,7 @@
       },
       doLogin(state) {
          this.login = state
-         axsiosUtil.axsiosInitialTw(this.$store.getters.twLinkedAuthKey)
+         axsiosUtils.axsiosInitialTw(this.$store.getters.twLinkedAuthKey)
          this.loadAllSession()
       },
       async loadAllSession(){
