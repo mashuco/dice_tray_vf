@@ -1,19 +1,29 @@
 <template>
-  <v-container >
-    <v-row
-      style="height: 300px"
-      justify="center" align-content="center"
-    >
-      <v-btn 
-        block x-large color="#009688"  
-        @click="submit" 
-        :loading="twAuthloading"
-      >{{this.buttonText}}</v-btn>
-      <v-checkbox
-        v-model="testModeCheckbox"
-        label="Twitterログインしない(test User)"
-      ></v-checkbox>   
-    </v-row>
+    <v-container >
+      <v-row
+        style="height: 300px"
+        justify="center" align-content="center"
+      >
+        <v-btn 
+          block x-large color="#009688"  
+          @click="submit" 
+          :loading="twAuthloading"
+        >{{this.buttonText}}</v-btn>
+      </v-row>
+      <v-row v-if=(this.testModeCheckbox) >
+          <v-text-field
+            v-model="testUserPassWord"
+            :type="'password'"
+            label="パスワード"
+            @keydown.enter="submit()"
+          ></v-text-field>
+      </v-row>
+      <v-row>
+          <v-checkbox
+            v-model="testModeCheckbox"
+            label="Twitterログインしない(Test User)"
+          ></v-checkbox>
+      </v-row>
   </v-container>
 </template>
 
@@ -31,6 +41,7 @@ export default {
     return {
       twAuthloading:false,
       testModeCheckbox:false,
+      testUserPassWord:'',
       diceImgPath: require('@/assets/142187.png'),
     }
   },
@@ -89,13 +100,15 @@ export default {
       await this.$axios.post('/rest-auth/login/', 
       { 
         username:process.env.VUE_APP_TEST_USER_NAME, 
-        password:process.env.VUE_APP_TEST_USER_PASS,
+        password:this.testUserPassWord,//process.env.VUE_APP_TEST_USER_PASS,
       },
       {
         headers: {'X-CSRFToken': csrftoken,},}
       ).then(response => {
         this.$store.commit('notifyTwLinkedAuthKey',response.data.key)
         this.$emit('clickSubmit',true)
+      }).catch(error => {
+        alert('パスワードが不正です')
       })
     },
     async getKey(twToken,twSecretToken){
