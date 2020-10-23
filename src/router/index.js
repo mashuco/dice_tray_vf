@@ -13,20 +13,6 @@ Vue.use(VueRouter)
       }   
     },
     {
-      path: '/maps',
-      name: 'maps',
-      component: function () {
-        return import(/* webpackChunkName: "diceTray" */ '../views/Maps.vue')
-      }   
-    },
-    {
-      path: '/cards',
-      name: 'cards',
-      component: function () {
-        return import(/* webpackChunkName: "diceTray" */ '../views/Cards.vue')
-      }   
-    },
-    {
       path: '/member_profile',
       name: 'member_profile',
       component: function () {

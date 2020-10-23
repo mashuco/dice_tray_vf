@@ -124,6 +124,8 @@ export default {
 
         this.$store.commit('notifyTwLinkedAuthKey',response.data.key)
         this.$emit('clickSubmit',true)
+      }).catch(error => {
+        alert('Twitter認証に失敗しました')
       })
     },
 

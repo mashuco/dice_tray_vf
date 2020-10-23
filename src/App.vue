@@ -13,60 +13,18 @@
           <span class="title">Xamaru(β)</span>
         </v-toolbar-title>
         <v-toolbar-items>
-          <v-menu class ="menu">
-            <template v-slot:activator="{on}">
-              <v-btn v-on="on" text>Menu</v-btn>
-            </template>
-            <v-list>
-              <v-list-item>
-                <v-list-item-content/>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title  @click="doStory">Story</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title  @click="doMemberProfile">Party</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title  @click="doMyProfile">my_profile</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title  @click="doLogout">Logout</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-           <v-menu class ="menu">
-            <template v-slot:activator="{on}">
-              <v-btn v-on="on" text >
-                 <v-icon class="pa-0 ma-0" >volume_mute</v-icon>                
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-item>
-                <v-list-item-content/>
-              </v-list-item>
-              <v-list-item>
-                <v-slider
-                  v-model="audioVolume"
-                  min=0
-                  max=100
-                  vertical 
-                  @end ="audioVolumeChenge"
-                  @click:prepend = "audioPlayAndPause"
-                  :prepend-icon="audioIcon"
-                ></v-slider>
-                {{audioVolume}}
-              </v-list-item>
-            </v-list>
-           </v-menu>
+          <Menu class ="menu"
+            v-on:doStory="doStory" 
+            v-on:doMemberProfile="doMemberProfile" 
+            v-on:doMyProfile="doMyProfile" 
+            v-on:doLogout="doLogout" 
+          />
+          <SoundVolume class ="menu"
+            :parentVolume = 'audioVolume'
+            :isPlay = 'isPlay'
+            v-on:audioVolumeChenge = "audioVolumeChenge2"
+            v-on:audioPlayAndPause = "audioPlayAndPause"
+          />
         </v-toolbar-items>
       </v-app-bar>
     </div>
@@ -80,101 +38,14 @@
     >
         <v-container class="pa-0 ma-1">
           <v-layout wrap>
-            <v-card   
-              class="side-bar-header "
-              :width = 'window_width_prop '
-             >
-                <div style="width:1px; height: 5px"/>
-                  <v-row class="pa-0 ma-0" justify="start">
-                    <v-col class="pa-0 ma-0">
-                       <v-img
-                        :src="diceImgPath"
-                        max-height="35" 
-                        contain
-                        class="pa-0 ma-0"
-                      />
-                    </v-col>
-                  </v-row>
-                  <v-row class="pa-0 ma-0">
-                  <v-col class="pa-0 ma-0">
-                    <v-select  class="pa-0 ma-0"
-                      v-model="diceSelectedFace"
-                      :items="diceFaceOptions"
-                      item-text="name"
-                      item-value="id"
-                      outlined
-                      return-object
-                      dense
-                      style="width:90px;"
-                    ></v-select>
-                  </v-col>
-                  <v-col class="pa-2 ma-0">
-                    <el-input-number 
-                      style="width:110px;  font-size: 16px; transform: scale(0.8);"
-                      size="small"
-                      v-model="diceNum"  
-                      :min="1" 
-                      :max="100"
-                    ></el-input-number>
-                  </v-col>
-                  <v-col class="py-3  ma-0">
-                    <v-btn  outlined small @click="chatOnSelectRollDice">個振る</v-btn>
-                  </v-col>
-                </v-row>
-                <v-row class="pa-0 ma-0">
-                  <v-col class="pa-0 ma-0">
-                    <v-switch v-model="diceUseTarget"  label="目標"></v-switch>
-                  </v-col>
-                  <v-col class="pa-3 ma-0">
-                    <el-input-number 
-                      style="width:130px;  font-size: 16px; transform: scale(0.8);"
-                      size="small"
-                      :disabled="!diceUseTarget" 
-                      v-model="diceTarget"  
-                      :min="1" 
-                      :max="100"
-                      ></el-input-number>
-                  </v-col >
-                  <v-col class="py-5 ma-0">
-                    以上
-                  </v-col >
-                </v-row>
-                <v-row>
-                  <v-col class="pa-0 ma-0">
-                  <v-text-field class="pa-0  ma-0"
-                    v-model="chatTextarea"
-                    placeholder="input message..."
-                    single-line
-                    append-icon="mdi-chat"
-                    color="white"
-                    hide-details
-                    @keydown.enter="chatOnDiceRoll"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-          </v-card >
-          <v-sheet class="chat-window"
-            :width = 'window_width_prop'
-          >
-            <v-list three-line >
-              <v-list-item v-for="item in chatMessages
-              " :key="item.text" link >
-                <img class="character_image_s"
-                :src="mediaImgUrl(item.character_image)"   
-                />
-                <v-list-item-content>
-                  <v-textarea
-                    outlined
-                    :value="chatMessage(item.roll_dice_command,item.roll_dice_result_sum,item.roll_dice_result_split,item.is_roll_daice_suees)"
-                    :label="item.character_name +'('+ item.twitter_users_name +')'"
-                    style="white-space:pre"
-                    height="70px"
-                    readonly
-                  ></v-textarea>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list> 
-          </v-sheet>
+            <ChatCommand  class="pa-0 ma-0 side-bar-header "
+              v-on:sendCommand="sendCommand2" 
+              :window_width_prop ="window_width_prop"
+            />
+            <ChatList class="pa-0 ma-0 chat-window"
+              :chatMessages = chatMessages
+              :window_width_prop ="window_width_prop"
+            />
         </v-layout>
       </v-container>
     </v-navigation-drawer>
@@ -206,6 +77,7 @@
   <v-app v-else-if="choiceSession">
    <TicketSelectPage
       v-on:select="doSelectTicket" 
+      v-on:releaseSession="releaseSession"
       :ticketData = "sessionAllTicketData"
       :loginUsers = "loginUsers"
     />
@@ -213,11 +85,12 @@
   <v-app v-else-if="login">
     <SessionSelectPage 
       v-on:clickSubmit="doSelectSession" 
+      v-on:pageBack="forcedLogout" 
       :sessionData = "sessionAllData"
     />
   </v-app>
   <v-app v-else>
-    <LoginPage 
+    <LoginPage
       v-on:clickSubmit="doLogin" 
       :authloading ="twAuthloading"
     />
@@ -225,6 +98,15 @@
 </template>
 <script>
   import Vue from "vue"
+  import Menu from './components/Menu'
+  import LoginPage from './components/LoginPage'
+  import SessionSelectPage from './components/SessionSelectPage'
+  import TicketSelectPage  from './components/TicketSelectPage'
+  import ChatCommand from './components/ChatCommand'
+  import ChatList from './components/ChatList'
+  import SoundVolume from './components/SoundVolume'
+  import Dialog from './components/Dialog'
+
   import firebase from 'firebase/app'
   import "firebase/auth"
   import "firebase/database"
@@ -232,25 +114,29 @@
   import Story from './views/Story.vue'
   import Vuetify from 'vuetify/lib'
   import './plugins/element.js'
-  import Dialog from './components/Dialog'
-  import LoginPage from './components/App/LoginPage'
-  import SessionSelectPage from './components/App/SessionSelectPage'
-  import TicketSelectPage  from './components/App/TicketSelectPage'
   import twitterInfoServ from './services/twitterInfoServ'
   import axsiosUtils from './utils/axsiosUtils'
   import mediaUtils from './utils/mediaUtils'
   import audioMixin from './mixins/App/audioMixin.js'
   import chatMixin from './mixins/App/chatMixin.js'
-  import diceMixin from './mixins/App/diceMixin.js'
   import ticketMixin from './mixins/App/ticketMixin.js'
   import firebaseMixin from './mixins/App/firebaseMixin.js'
  
  export default {
-    mixins: [ticketMixin,audioMixin,chatMixin,diceMixin,firebaseMixin],
+    mixins: [
+      ticketMixin,
+      audioMixin,
+      chatMixin,
+      firebaseMixin
+    ],
     components: {
       LoginPage,
       SessionSelectPage,
       TicketSelectPage,
+      Menu,
+      SoundVolume,
+      ChatCommand,
+      ChatList,
       Dialog,
     },
     data() {
@@ -349,16 +235,15 @@
         this.ticket_no=''
         this.audio.pause()
       },
+      releaseSession(){
+        this.choiceSession = false
+      },
       async doSelectSession(str){
         this.choiceSession = true
         this.$store.commit('notifyTrpgSessionId',str)
-
         await this.loadSelectedSessionInfo(str)
         this.selectedUserCheck()
- 
-      　this.fireBaseTicketStateWatch()
-        this.fireBaseTicketDisconectWatch()
-        this.fireBaseLiveUpdateLoginUsers()
+      　this.fireBaseTicketStartIni()
       },
       async loadSelectedSessionInfo(str){
         await this.$axios.get('/uEntry/?format=json&trpg_session='+str,

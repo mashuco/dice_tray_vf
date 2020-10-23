@@ -37,10 +37,15 @@
     label="チケットNO"
     @keydown.enter="textAreasubmit()"
   ></v-text-field>
+  <v-btn 
+    large color="#009688"  
+    @click="pageBack" 
+  >戻る</v-btn>
+  
  </v-container>
 </template>
 <script>
-import Dialog from '../Dialog'
+import Dialog from './Dialog'
 
 export default {
   props: {
@@ -94,6 +99,9 @@ export default {
     }
   },
   methods: {
+    pageBack(){
+      this.$emit('releaseSession')
+    },
     submit(str) {
       if(str===""){
         alert('チケット番号がありません')

@@ -37,9 +37,18 @@ export default  {
     }
   },
   methods:{
+    audioVolumeChenge2(volume){
+      if(this.audioVolume==0){
+        this.audio.volume = 0
+        return
+      }
+        this.audioVolume = volume
+        this.audio.volume =this.audioVolume/100
+
+    },
     audioVolumeChenge(){
     if(this.audioVolume==0){
-      this.audio.volume(0)
+      this.audio.volume = 0
       return
     }
       this.audio.volume =this.audioVolume/100
