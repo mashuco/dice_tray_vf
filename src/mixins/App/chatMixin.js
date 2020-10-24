@@ -16,7 +16,7 @@ export default  {
   computed: {
   },
   methods:{
-    async sendCommand2(chatTextarea){
+    async sendCommand(chatTextarea){
       var csrftoken = Cookies.get('csrftoken')
       await this.$axios.post('/uDiceRoll/', 
       { 
@@ -31,34 +31,7 @@ export default  {
         this.postResuolt = response.data
         this.chatLoad()  
       })
-      this.doFireBaseUpdate()
-    },
-    async sendCommand(){
-      var csrftoken = Cookies.get('csrftoken')
-      await this.$axios.post('/uDiceRoll/', 
-      { 
-        session_users:this.$store.getters.sessionUserId, 
-        roll_dice_command:this.chatTextarea,
-        twitter_users_name: this.$store.getters.twName,
-        twitter_users_photo:this.$store.getters.twPhoto
-      },
-      {
-        headers: {'X-CSRFToken': csrftoken,},}
-      ).then(response => {
-        this.postResuolt = response.data
-        this.chatLoad()  
-      })
-      this.doFireBaseUpdate()
-    },
-    doFireBaseUpdate() {
-      var date = new Date()
-      firebase.database().ref('message').child(this.$store.getters.firebaseMessageKeyId).update(
-        {
-          sessionUserId:this.$store.getters.sessionUserId,
-          trpgSessionId:this.$store.getters.trpgSessionId,
-          updateDate:date.getTime()
-        }
-      )
+      this.doFireBaseChatUpdate()
     },
     scrollToLastItem() {
       this.navDrawerContent = this.$refs['myNavDrawer'].$el.querySelector('div.v-navigation-drawer__content')

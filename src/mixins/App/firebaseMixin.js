@@ -91,7 +91,7 @@ export default  {
         return
 
       const ref_message = firebase.database().ref('message')
-      ref_message.limitToLast(10).on('child_changed',this.chatFirebaseMessageChanged)
+      ref_message.limitToLast(1).on('child_changed',this.chatFirebaseMessageChanged)
     },
     async fireBaseTicketStateUpdate() {
       if(Vue.config.debug ||this.$store.getters.nonLogin)
@@ -128,7 +128,7 @@ export default  {
 
       firebase.auth().onAuthStateChanged(user => {
         const ref_message = firebase.database().ref('ticket')
-        ref_message.limitToLast(10).on('child_changed', this.ticketStateWatchChanged)
+        ref_message.limitToLast(1).on('child_changed', this.ticketStateWatchChanged)
       })
     }, 
     ticketStateWatchChanged(snap) {
@@ -169,6 +169,20 @@ export default  {
           updateDate:date.getTime()
         })
     }, 
+    doFireBaseChatUpdate() {
+      if(Vue.config.debug ||this.$store.getters.nonLogin)
+        return
+
+      var date = new Date()
+      firebase.database().ref('message').child(this.$store.getters.firebaseMessageKeyId).update(
+        {
+          sessionUserId:this.$store.getters.sessionUserId,
+          trpgSessionId:this.$store.getters.trpgSessionId,
+          updateDate:date.getTime()
+        }
+      )
+    },
+
 
   }
 }

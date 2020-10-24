@@ -39,7 +39,7 @@
         <v-container class="pa-0 ma-1">
           <v-layout wrap>
             <ChatCommand  class="pa-0 ma-0 side-bar-header "
-              v-on:sendCommand="sendCommand2" 
+              v-on:sendCommand="sendCommand" 
               :window_width_prop ="window_width_prop"
             />
             <ChatList class="pa-0 ma-0 chat-window"

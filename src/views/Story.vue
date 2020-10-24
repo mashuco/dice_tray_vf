@@ -138,7 +138,7 @@ export default {
   fireBaseMessageStateWatch(){
       firebase.auth().onAuthStateChanged(user => {
         const ref_message = firebase.database().ref('scene')
-        ref_message.limitToLast(10).on('child_changed', this.messageChanged)
+        ref_message.limitToLast(1).on('child_changed', this.messageChanged)
       })
   }, 
   messageChanged(snap) {
