@@ -14,6 +14,11 @@ export default  {
     computed: {
     },
     methods:{
+      fireBaseTicketStartIni(){
+        　this.fireBaseTicketStateWatch()
+          this.fireBaseTicketDisconectWatch()
+          this.fireBaseLiveUpdateLoginUsers()      
+      },
       selectedUserCheck(){
           var tmp =(this.sessionAllTicketData.find(item => item.tw_UID === this.$store.getters.twUID))
   

@@ -38,6 +38,16 @@ export default  {
       })
       this.doFireBaseChatUpdate()
     },
+    scrollToLastItem() {
+      this.navDrawerContent = this.$refs['myNavDrawer'].$el.querySelector('div.v-navigation-drawer__content')
+      this.$vuetify.goTo(99999 ,{ container:this.navDrawerContent})
+    },
+    async chatLoad(){
+      await this.$axios.get('/uDiceLog/?format=json&session_users__trpg_session='+this.$store.getters.trpgSessionId).then(response => {
+        this.chatMessages = response.data
+      })
+      this.scrollToLastItem()
+    },
     async fireBaseChatMessageStateWatch(){
       if(Vue.config.debug ||this.$store.getters.nonLogin)
         return
@@ -57,19 +67,6 @@ export default  {
           updateDate:date.getTime()
         }
       )
-    },
-
-
-
-    scrollToLastItem() {
-      this.navDrawerContent = this.$refs['myNavDrawer'].$el.querySelector('div.v-navigation-drawer__content')
-      this.$vuetify.goTo(99999 ,{ container:this.navDrawerContent})
-    },
-    async chatLoad(){
-      await this.$axios.get('/uDiceLog/?format=json&session_users__trpg_session='+this.$store.getters.trpgSessionId).then(response => {
-        this.chatMessages = response.data
-      })
-      this.scrollToLastItem()
     },
     chatFirebaseMessageChanged(snap) {
       if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 

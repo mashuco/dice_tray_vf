@@ -37,11 +37,6 @@ export default  {
        }
       firebase.initializeApp(firebaseConfig)  
     },
-    fireBaseTicketStartIni(){
-      　this.fireBaseTicketStateWatch()
-        this.fireBaseTicketDisconectWatch()
-        this.fireBaseLiveUpdateLoginUsers()      
-    },
     fireBaseRegistLoginStatus(uid){
       if(Vue.config.debug ||this.$store.getters.nonLogin)
         return
