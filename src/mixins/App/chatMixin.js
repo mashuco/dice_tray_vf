@@ -33,6 +33,29 @@ export default  {
       })
       this.doFireBaseChatUpdate()
     },
+    async fireBaseChatMessageStateWatch(){
+      if(Vue.config.debug ||this.$store.getters.nonLogin)
+        return
+
+      const ref_message = firebase.database().ref('message')
+      ref_message.limitToLast(1).on('child_changed',this.chatFirebaseMessageChanged)
+    },
+    doFireBaseChatUpdate() {
+      if(Vue.config.debug ||this.$store.getters.nonLogin)
+        return
+
+      var date = new Date()
+      firebase.database().ref('message').child(this.$store.getters.firebaseMessageKeyId).update(
+        {
+          sessionUserId:this.$store.getters.sessionUserId,
+          trpgSessionId:this.$store.getters.trpgSessionId,
+          updateDate:date.getTime()
+        }
+      )
+    },
+
+
+
     scrollToLastItem() {
       this.navDrawerContent = this.$refs['myNavDrawer'].$el.querySelector('div.v-navigation-drawer__content')
       this.$vuetify.goTo(99999 ,{ container:this.navDrawerContent})

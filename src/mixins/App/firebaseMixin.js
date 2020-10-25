@@ -86,26 +86,6 @@ export default  {
       })
 
     },
-    async fireBaseChatMessageStateWatch(){
-      if(Vue.config.debug ||this.$store.getters.nonLogin)
-        return
-
-      const ref_message = firebase.database().ref('message')
-      ref_message.limitToLast(1).on('child_changed',this.chatFirebaseMessageChanged)
-    },
-    doFireBaseChatUpdate() {
-      if(Vue.config.debug ||this.$store.getters.nonLogin)
-        return
-
-      var date = new Date()
-      firebase.database().ref('message').child(this.$store.getters.firebaseMessageKeyId).update(
-        {
-          sessionUserId:this.$store.getters.sessionUserId,
-          trpgSessionId:this.$store.getters.trpgSessionId,
-          updateDate:date.getTime()
-        }
-      )
-    },
     async fireBaseTicketStateUpdate() {
       if(Vue.config.debug ||this.$store.getters.nonLogin)
         return
@@ -182,6 +162,21 @@ export default  {
           updateDate:date.getTime()
         })
     }, 
+    fireBaseMessageSceneStateWatch(){
+      firebase.auth().onAuthStateChanged(user => {
+        const ref_message = firebase.database().ref('scene')
+        ref_message.limitToLast(1).on('child_changed', this.messageChanged)
+      })
+    }, 
+    fireBaseMessageSceneStateUpdate(){
+      firebase.database().ref('scene').child(this.$store.getters.firebaseSceanKeyId).update(
+        {
+          sessionSceneId:this.selectedScene.session_scene_id,
+          sessionUserId:this.$store.getters.sessionUserId,
+          trpgSessionId:this.$store.getters.trpgSessionId
+        }
+      )
+    },
   }
 }
 

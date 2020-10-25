@@ -148,8 +148,6 @@ export default {
       scene_name:this.sceneData[0]['scene_name'], 
       session_scene_id: this.sceneData[0]['session_scene_id']
     }
-    console.log("②this.selectedScene")
-    console.log(this.selectedScene)
 
   },
   fireBaseMessageSceneStateWatch(){
