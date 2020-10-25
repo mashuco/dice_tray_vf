@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie'
 import firebase from 'firebase/app'
 import "firebase/database"
+import Vue from "vue"
 
 export default  {
   created:function() {
