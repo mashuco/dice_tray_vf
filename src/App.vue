@@ -114,7 +114,9 @@
   import Scene from './views/Scene.vue'
   import Vuetify from 'vuetify/lib'
   import './plugins/element.js'
+  import fireBaseService from './services/fireBaseService'
   import twitterInfoServ from './services/twitterInfoServ'
+  
   import axsiosUtils from './utils/axsiosUtils'
   import mediaUtils from './utils/mediaUtils'
   import audioMixin from './mixins/App/audioMixin.js'
