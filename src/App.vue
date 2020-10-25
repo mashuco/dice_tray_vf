@@ -14,7 +14,7 @@
         </v-toolbar-title>
         <v-toolbar-items>
           <Menu class ="menu"
-            v-on:doStory="doStory" 
+            v-on:doScene="doScene" 
             v-on:doMemberProfile="doMemberProfile" 
             v-on:doMyProfile="doMyProfile" 
             v-on:doLogout="doLogout" 
@@ -111,7 +111,7 @@
   import "firebase/auth"
   import "firebase/database"
   import Cookies from 'js-cookie'
-  import Story from './views/Story.vue'
+  import Scene from './views/Scene.vue'
   import Vuetify from 'vuetify/lib'
   import './plugins/element.js'
   import twitterInfoServ from './services/twitterInfoServ'
@@ -228,7 +228,7 @@
         this.forcedLogout()
       },
       forcedLogout(){
-        this.fireBaseTicektRelease()
+        this.fireBaseTicketRelease()
         this.entry = false
         this.login = false
         this.choiceSession=false
@@ -254,10 +254,10 @@
       async doSelectTicket(searchTicket){
         this.selectTicket(searchTicket)
       },
-      doStory(){
+      doScene(){
         if(this.is_mdAndUp == false)
         this.drawer = false
-        this.$router.push({ name: "story" , props:{p_entry : this.entry}})
+        this.$router.push({ name: "scene" , props:{p_entry : this.entry}})
       },
       doMemberProfile(){
         if(this.is_mdAndUp == false)

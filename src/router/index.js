@@ -27,10 +27,10 @@ Vue.use(VueRouter)
       }   
     },
     {
-      path: '/story',
-      name: 'story',
+      path: '/scene',
+      name: 'scene',
       component: function () {
-        return import(/* webpackChunkName: "diceTray" */ '../views/Story.vue')
+        return import(/* webpackChunkName: "diceTray" */ '../views/Scene.vue')
       }
     },
 

@@ -11,11 +11,10 @@
           persistent-hint
           return-object
           single-line
-          return-object
           @change = 'selectScene'
-         :readonly="!$store.getters.isSessionMaster"
         ></v-select>
        </v-card>
+       <!--:readonly="!$store.getters.isSessionMaster"-->
 
         <v-card width="100%" >
         <v-list>
@@ -57,11 +56,13 @@ export default {
       sceneData:[],
       selectedScene: {scene_name:'',session_scene_id:''},
       isSessionMaster: false,
+      dialogMsgArr:[],
+      dialog:false,
     }
  },
  created(){
 
-    this.loadStory()
+    this.initScene()
  },
  mounted() {
  },
@@ -74,7 +75,7 @@ export default {
   doTop:function(){
     this.$router.push("/")
   },
-  async loadStory(){
+  async initScene(){
     if(this.$store.getters.nowScene=="")
       await this.loadSession()
 
@@ -85,7 +86,7 @@ export default {
     if(Vue.config.debug ||this.$store.getters.nonLogin)
       return
       
-    this.fireBaseMessageStateWatch()
+    this.fireBaseMessageSceneStateWatch()
   },  
   async loadSession(){
     await this.$axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
@@ -126,21 +127,8 @@ export default {
     this.loadScene(this.selectedScene.session_scene_id)
     if(Vue.config.debug ||this.$store.getters.nonLogin)
       return
-
-    firebase.database().ref('scene').child(this.$store.getters.firebaseSceanKeyId).update(
-      {
-        sessionSceneId:this.selectedScene.session_scene_id,
-        sessionUserId:this.$store.getters.sessionUserId,
-        trpgSessionId:this.$store.getters.trpgSessionId
-      }
-    )
+    this.fireBaseMessageSceneStateUpdate()
   },
-  fireBaseMessageStateWatch(){
-      firebase.auth().onAuthStateChanged(user => {
-        const ref_message = firebase.database().ref('scene')
-        ref_message.limitToLast(1).on('child_changed', this.messageChanged)
-      })
-  }, 
   messageChanged(snap) {
     if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
       return
@@ -160,8 +148,12 @@ export default {
       scene_name:this.sceneData[0]['scene_name'], 
       session_scene_id: this.sceneData[0]['session_scene_id']
     }
+    console.log("②this.selectedScene")
+    console.log(this.selectedScene)
+
   },
   
  }
 }
 </script>
+

@@ -13,7 +13,7 @@ export default  {
       baseURL:  process.env.VUE_APP_URL,
     })            
   },
-  axsiosInitialBasic(twLinkedAuthKey){
+  axsiosInitialBasic(){
     Vue.prototype.$axios = axios.create({ 
       baseURL:  process.env.VUE_APP_URL,
       auth: {

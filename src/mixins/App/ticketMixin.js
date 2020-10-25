@@ -61,8 +61,8 @@ export default  {
 
         await this.fireBaseTicketStateUpdate()
 
-        if(this.$route.path!="/story")
-          this.$router.push({ name: "story" })
+        if(this.$route.path!="/scene")
+          this.$router.push({ name: "scene" })
 
         await this.$axios.get('/scene/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
             this.sceneAllData = response.data

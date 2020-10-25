@@ -55,9 +55,6 @@ export default {
     loginUsers:{
       type:Array
     }
-    //ticketDataWithoutGM:{
-    //  type:Array
-    //}
   },
   components: {
     Dialog,

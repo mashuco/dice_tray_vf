@@ -9,7 +9,7 @@
       </v-list-item>
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-title  @click="doStory">Story</v-list-item-title>
+          <v-list-item-title  @click="doScene">Scene</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       <v-list-item>
@@ -50,8 +50,8 @@ export default {
   computed: {
   },
   methods:{
-    doStory(){
-      this.$emit('doStory')
+    doScene(){
+      this.$emit('doScene')
     },
     doMemberProfile(){
       this.$emit('doMemberProfile')
