@@ -17,6 +17,10 @@ export default  {
   computed: {
   },
   methods:{
+    chatInit(){
+      this.fireBaseChatMessageStateWatch()
+      this.chatLoad()
+    },
     async sendCommand(chatTextarea){
       var csrftoken = Cookies.get('csrftoken')
       await this.$axios.post('/uDiceRoll/', 
