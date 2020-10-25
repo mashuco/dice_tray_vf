@@ -67,9 +67,9 @@ export default  {
         await this.$axios.get('/scene/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
             this.sceneAllData = response.data
         })
-        this.chatInit()
-        //this.fireBaseChatMessageStateWatch()
-        //this.chatLoad()
+        
+        this.fireBaseChatMessageStateWatch()
+        this.chatLoad()
       },
 
     }

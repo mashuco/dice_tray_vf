@@ -1,7 +1,6 @@
 import Cookies from 'js-cookie'
 import firebase from 'firebase/app'
 import "firebase/database"
-import Vue from "vue"
 
 export default  {
   created:function() {
@@ -17,10 +16,6 @@ export default  {
   computed: {
   },
   methods:{
-    chatInit(){
-      this.fireBaseChatMessageStateWatch()
-      this.chatLoad()
-    },
     async sendCommand(chatTextarea){
       var csrftoken = Cookies.get('csrftoken')
       await this.$axios.post('/uDiceRoll/', 
@@ -58,6 +53,9 @@ export default  {
         }
       )
     },
+
+
+
     scrollToLastItem() {
       this.navDrawerContent = this.$refs['myNavDrawer'].$el.querySelector('div.v-navigation-drawer__content')
       this.$vuetify.goTo(99999 ,{ container:this.navDrawerContent})
