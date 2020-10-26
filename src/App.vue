@@ -124,13 +124,16 @@
   import chatMixin from './mixins/App/chatMixin.js'
   import ticketMixin from './mixins/App/ticketMixin.js'
   import firebaseMixin from './mixins/App/firebaseMixin.js'
+  import loginMixin from './mixins/App/loginMixin.js'
+  
  
  export default {
     mixins: [
       ticketMixin,
       audioMixin,
       chatMixin,
-      firebaseMixin
+      firebaseMixin,
+      loginMixin
     ],
     components: {
       LoginPage,

@@ -6,10 +6,6 @@ export default  {
   created:function() {
   },
   data(){
-    return {
-      dialogLogout:false,
-      loginUsers:[]   
-    }
   },
   mounted(){
   },
@@ -17,70 +13,6 @@ export default  {
     
   },
   methods:{
-//    fireBaseAuth(){
-//      if(Vue.config.debug ||this.$store.getters.nonLogin)
-//      {
-//        this.$store.commit('notifyTwUID','test')
-//        this.$store.commit('notifyTwName','test')
-//        this.$store.commit('notifyTwPhoto',this.diceImgPath)
-//        return
-//      }
-
-//      var firebaseConfig = {
-//        apiKey:process.env.VUE_APP_FIREBASE_CONFIG_APIKEY ,
-//        authDomain:process.env.VUE_APP_FIREBASE_CONFIG_AUTHDOMAIN ,
-//        databaseURL:process.env.VUE_APP_FIREBASE_CONFIG_DATABASEURL ,
-//        projectId:process.env.VUE_APP_FIREBASE_CONFIG_PROJECTID ,
-//        storageBucket:process.env.VUE_APP_FIREBASE_CONFIG_STORAGEBUCKET ,
-//        messagingSenderId:process.env.VUE_APP_FIREBASE_CONFIG_MESSAGINGSENDERID ,
-//        appId:process.env.VUE_APP_FIREBASE_CONFIG_APPID
-//       }
-//      firebase.initializeApp(firebaseConfig)  
-//    },
-    fireBaseRegistLoginStatus(uid){
-      if(Vue.config.debug ||this.$store.getters.nonLogin)
-        return
-
-      const userStatusDatabaseRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/'+uid)
-      const isOnlineForDatabase = {
-          state: 'online',
-         last_changed: firebase.database.ServerValue.TIMESTAMP,
-      }
-
-      firebase.database().ref('.info/connected').on('value', function(snapshot) {
-        if (snapshot.val() == false) {
-            return
-        }
-        userStatusDatabaseRef.onDisconnect().remove().then(function() {
-            userStatusDatabaseRef.set(isOnlineForDatabase)
-        })
-      })
-
-    },
-    fireBaseLiveUpdateLoginUsers(){      
-      if(Vue.config.debug ||this.$store.getters.nonLogin)
-      {
-        //this.loginUsers = ['test']
-        return
-      }
-      
-      this.loginUsers = []
-      var fbRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/')
-      fbRef.on('value',this.UpdateLoginUsers)
-    },
-    UpdateLoginUsers(data){
-      this.loginUsers=[]
-      const rootList = data.val()
-      const key = data.key
-      if(rootList==null) 
-        return
-
-      Object.keys(rootList).forEach((val, key) => {
-        rootList[val].id = val
-        this.loginUsers.push(rootList[val].id)
-      })
-
-    },
     async fireBaseTicketStateUpdate() {
       if(Vue.config.debug ||this.$store.getters.nonLogin)
         return
