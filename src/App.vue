@@ -115,8 +115,9 @@
   import Vuetify from 'vuetify/lib'
   import './plugins/element.js'
   import fireBaseService from './services/fireBaseService'
-  import twitterInfoServ from './services/twitterInfoServ'
+  import twitterInfoService from './services/twitterInfoService'
   
+  import fireBaseUtils from './utils/fireBaseUtils'
   import axsiosUtils from './utils/axsiosUtils'
   import mediaUtils from './utils/mediaUtils'
   import audioMixin from './mixins/App/audioMixin.js'
@@ -165,9 +166,15 @@
     },
     created() {
       this.$vuetify.theme.dark = true
-      //this.loadAllSession()
-      axsiosUtils.axsiosInitial()         
-      this.fireBaseAuth()
+      axsiosUtils.axsiosInitial() 
+      if(Vue.config.debug ||this.$store.getters.nonLogin)
+      {
+        this.$store.commit('notifyTwUID','test')
+        this.$store.commit('notifyTwName','test')
+        this.$store.commit('notifyTwPhoto',this.diceImgPath)
+        return
+      }              
+      fireBaseUtils.fireBaseAuth()
     },
     mounted() {
       window.addEventListener('resize', this.handleResize)
@@ -226,7 +233,7 @@
           }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true})
       },
       doLogout() {
-        twitterInfoServ.regist(this.$axios,'','','', this.$store.getters.sessionUserId)
+        twitterInfoService.regist(this.$axios,'','','', this.$store.getters.sessionUserId)
         this.forcedLogout()
       },
       forcedLogout(){

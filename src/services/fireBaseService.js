@@ -4,5 +4,4 @@ import "firebase/database"
 export default {
 
 
-
 }

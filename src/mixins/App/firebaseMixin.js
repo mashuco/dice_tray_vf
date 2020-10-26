@@ -17,26 +17,26 @@ export default  {
     
   },
   methods:{
-    fireBaseAuth(){
-      if(Vue.config.debug ||this.$store.getters.nonLogin)
-      {
-        this.$store.commit('notifyTwUID','test')
-        this.$store.commit('notifyTwName','test')
-        this.$store.commit('notifyTwPhoto',this.diceImgPath)
-        return
-      }
+//    fireBaseAuth(){
+//      if(Vue.config.debug ||this.$store.getters.nonLogin)
+//      {
+//        this.$store.commit('notifyTwUID','test')
+//        this.$store.commit('notifyTwName','test')
+//        this.$store.commit('notifyTwPhoto',this.diceImgPath)
+//        return
+//      }
 
-      var firebaseConfig = {
-        apiKey:process.env.VUE_APP_FIREBASE_CONFIG_APIKEY ,
-        authDomain:process.env.VUE_APP_FIREBASE_CONFIG_AUTHDOMAIN ,
-        databaseURL:process.env.VUE_APP_FIREBASE_CONFIG_DATABASEURL ,
-        projectId:process.env.VUE_APP_FIREBASE_CONFIG_PROJECTID ,
-        storageBucket:process.env.VUE_APP_FIREBASE_CONFIG_STORAGEBUCKET ,
-        messagingSenderId:process.env.VUE_APP_FIREBASE_CONFIG_MESSAGINGSENDERID ,
-        appId:process.env.VUE_APP_FIREBASE_CONFIG_APPID
-       }
-      firebase.initializeApp(firebaseConfig)  
-    },
+//      var firebaseConfig = {
+//        apiKey:process.env.VUE_APP_FIREBASE_CONFIG_APIKEY ,
+//        authDomain:process.env.VUE_APP_FIREBASE_CONFIG_AUTHDOMAIN ,
+//        databaseURL:process.env.VUE_APP_FIREBASE_CONFIG_DATABASEURL ,
+//        projectId:process.env.VUE_APP_FIREBASE_CONFIG_PROJECTID ,
+//        storageBucket:process.env.VUE_APP_FIREBASE_CONFIG_STORAGEBUCKET ,
+//        messagingSenderId:process.env.VUE_APP_FIREBASE_CONFIG_MESSAGINGSENDERID ,
+//        appId:process.env.VUE_APP_FIREBASE_CONFIG_APPID
+//       }
+//      firebase.initializeApp(firebaseConfig)  
+//    },
     fireBaseRegistLoginStatus(uid){
       if(Vue.config.debug ||this.$store.getters.nonLogin)
         return
