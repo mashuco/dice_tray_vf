@@ -133,7 +133,7 @@
       audioMixin,
       chatMixin,
       firebaseMixin,
-      loginMixin
+//      loginMixin
     ],
     components: {
       LoginPage,
