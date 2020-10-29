@@ -1,6 +1,14 @@
 <template>
   <v-app >
-   <TicketSelectPage
+  <v-dialog v-model="dialog" max-width= "500">
+    <Dialog
+      v-on:clickSubmit="callBack"
+      title="確認"
+      :msgArr='dialogMsgArr'
+      :notification='true'
+    ></Dialog>
+  </v-dialog>
+  <TicketSelectPage
       v-on:select="doSelectTicket" 
       v-on:releaseSession="releaseSession"
       :ticketData = "sessionAllTicketData"
@@ -10,8 +18,11 @@
 </template>
 <script>
   import Vue from "vue"
-  import TicketSelectPage from '../components/TicketSelectPage'
+  import firebase from 'firebase/app'
+  import 'firebase/database'
   import twitterInfoService from '../services/twitterInfoService'
+  import TicketSelectPage from '../components/TicketSelectPage'
+  import Dialog from '../components/Dialog'
 
   export default {
     mixins: [
@@ -22,15 +33,18 @@
     data() {
       return {
         sessionAllTicketData:[],
-        loginUsers:[]   
+        loginUsers:[],
+        dialog:false,
+        dialogMsgArr:[],
+        dialogNotification:false,
+        dialogLogout:false,
+   
       }
     },
     created() {
-      console.log("hoge")
     },
     mounted() {
         this.loadSelectedSessionInfo(this.$store.getters.ticketId)
-        this.selectedUserCheck()
       　this.fireBaseTicketStartIni()
     },
     computed: {
@@ -43,6 +57,7 @@
         ).then(response => {
               this.sessionAllTicketData             = response.data
           }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true})
+        this.selectedUserCheck()  
       },
       async doSelectTicket(searchTicket){
         this.selectTicket(searchTicket)
@@ -52,6 +67,7 @@
         this.$emit("routing")
       },
       selectedUserCheck(){
+
           var tmp =(this.sessionAllTicketData.find(item => item.tw_UID === this.$store.getters.twUID))
   
           if(tmp==null)
@@ -83,6 +99,31 @@
           ref_message.limitToLast(1).on('child_changed', this.ticketStateWatchChanged)
         })
       },
+      ticketStateWatchChanged(snap) {
+        if(snap.val().trpgSessionId!=this.$store.getters.trpgSessionId) 
+          return
+
+        if(snap.val().twUID==this.$store.getters.twUID) 
+          return
+      
+        if(snap.val().twUID=="logout"){
+          this.loadSelectedSessionInfo(this.$store.getters.trpgSessionId)
+          return
+        }
+
+        if(snap.val().ticketId==this.$store.getters.ticketId) {
+          this.dialogMsgArr =[]
+          //this.dialogMsgArr.push(" snap.val().twUID::::"+ snap.val().twUID)
+          //this.dialogMsgArr.push("this.$store.getters.twUID:::"+this.$store.getters.twUID)
+          //this.dialogMsgArr.push("snap.val().ticketId:::"+snap.val().ticketId)
+          //this.dialogMsgArr.push("this.$store.getters.ticketId::::"+this.$store.getters.ticketId)
+          
+          this.dialogMsgArr.push("このチケットは他ユーザーに取得されました")
+          this.dialogMsgArr.push("強制ログアウトします")
+          this.dialogLogout = true
+        }
+        this.loadSelectedSessionInfo(this.$store.getters.trpgSessionId)
+      },
       fireBaseTicketDisconectWatch(){
         if(Vue.config.debug ||this.$store.getters.nonLogin)
           return
@@ -105,7 +146,20 @@
         
         this.loginUsers = []
         var fbRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/')
-        fbRef.on('value',this.UpdateLoginUsers)
+        fbRef.on('value',this.updateLoginUsers)
+      },
+      updateLoginUsers(data){
+        this.loginUsers=[]
+        const rootList = data.val()
+        const key = data.key
+        if(rootList==null) 
+          return
+
+        Object.keys(rootList).forEach((val, key) => {
+          rootList[val].id = val
+          this.loginUsers.push(rootList[val].id)
+        })
+
       },
       async selectTicket(searchTicket){
         this.entyrInfo = searchTicket
@@ -114,7 +168,6 @@
         this.$store.commit('notifyUserName',this.entyrInfo[0]['name'])
         this.$store.commit('notifyIsSessionMaster',this.entyrInfo[0]['is_session_master'])
         this.$store.commit('notifySessionUserId',this.entyrInfo[0]['session_user_id'])
-//        this.entry = true
 
         await this.$axios.get('/session/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId
         ).then(response => {
@@ -123,7 +176,7 @@
         this.$store.commit('notifyFirebaseMessageKeyId',this.sessionData[0]['firebase_message_key_id'])
         this.$store.commit('notifyFirebaseSceanKeyId',this.sessionData[0]['firebase_scean_key_id'])
         this.$store.commit('notifyTicketId',this.entyrInfo[0]['ticket_no'])
-       
+
         await twitterInfoService.regist(
           this.$axios, 
           this.$store.getters.twUID,
@@ -135,16 +188,8 @@
         this.fireBaseRegistLoginStatus(this.$store.getters.twUID)
 
         await this.fireBaseTicketStateUpdate()
-
-//        if(this.$route.path!="/scene")
-//          this.$router.push({ name: "scene" })
-
-//        await this.$axios.get('/scene/?format=json&trpg_session_id='+this.$store.getters.trpgSessionId).then(response => {
-//            this.sceneAllData = response.data
-//        })
         this.$store.commit('notifyEntry',true)
         this.$emit('routing')
-        //this.chatInit()
       },
       fireBaseRegistLoginStatus(uid){
         if(Vue.config.debug ||this.$store.getters.nonLogin)
@@ -179,9 +224,6 @@
           }
         )
       },
-      
-
-
 
    }      
   }

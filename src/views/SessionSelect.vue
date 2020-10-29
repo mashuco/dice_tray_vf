@@ -47,10 +47,6 @@
         this.$store.commit('notifyTrpgSessionId',str)
         this.$store.commit('notifyChoiceSession',true)
         this.$emit('routing')
-
-      //await this.loadSelectedSessionInfo(str)
-        //this.selectedUserCheck()
-      　//this.fireBaseTicketStartIni()
       },
 
       logout(){

@@ -9,6 +9,7 @@
 <script>
   import Vue from "vue"
   import LoginPage from '../components/LoginPage'
+  import axiosUtils from '../utils/axiosUtils'
 
  export default {
     mixins: [
@@ -31,6 +32,7 @@
     },
     methods: {
       doLogin(state) {
+        axiosUtils.axiosInitialTw(this.$store.getters.twLinkedAuthKey)
         this.$store.commit('notifyLogin',true)
         this.$emit('routing')
       },

@@ -3,6 +3,9 @@ import Cookies from 'js-cookie'
 
 export default {
   async regist(axios,twUID,twName,twPhoto,sessionUserId){
+    if(sessionUserId ==false)
+      return
+
     var csrftoken = Cookies.get('csrftoken')
     await axios.patch(
       '/userTwUp/'+sessionUserId+'/', 

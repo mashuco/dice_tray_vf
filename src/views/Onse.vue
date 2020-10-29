@@ -91,8 +91,8 @@
   import fireBaseUtils from '../utils/fireBaseUtils'
   import axiosUtils from '../utils/axiosUtils'
 
-  import audioMixin from '../mixins/App/audioMixin.js'
-  import chatMixin from '../mixins/App/chatMixin.js'
+  import audioMixin from '../mixins/onse/audioMixin.js'
+  import chatMixin from '../mixins/onse/chatMixin.js'
 
   export default {
      mixins: [
@@ -122,10 +122,9 @@
       }
     },
     created() {
-
     },
     mounted() {
-      this.chatLoad()
+      this.chatInit()
       this.doScene()
       this.audioInit()
       this.bgImg = this.$store.getters.trpgSessionImg
@@ -159,7 +158,6 @@
       logout(){
         this.audioStop()
         this.$emit('logout')
-
       },      
       dialogClose(){
         this.dialog = false
