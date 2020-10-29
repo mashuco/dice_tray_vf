@@ -5,6 +5,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    login:false,
+    choiceSession:false,
+    entry:false,
+
     nonLogin:false,
     ticketId:'',
     trpgSessionId:'',
@@ -25,6 +29,15 @@ export default new Vuex.Store({
     firebaseSceanKeyId:''
   },
   getters: {
+    login(state){
+      return state.login
+    },
+    choiceSession(state){
+      return state.choiceSession
+    },
+    entry(state){
+      return state.entry
+    },
     nonLogin(state){
       return state.nonLogin
     },
@@ -82,6 +95,15 @@ export default new Vuex.Store({
    
   },
   mutations: {
+    notifyLogin(state,bool){
+      state.login = bool
+    },
+    notifyChoiceSession(state,bool){
+      state.choiceSession = bool
+    },
+    notifyEntry(state,bool){
+      state.entry = bool
+    },
     notifyNonLogin(state,bool){
       state.nonLogin = bool
     },

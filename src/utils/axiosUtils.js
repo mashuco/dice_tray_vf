@@ -2,18 +2,18 @@ import Vue from "vue"
 import axios from 'axios'
 
 export default  {
-  axsiosInitial(){
+  axiosInitial(){
     Vue.prototype.$axios = axios.create({ 
       baseURL:  process.env.VUE_APP_URL,
     })            
   },
-  axsiosInitialTw(twLinkedAuthKey){
+  axiosInitialTw(twLinkedAuthKey){
     axios.defaults.headers.common['authorization'] = "Token " + twLinkedAuthKey
     Vue.prototype.$axios = axios.create({ 
       baseURL:  process.env.VUE_APP_URL,
     })            
   },
-  axsiosInitialBasic(){
+  axiosInitialBasic(){
     Vue.prototype.$axios = axios.create({ 
       baseURL:  process.env.VUE_APP_URL,
       auth: {

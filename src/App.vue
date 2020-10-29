@@ -68,7 +68,8 @@
         </v-dialog>
         <v-row >
         <v-col >
-          <router-view ></router-view>
+          <!--router-view name="onse"/-->
+          <router-view />
         </v-col>
         </v-row>
       </v-container>
@@ -111,14 +112,13 @@
   import "firebase/auth"
   import "firebase/database"
   import Cookies from 'js-cookie'
-  import Scene from './views/Scene.vue'
   import Vuetify from 'vuetify/lib'
   import './plugins/element.js'
   import fireBaseService from './services/fireBaseService'
   import twitterInfoService from './services/twitterInfoService'
   
   import fireBaseUtils from './utils/fireBaseUtils'
-  import axsiosUtils from './utils/axsiosUtils'
+  import axiosUtils from './utils/axiosUtils'
   import mediaUtils from './utils/mediaUtils'
   import audioMixin from './mixins/App/audioMixin.js'
   import chatMixin from './mixins/App/chatMixin.js'
@@ -169,7 +169,7 @@
     },
     created() {
       this.$vuetify.theme.dark = true
-      axsiosUtils.axsiosInitial() 
+      axiosUtils.axiosInitial()
       if(Vue.config.debug ||this.$store.getters.nonLogin)
       {
         this.$store.commit('notifyTwUID','test')
@@ -226,7 +226,7 @@
       },
       doLogin(state) {
          this.login = state
-         axsiosUtils.axsiosInitialTw(this.$store.getters.twLinkedAuthKey)
+         axiosUtils.axiosInitialTw(this.$store.getters.twLinkedAuthKey)
          this.loadAllSession()
       },
       async loadAllSession(){

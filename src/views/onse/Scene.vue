@@ -46,7 +46,7 @@ import Cookies from 'js-cookie'
 import Vuetify from 'vuetify/lib'
 import firebase from 'firebase/app'
 import "firebase/database"
-import mediaUtils from '../utils/mediaUtils'
+import mediaUtils from '../../utils/mediaUtils'
 
 export default {
  data() {

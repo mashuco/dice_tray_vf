@@ -78,6 +78,7 @@
 
 <script>
 import Vue from 'vue'
+import '../plugins/element.js'
 
 export default {
  created:function() {

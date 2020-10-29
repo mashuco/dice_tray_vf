@@ -58,8 +58,8 @@
 <script>
 import Vue from "vue"
 import Cookies from 'js-cookie'
-import mediaUtils from '../utils/mediaUtils'
-import Dialog from '../components/Dialog'
+import mediaUtils from '../../utils/mediaUtils'
+import Dialog from '../../components/Dialog'
 
 export default {
   data() {

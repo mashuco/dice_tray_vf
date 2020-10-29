@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+import Scene from '../views/Scene.vue'
 
 Vue.use(VueRouter)
 
@@ -29,9 +29,10 @@ Vue.use(VueRouter)
     {
       path: '/scene',
       name: 'scene',
-      component: function () {
-        return import(/* webpackChunkName: "diceTray" */ '../views/Scene.vue')
-      }
+      component:Scene
+//      component: function () {
+//        return import(/* webpackChunkName: "diceTray" */ '../views/Scene.vue')
+//      }
     },
 
   ]

@@ -37,6 +37,20 @@ export default  {
     }
   },
   methods:{
+    audioInit(){
+      this.$store.watch(
+        (state, getters) => getters.trpgSessionBgm,
+        (newValue, oldValue) => {
+ 
+          if(this.$store.getters.trpgSessionBgm == null){
+            this.audio.pause()
+            return
+          }
+          this.audio.src = this.$store.getters.trpgSessionBgm
+          this.audioStart()
+        }
+      )
+    },
     audioVolumeChenge2(volume){
       if(this.audioVolume==0){
         this.audio.volume = 0
@@ -65,6 +79,9 @@ export default  {
       this.audio.load()
       this.audio.play()
       this.isPlay=true
+    },
+    audioStop:function(){
+      this.audio.pause()
     }
 
   }
