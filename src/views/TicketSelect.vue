@@ -44,7 +44,7 @@
     created() {
     },
     mounted() {
-        this.loadSelectedSessionInfo(this.$store.getters.ticketId)
+        this.loadSelectedSessionInfo(this.$store.getters.trpgSessionId)
       　this.fireBaseTicketStartIni()
     },
     computed: {
@@ -57,6 +57,7 @@
         ).then(response => {
               this.sessionAllTicketData             = response.data
           }).catch(error => {this.dialogMsgArr.push("通信エラー"),this.dialog = true})
+
         this.selectedUserCheck()  
       },
       async doSelectTicket(searchTicket){
@@ -77,6 +78,7 @@
           this.autoSelectTicketForSelecedUser(selectedTicket)
        },
       autoSelectTicketForSelecedUser(selectedTicket){
+        console.log("AAAAAAAAAAAAAAAAAAA")
         if(Vue.config.debug ||this.$store.getters.nonLogin)
           return
 
@@ -143,7 +145,6 @@
           //this.loginUsers = ['test']
           return
         }
-        
         this.loginUsers = []
         var fbRef = firebase.database().ref('/login/'+this.$store.getters.trpgSessionId+'/')
         fbRef.on('value',this.updateLoginUsers)
@@ -184,9 +185,7 @@
           this.$store.getters.twPhoto,
           this.$store.getters.sessionUserId
         )
-
         this.fireBaseRegistLoginStatus(this.$store.getters.twUID)
-
         await this.fireBaseTicketStateUpdate()
         this.$store.commit('notifyEntry',true)
         this.$emit('routing')
