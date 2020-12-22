@@ -110,6 +110,10 @@ export default {
       })
     },
     async getKey(twToken,twSecretToken){
+      console.log("twToken")
+      console.log(twToken)
+      console.log("twSecretToken")
+      console.log(twSecretToken)
       var csrftoken = Cookies.get('csrftoken')
       await this.$axios.post('/twitter/', 
       { 

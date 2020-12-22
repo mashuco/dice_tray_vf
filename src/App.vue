@@ -10,7 +10,6 @@
   import axiosUtils from './utils/axiosUtils'
   import fireBaseUtils from './utils/fireBaseUtils'
   import twitterInfoService from './services/twitterInfoService'
-
   export default {
     data() {
         return {
@@ -24,7 +23,6 @@
     mounted() {
     },
     computed: {
-
     },
     methods: {
       init(){
@@ -54,7 +52,6 @@
           twitterInfoService.regist(this.$axios,'','','', this.$store.getters.sessionUserId)
           this.routing()
       },
-
     }
   }
 </script>
